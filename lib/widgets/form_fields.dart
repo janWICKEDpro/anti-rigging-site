@@ -17,10 +17,9 @@ class CustomFormField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
-    return Padding(
-      padding: EdgeInsets.symmetric(
-        horizontal: width * 0.3,
-      ),
+    return SizedBox(
+      width: width * 0.5,
+      height: 40,
       child: TextFormField(
         onChanged: onChanged,
         obscureText: obscureText,
