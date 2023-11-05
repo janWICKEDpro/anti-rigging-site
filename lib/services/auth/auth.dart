@@ -37,7 +37,7 @@ class AuthenticationService {
     }
   }
 
-  Stream? get status => _authInstance.authStateChanges();
+  User? get status => _authInstance.currentUser;
   Future<void> signOut() async {
     await _authInstance.signOut();
   }

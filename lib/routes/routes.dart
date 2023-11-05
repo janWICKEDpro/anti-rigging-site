@@ -12,7 +12,7 @@ GoRouter createRouter({required bool isScriptsEnabled}) {
   return GoRouter(
     redirect: (context, state) {
       if (auth.status == null) {
-        return '/login';
+        return '/signup';
       } else {
         return null;
       }

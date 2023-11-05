@@ -2,8 +2,7 @@ import 'package:anti_rigging/models/program_enum.dart';
 
 class AppUser {
   final String? id;
-  final String? firstName;
-  final String? lastName;
+  final String? fullNames;
   final String? regno;
   final String? email;
   final String? accountType;
@@ -11,8 +10,7 @@ class AppUser {
 
   const AppUser(
       {this.id,
-      this.firstName,
-      this.lastName,
+      this.fullNames,
       this.regno,
       this.accountType = 'student',
       this.program,
@@ -20,7 +18,7 @@ class AppUser {
 
   Map<String, dynamic> toJson() {
     return {
-      'name': '$firstName $lastName',
+      'name': '$fullNames',
       'email': email,
       'accountType': accountType,
       'regno': regno,
@@ -30,7 +28,7 @@ class AppUser {
 
   factory AppUser.fromJson(Map<String, dynamic> user) {
     return AppUser(
-        firstName: (user['name'] as String).split(' ').first,
+        fullNames: (user['name'] as String).split(' ').first,
         regno: user['regno'],
         email: user['email'],
         accountType: user['accountType'],
