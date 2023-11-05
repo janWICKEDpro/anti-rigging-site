@@ -10,6 +10,11 @@ class UserDashBoard extends StatelessWidget {
   }
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.red,
+        title: Text('hi'),
+      ),
+    );
   }
 }
