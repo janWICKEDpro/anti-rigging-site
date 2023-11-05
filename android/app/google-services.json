@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "727528034335",
+    "project_id": "anti-rigging",
+    "storage_bucket": "anti-rigging.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:727528034335:android:e8431968da2991b9e5852a",
+        "android_client_info": {
+          "package_name": "com.example.anti_rigging"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCPQQU54qIK75f6S4H83KkqHEBD34rdiIw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
