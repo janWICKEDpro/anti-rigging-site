@@ -16,7 +16,7 @@ class DbService {
 
   Future<AppUser?> getUser(String uid) async {
     try {
-      final res = await _dbInstance.collection('USERS').doc('uid').get();
+      final res = await _dbInstance.collection('USERS').doc(uid).get();
       return AppUser.fromJson(res.data()!);
     } catch (e) {
       return null;

@@ -9,7 +9,7 @@ class AuthenticationService {
   final _db = DbService();
   Future<String> signup(AppUser user, String password) async {
     try {
-      final res = await _authInstance.createUserWithEmailAndPassword(
+      await _authInstance.createUserWithEmailAndPassword(
           email: user.email!, password: password);
       //add user to db
       await _db.insertUser(user.toJson());
@@ -37,15 +37,16 @@ class AuthenticationService {
     }
   }
 
+  Stream? get status => _authInstance.authStateChanges();
   Future<void> signOut() async {
     await _authInstance.signOut();
   }
 
   String evaluateAuthCode(String code) {
     if (code == 'weak-password') {
-      return '';
+      return 'Please enter a stronger password';
     } else if (code == 'email-already-in-use') {
-      return '';
+      return 'This email already has an account';
     } else {
       return 'Something went wrong';
     }

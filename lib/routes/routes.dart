@@ -1,13 +1,22 @@
 import 'package:anti_rigging/admin_dashboard/view/admin_dashboard_view.dart';
 import 'package:anti_rigging/create_election/view/create_election_view.dart';
 import 'package:anti_rigging/login/view/login_view.dart';
+import 'package:anti_rigging/services/auth/auth.dart';
 import 'package:anti_rigging/signup/view/signup_view.dart';
 import 'package:anti_rigging/user_dashboard/view/user_dashboard_view.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 GoRouter createRouter({required bool isScriptsEnabled}) {
+  final auth = AuthenticationService();
   return GoRouter(
+    redirect: (context, state) {
+      if (auth.status == null) {
+        return '/login';
+      } else {
+        return null;
+      }
+    },
     routes: [
       GoRoute(
         path: '/',
