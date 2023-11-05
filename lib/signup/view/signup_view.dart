@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:anti_rigging/models/program_enum.dart';
 import 'package:anti_rigging/signup/bloc/signup_bloc.dart';
 import 'package:anti_rigging/signup/bloc/signup_events.dart';

@@ -1,7 +1,6 @@
 import 'package:anti_rigging/models/program_enum.dart';
-import 'package:equatable/equatable.dart';
 
-class SignUpState extends Equatable {
+class SignUpState {
   String? fullName;
   String? email;
   String? regno;
@@ -45,17 +44,4 @@ class SignUpState extends Equatable {
         status: stat ?? status,
         program: prog ?? program);
   }
-
-  @override
-  List<Object?> get props => [
-        fullName,
-        email,
-        regno,
-        loading,
-        password,
-        confirmPassword,
-        status,
-        authRes,
-        program,
-      ];
 }
