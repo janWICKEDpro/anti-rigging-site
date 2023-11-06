@@ -91,7 +91,7 @@ class _UserDashBoardState extends State<UserDashBoard> {
                     height: 100,
                     width: 100,
                     child: Padding(
-                      padding: const EdgeInsets.all(16.0),
+                      padding: EdgeInsets.all(16.0),
                       //    child: Image.asset('assets/images/avatar.png'),
                       // child: SvgPicture.asset('icons/male.svg',
                       //     semanticsLabel: 'Acme Logo'),

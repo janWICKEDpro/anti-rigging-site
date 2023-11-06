@@ -21,7 +21,7 @@ GoRouter createRouter({required bool isScriptsEnabled}) {
       GoRoute(
         path: '/',
         pageBuilder: (context, state) => NoTransitionPage(
-          child: UserDashBoard.routeBuilder(context, state),
+          child: AdminDashboad.routeBuilder(context, state),
         ),
       ),
       GoRoute(
@@ -38,7 +38,7 @@ GoRouter createRouter({required bool isScriptsEnabled}) {
       ),
       GoRoute(
         name: 'admin',
-        path: '/admin',
+        path: '/aqdmin',
         pageBuilder: (context, state) => NoTransitionPage(
           child: AdminDashboad.routeBuilder(context, state),
         ),
