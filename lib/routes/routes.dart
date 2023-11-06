@@ -10,13 +10,13 @@ import 'package:go_router/go_router.dart';
 GoRouter createRouter({required bool isScriptsEnabled}) {
   final auth = AuthenticationService();
   return GoRouter(
-    redirect: (context, state) {
-      if (auth.status == null) {
-        return '/signup';
-      } else {
-        return null;
-      }
-    },
+    // redirect: (context, state) {
+    //   if (auth.status == null) {
+    //     return '/signup';
+    //   } else {
+    //     return null;
+    //   }
+    // },
     routes: [
       GoRoute(
         path: '/',

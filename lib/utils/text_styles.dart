@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 class AppTextStyles {
   final headers = const TextStyle(
     fontFamily: 'DmSans',
-    fontSize: 20,
-    fontWeight: FontWeight.w600,
+    fontSize: 30,
+    fontWeight: FontWeight.w800,
     color: Colors.black12,
     letterSpacing: 1.5,
   );
