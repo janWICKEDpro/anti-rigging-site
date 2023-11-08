@@ -1,5 +1,6 @@
 import 'package:anti_rigging/utils/colors.dart';
 import 'package:anti_rigging/utils/text_styles.dart';
+import 'package:anti_rigging/widgets/fade_transition.dart';
 import 'package:flutter/material.dart';
 import 'package:side_navigation/side_navigation.dart';
 
@@ -22,37 +23,37 @@ class AdminDashboad extends StatelessWidget {
             showDialog(
                 context: context,
                 builder: (BuildContext context) {
-                  return Dialog(
+                  return AlertDialog(
+                    title: Text(
+                      'Create Election',
+                      style: AppTextStyles().headers.copyWith(color: darkColor),
+                    ),
+                    actions: [
+                      ElevatedButton(
+                          onPressed: () {},
+                          style: ButtonStyle(
+                              backgroundColor:
+                                  MaterialStateProperty.all(Colors.red)),
+                          child: Text("cancel",
+                              style: AppTextStyles().headers.copyWith(
+                                  color: Colors.white,
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.normal))),
+                      ElevatedButton(
+                        onPressed: () {},
+                        style: ButtonStyle(
+                            backgroundColor:
+                                MaterialStateProperty.all(primaryColor)),
+                        child: Text("Continue",
+                            style: AppTextStyles().headers.copyWith(
+                                color: Colors.white,
+                                fontSize: 16,
+                                fontWeight: FontWeight.normal)),
+                      )
+                    ],
                     shape: RoundedRectangleBorder(
                         borderRadius:
                             BorderRadius.circular(20.0)), //this right here
-                    child: Container(
-                      height: 200,
-                      child: Padding(
-                        padding: const EdgeInsets.all(12.0),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            TextField(
-                              decoration: InputDecoration(
-                                  border: InputBorder.none,
-                                  hintText: 'What do you want to remember?'),
-                            ),
-                            SizedBox(
-                              width: 320.0,
-                              child: OutlinedButton(
-                                onPressed: () {},
-                                child: Text(
-                                  "Save",
-                                  style: TextStyle(color: Colors.white),
-                                ),
-                              ),
-                            )
-                          ],
-                        ),
-                      ),
-                    ),
                   );
                 });
           },
