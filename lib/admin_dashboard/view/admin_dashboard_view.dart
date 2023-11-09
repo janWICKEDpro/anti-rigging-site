@@ -1,3 +1,4 @@
+import 'package:anti_rigging/admin_dashboard/view/indexed_stack_children/election_name.dart';
 import 'package:anti_rigging/utils/colors.dart';
 import 'package:anti_rigging/utils/text_styles.dart';
 import 'package:anti_rigging/widgets/fade_transition.dart';
@@ -23,37 +24,12 @@ class AdminDashboad extends StatelessWidget {
             showDialog(
                 context: context,
                 builder: (BuildContext context) {
-                  return AlertDialog(
-                    title: Text(
-                      'Create Election',
-                      style: AppTextStyles().headers.copyWith(color: darkColor),
-                    ),
-                    actions: [
-                      ElevatedButton(
-                          onPressed: () {},
-                          style: ButtonStyle(
-                              backgroundColor:
-                                  MaterialStateProperty.all(Colors.red)),
-                          child: Text("cancel",
-                              style: AppTextStyles().headers.copyWith(
-                                  color: Colors.white,
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.normal))),
-                      ElevatedButton(
-                        onPressed: () {},
-                        style: ButtonStyle(
-                            backgroundColor:
-                                MaterialStateProperty.all(primaryColor)),
-                        child: Text("Continue",
-                            style: AppTextStyles().headers.copyWith(
-                                color: Colors.white,
-                                fontSize: 16,
-                                fontWeight: FontWeight.normal)),
-                      )
-                    ],
+                  return Dialog(
                     shape: RoundedRectangleBorder(
-                        borderRadius:
-                            BorderRadius.circular(20.0)), //this right here
+                      borderRadius: BorderRadius.circular(20.0),
+                    ),
+                    child:
+                        FadeIndexedStack(index: 0, children: [ElectionName()]),
                   );
                 });
           },
