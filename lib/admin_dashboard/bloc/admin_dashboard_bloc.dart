@@ -4,5 +4,5 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AdminDashboardBloc
     extends Bloc<AdminDashboardEvents, AdminDashBoardState> {
-  AdminDashboardBloc() : super(AdminDashBoardState()) {}
+  AdminDashboardBloc() : super(const AdminDashBoardState()) {}
 }

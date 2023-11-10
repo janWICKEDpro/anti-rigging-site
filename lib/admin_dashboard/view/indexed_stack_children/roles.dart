@@ -33,7 +33,7 @@ class _RoleState extends State<Role> {
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Text(
-                      'Election Name',
+                      'Roles',
                       style:
                           AppTextStyles().headers.copyWith(color: Colors.white),
                     ),
