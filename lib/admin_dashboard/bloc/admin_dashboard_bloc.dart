@@ -4,5 +4,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AdminDashboardBloc
     extends Bloc<AdminDashboardEvents, AdminDashBoardState> {
-  AdminDashboardBloc() : super(const AdminDashBoardState()) {}
+  AdminDashboardBloc() : super(const AdminDashBoardState()) {
+    on<OnAddRoleButtonClicked>((event, emitvalue) {
+      state.candidateRoles!.add(('', []));
+      emitvalue(state.copyWith(candidates: state.candidateRoles));
+    });
+  }
 }
