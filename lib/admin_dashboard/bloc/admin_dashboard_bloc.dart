@@ -9,5 +9,16 @@ class AdminDashboardBloc
       state.candidateRoles!.add(('', []));
       emitvalue(state.copyWith(candidates: state.candidateRoles));
     });
+
+    on<OnRoleNameChanged>((event, emit) {
+      state.candidateRoles![event.index] =
+          (event.roleName!, state.candidateRoles![event.index].$2);
+      emit(state.copyWith(candidates: state.candidateRoles));
+    });
+    on<OnRoleFieldRemoved>((event, emit) {
+      state.candidateRoles!.removeAt(event.index);
+      emit(state.copyWith(candidates: state.candidateRoles));
+    });
+    on<OnCandidateFieldsRemoved>((event, emit) => null);
   }
 }

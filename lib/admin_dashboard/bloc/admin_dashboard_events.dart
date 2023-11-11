@@ -15,7 +15,8 @@ class OnAddCandidateButtonClicked extends AdminDashboardEvents {}
 
 class OnRoleNameChanged extends AdminDashboardEvents {
   final String? roleName;
-  OnRoleNameChanged({this.roleName});
+  final int index;
+  OnRoleNameChanged(this.index, {this.roleName});
 }
 
 class OnCandidateNameChanged extends AdminDashboardEvents {
@@ -31,6 +32,17 @@ class OnCandidateDescriptionChanged extends AdminDashboardEvents {
 class OnCandidatePhotoChanged extends AdminDashboardEvents {
   final XFile? photo;
   OnCandidatePhotoChanged({this.photo});
+}
+
+class OnRoleFieldRemoved extends AdminDashboardEvents {
+  int index;
+  OnRoleFieldRemoved(this.index);
+}
+
+class OnCandidateFieldsRemoved extends AdminDashboardEvents {
+  int index;
+  int index2;
+  OnCandidateFieldsRemoved(this.index, this.index2);
 }
 
 class OnIndexIncremented extends AdminDashboardEvents {}
