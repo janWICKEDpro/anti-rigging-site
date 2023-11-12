@@ -54,5 +54,15 @@ class AdminDashboardBloc
         emit(state.copyWith(candidates: state.candidateRoles));
       },
     );
+    on<OnCandidateDescriptionChanged>((event, emit) {
+      state.candidateRoles![event.index].$2[event.index2].candidateDescription =
+          event.candidateDescription;
+      emit(state.copyWith(candidates: state.candidateRoles));
+    });
+    on<OnCandidateNameChanged>((event, emit) {
+      state.candidateRoles![event.index].$2[event.index2].candidateDescription =
+          event.candidateName;
+      emit(state.copyWith(candidates: state.candidateRoles));
+    });
   }
 }

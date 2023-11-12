@@ -1,8 +1,8 @@
 import 'package:file_picker/file_picker.dart';
 
 class Candidate {
-  final String? candidateName;
-  final String? candidateDescription;
+  String? candidateName;
+  String? candidateDescription;
   final String? imageUrl;
   PlatformFile? file;
 

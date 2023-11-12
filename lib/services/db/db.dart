@@ -1,10 +1,13 @@
 import 'dart:developer';
 
+import 'package:anti_rigging/models/candidate.dart';
 import 'package:anti_rigging/models/user.dart';
+import 'package:anti_rigging/services/storage/storage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class DbService {
   final _dbInstance = FirebaseFirestore.instance;
+  final _storage = Storage();
   Future<void> insertUser(Map<String, dynamic> user) async {
     try {
       await _dbInstance.collection('USERS').add(user);
@@ -22,4 +25,6 @@ class DbService {
       return null;
     }
   }
+
+  Future createElection(List<(String, List<Candidate>)> electionInfo) async {}
 }

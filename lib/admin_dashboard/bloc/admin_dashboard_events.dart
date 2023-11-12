@@ -24,12 +24,17 @@ class OnRoleNameChanged extends AdminDashboardEvents {
 
 class OnCandidateNameChanged extends AdminDashboardEvents {
   final String? candidateName;
-  OnCandidateNameChanged({this.candidateName});
+  int index;
+  int index2;
+  OnCandidateNameChanged(this.index, this.index2, {this.candidateName});
 }
 
 class OnCandidateDescriptionChanged extends AdminDashboardEvents {
   final String? candidateDescription;
-  OnCandidateDescriptionChanged({this.candidateDescription});
+  int index;
+  int index2;
+  OnCandidateDescriptionChanged(this.index, this.index2,
+      {this.candidateDescription});
 }
 
 class OnCandidatePhotoChanged extends AdminDashboardEvents {
@@ -51,3 +56,5 @@ class OnCandidateFieldsRemoved extends AdminDashboardEvents {
 }
 
 class OnIndexIncremented extends AdminDashboardEvents {}
+
+class OnLaunchElectionsClicked extends AdminDashboardEvents {}

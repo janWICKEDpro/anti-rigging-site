@@ -5,6 +5,7 @@ import 'package:anti_rigging/utils/colors.dart';
 import 'package:anti_rigging/utils/text_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:gap/gap.dart';
 
 class ElectionName extends StatelessWidget {
   const ElectionName({super.key});
@@ -17,7 +18,7 @@ class ElectionName extends StatelessWidget {
     return BlocBuilder<AdminDashboardBloc, AdminDashBoardState>(
       builder: (context, state) {
         return SizedBox(
-          height: height * 0.4,
+          height: height * 0.7,
           width: width * 0.6,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -68,10 +69,9 @@ class ElectionName extends StatelessWidget {
                               OutlineInputBorder(borderSide: BorderSide.none)),
                     )),
               ),
-              const Expanded(
-                child: SizedBox(),
+              Expanded(
+                child: Container(),
               ),
-              const Divider(),
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Row(
@@ -82,6 +82,7 @@ class ElectionName extends StatelessWidget {
                           Navigator.of(context).pop();
                         },
                         child: Text('Cancel')),
+                    const Gap(5),
                     ElevatedButton(
                       onPressed: () {
                         context

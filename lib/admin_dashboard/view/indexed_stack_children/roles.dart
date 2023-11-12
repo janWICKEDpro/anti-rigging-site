@@ -134,6 +134,7 @@ class _RoleState extends State<Role> {
                                             BlocProvider.of<AdminDashboardBloc>(
                                                     context)
                                                 .add(OnCandidateNameChanged(
+                                                    index, subIndex,
                                                     candidateName: value));
                                           },
                                           decoration: InputDecoration(
@@ -192,7 +193,14 @@ class _RoleState extends State<Role> {
                                           child: Padding(
                                             padding: const EdgeInsets.all(8.0),
                                             child: TextField(
-                                              onChanged: (description) {},
+                                              onChanged: (description) {
+                                                context
+                                                    .read<AdminDashboardBloc>()
+                                                    .add(OnCandidateDescriptionChanged(
+                                                        index, subIndex,
+                                                        candidateDescription:
+                                                            description));
+                                              },
                                               maxLines:
                                                   null, // Allows the text field to expand vertically
                                               keyboardType:
@@ -212,9 +220,6 @@ class _RoleState extends State<Role> {
                                           color: Colors.redAccent,
                                         ),
                                         onPressed: () {
-                                          // setState(() {
-                                          //   associatedTextFieldValues[index].removeAt(subIndex);
-                                          // });
                                           BlocProvider.of<AdminDashboardBloc>(
                                                   context)
                                               .add(OnCandidateFieldsRemoved(
@@ -229,9 +234,6 @@ class _RoleState extends State<Role> {
                             const Gap(5),
                             ElevatedButton(
                               onPressed: () {
-                                // setState(() {
-                                //   associatedTextFieldValues[index].add('');
-                                // });
                                 context
                                     .read<AdminDashboardBloc>()
                                     .add(OnAddCandidateButtonClicked(index));
@@ -251,9 +253,9 @@ class _RoleState extends State<Role> {
                         backgroundColor:
                             MaterialStateProperty.all(primaryColor)),
                     onPressed: () {
-                      // setState(() {
-                      //   associatedTextFieldValues[index].add('');
-                      // });
+                      context
+                          .read<AdminDashboardBloc>()
+                          .add(OnLaunchElectionsClicked());
                     },
                     child: Text(
                       "Launch Elections",
