@@ -7,9 +7,9 @@ class AdminDashBoardState {
   final List<(String, List<Candidate>)>? candidateRoles;
   final bool? loadinSave;
   final bool? loadingElection;
-  final int? stackedIndex;
+  int stackedIndex;
 
-  const AdminDashBoardState(
+  AdminDashBoardState(
       {this.election,
       this.stackedIndex = 0,
       this.candidateRoles,
@@ -24,7 +24,7 @@ class AdminDashBoardState {
       bool? loadElection}) {
     return AdminDashBoardState(
         loadinSave: loadinSave,
-        stackedIndex: index,
+        stackedIndex: index ?? stackedIndex,
         election: elect ?? election,
         candidateRoles: candidates ?? candidateRoles);
   }

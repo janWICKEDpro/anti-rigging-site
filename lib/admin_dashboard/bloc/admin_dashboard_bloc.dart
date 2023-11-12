@@ -1,15 +1,26 @@
+import 'dart:developer';
+
 import 'package:anti_rigging/admin_dashboard/bloc/admin_dashboard_events.dart';
 import 'package:anti_rigging/admin_dashboard/bloc/admin_dashboard_state.dart';
+import 'package:anti_rigging/models/candidate.dart';
+import 'package:anti_rigging/services/pick_file.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AdminDashboardBloc
     extends Bloc<AdminDashboardEvents, AdminDashBoardState> {
-  AdminDashboardBloc() : super(const AdminDashBoardState()) {
+  final filepicker = FilePickerMethods();
+  AdminDashboardBloc() : super(AdminDashBoardState(candidateRoles: [])) {
     on<OnAddRoleButtonClicked>((event, emitvalue) {
-      state.candidateRoles!.add(('', []));
-      emitvalue(state.copyWith(candidates: state.candidateRoles));
+      final arr = [...state.candidateRoles!];
+      arr.add(('1', []));
+      log('$arr');
+      // state.candidateRoles!.addAll([]);
+      emitvalue(state.copyWith(candidates: arr));
     });
-
+    on<OnAddCandidateButtonClicked>((event, emit) {
+      state.candidateRoles![event.index].$2.add(Candidate());
+      emit(state.copyWith(candidates: state.candidateRoles));
+    });
     on<OnRoleNameChanged>((event, emit) {
       state.candidateRoles![event.index] =
           (event.roleName!, state.candidateRoles![event.index].$2);
@@ -19,6 +30,12 @@ class AdminDashboardBloc
       state.candidateRoles!.removeAt(event.index);
       emit(state.copyWith(candidates: state.candidateRoles));
     });
-    on<OnCandidateFieldsRemoved>((event, emit) => null);
+    on<OnCandidateFieldsRemoved>((event, emit) {
+      state.candidateRoles![event.index].$2.removeAt(event.index2);
+    });
+    on<OnIndexIncremented>((event, emit) {
+      state.stackedIndex++;
+      emit(state.copyWith(index: state.stackedIndex));
+    });
   }
 }

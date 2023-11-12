@@ -1,8 +1,10 @@
+import 'dart:io';
+
 class Candidate {
   final String? candidateName;
   final String? candidateDescription;
   final String? imageUrl;
-  final XFile? file;
+  final File? file;
 
   const Candidate(
       {this.candidateDescription,

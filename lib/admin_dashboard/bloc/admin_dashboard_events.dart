@@ -1,3 +1,5 @@
+import 'dart:io';
+
 sealed class AdminDashboardEvents {}
 
 class OnElectionFetchedEvent extends AdminDashboardEvents {}
@@ -11,7 +13,10 @@ class OnEndDateFieldChanged extends AdminDashboardEvents {}
 
 class OnAddRoleButtonClicked extends AdminDashboardEvents {}
 
-class OnAddCandidateButtonClicked extends AdminDashboardEvents {}
+class OnAddCandidateButtonClicked extends AdminDashboardEvents {
+  int index;
+  OnAddCandidateButtonClicked(this.index);
+}
 
 class OnRoleNameChanged extends AdminDashboardEvents {
   final String? roleName;
@@ -30,7 +35,7 @@ class OnCandidateDescriptionChanged extends AdminDashboardEvents {
 }
 
 class OnCandidatePhotoChanged extends AdminDashboardEvents {
-  final XFile? photo;
+  final File? photo;
   OnCandidatePhotoChanged({this.photo});
 }
 

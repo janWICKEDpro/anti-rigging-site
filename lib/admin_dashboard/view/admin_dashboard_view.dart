@@ -1,6 +1,7 @@
 import 'package:anti_rigging/admin_dashboard/bloc/admin_dashboard_bloc.dart';
 import 'package:anti_rigging/admin_dashboard/bloc/admin_dashboard_state.dart';
 import 'package:anti_rigging/admin_dashboard/view/indexed_stack_children/election_name.dart';
+import 'package:anti_rigging/admin_dashboard/view/indexed_stack_children/roles.dart';
 import 'package:anti_rigging/utils/colors.dart';
 import 'package:anti_rigging/utils/text_styles.dart';
 import 'package:anti_rigging/widgets/fade_transition.dart';
@@ -29,7 +30,7 @@ class AdminDashboad extends StatelessWidget {
               child: FloatingActionButton(
                 backgroundColor: primaryColor,
                 onPressed: () {
-                  final bloc = BlocProvider.of(context);
+                  final bloc = BlocProvider.of<AdminDashboardBloc>(context);
                   showDialog(
                       context: context,
                       builder: (BuildContext context) {
@@ -43,7 +44,8 @@ class AdminDashboad extends StatelessWidget {
                                   borderRadius: BorderRadius.circular(20.0),
                                 ),
                                 child: FadeIndexedStack(
-                                    index: 0, children: [ElectionName()]),
+                                    index: state.stackedIndex,
+                                    children: [ElectionName(), Role()]),
                               );
                             },
                           ),
