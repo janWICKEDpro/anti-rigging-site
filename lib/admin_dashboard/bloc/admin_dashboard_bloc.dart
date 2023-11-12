@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:anti_rigging/admin_dashboard/bloc/admin_dashboard_events.dart';
 import 'package:anti_rigging/admin_dashboard/bloc/admin_dashboard_state.dart';
 import 'package:anti_rigging/models/candidate.dart';
+import 'package:anti_rigging/models/election.dart';
 import 'package:anti_rigging/services/pick_file.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -10,6 +11,13 @@ class AdminDashboardBloc
     extends Bloc<AdminDashboardEvents, AdminDashBoardState> {
   final filepicker = FilePickerMethods();
   AdminDashboardBloc() : super(AdminDashBoardState(candidateRoles: [])) {
+    on<OnElectionNameChanged>((event, emit) {
+      emit(state.copyWith(
+          elect: Election(
+              startDate: DateTime.now(),
+              electionName: event.electionName,
+              endDate: DateTime.now().add(const Duration(days: 7)))));
+    });
     on<OnAddRoleButtonClicked>((event, emitvalue) {
       final arr = [...state.candidateRoles!];
       arr.add(('1', []));

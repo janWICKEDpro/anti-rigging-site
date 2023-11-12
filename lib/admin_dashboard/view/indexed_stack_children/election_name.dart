@@ -57,7 +57,11 @@ class ElectionName extends StatelessWidget {
                         borderRadius: BorderRadius.circular(5),
                         color: const Color.fromARGB(255, 214, 210, 210)),
                     child: TextField(
-                      onChanged: (text) {},
+                      onChanged: (text) {
+                        context
+                            .read<AdminDashboardBloc>()
+                            .add(OnElectionNameChanged(electionName: text));
+                      },
                       decoration: const InputDecoration(
                           hintText: 'Election name',
                           border:

@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:anti_rigging/admin_dashboard/bloc/admin_dashboard_bloc.dart';
 import 'package:anti_rigging/admin_dashboard/bloc/admin_dashboard_events.dart';
 import 'package:anti_rigging/admin_dashboard/bloc/admin_dashboard_state.dart';
@@ -228,6 +226,7 @@ class _RoleState extends State<Role> {
                                 );
                               },
                             ),
+                            const Gap(5),
                             ElevatedButton(
                               onPressed: () {
                                 // setState(() {
@@ -244,6 +243,24 @@ class _RoleState extends State<Role> {
                       },
                     ),
                   ],
+                ),
+                const Gap(55),
+                Center(
+                  child: ElevatedButton(
+                    style: ButtonStyle(
+                        backgroundColor:
+                            MaterialStateProperty.all(primaryColor)),
+                    onPressed: () {
+                      // setState(() {
+                      //   associatedTextFieldValues[index].add('');
+                      // });
+                    },
+                    child: Text(
+                      "Launch Elections",
+                      style:
+                          AppTextStyles().normal.copyWith(color: Colors.white),
+                    ),
+                  ),
                 ),
               ],
             ),
