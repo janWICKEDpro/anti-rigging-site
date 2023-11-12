@@ -26,7 +26,7 @@ class _RoleState extends State<Role> {
     return BlocBuilder<AdminDashboardBloc, AdminDashBoardState>(
       builder: (context, state) {
         return SizedBox(
-          height: height * 0.4,
+          height: height * 0.7,
           width: width * 0.4,
           child: SingleChildScrollView(
             child: Column(
