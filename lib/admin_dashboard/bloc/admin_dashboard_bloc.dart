@@ -18,7 +18,9 @@ class AdminDashboardBloc
       emitvalue(state.copyWith(candidates: arr));
     });
     on<OnAddCandidateButtonClicked>((event, emit) {
-      state.candidateRoles![event.index].$2.add(Candidate());
+      log('${state.candidateRoles![event.index].$2}');
+      state.candidateRoles![event.index].$2.add(
+          Candidate(candidateName: 'hi', candidateDescription: 'hoojasdf'));
       emit(state.copyWith(candidates: state.candidateRoles));
     });
     on<OnRoleNameChanged>((event, emit) {
@@ -32,6 +34,7 @@ class AdminDashboardBloc
     });
     on<OnCandidateFieldsRemoved>((event, emit) {
       state.candidateRoles![event.index].$2.removeAt(event.index2);
+      emit(state.copyWith(candidates: state.candidateRoles));
     });
     on<OnIndexIncremented>((event, emit) {
       state.stackedIndex++;
