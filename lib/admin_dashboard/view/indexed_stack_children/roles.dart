@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:anti_rigging/admin_dashboard/bloc/admin_dashboard_bloc.dart';
 import 'package:anti_rigging/admin_dashboard/bloc/admin_dashboard_events.dart';
 import 'package:anti_rigging/admin_dashboard/bloc/admin_dashboard_state.dart';
@@ -144,14 +146,38 @@ class _RoleState extends State<Role> {
                                         ),
                                       ),
                                       const Gap(10),
-                                      Expanded(
-                                        child: ElevatedButton(
-                                            onPressed: () {},
-                                            child: Text(
-                                              'Pick Candidate Image',
-                                              style: AppTextStyles().normal,
-                                            )),
-                                      ),
+                                      (state.candidateRoles![index].$2[subIndex]
+                                                  .file ==
+                                              null)
+                                          ? Expanded(
+                                              child: ElevatedButton(
+                                                  onPressed: () {
+                                                    context
+                                                        .read<
+                                                            AdminDashboardBloc>()
+                                                        .add(
+                                                            OnCandidatePhotoChanged(
+                                                                index,
+                                                                subIndex));
+                                                  },
+                                                  child: Text(
+                                                    'Pick Candidate Image',
+                                                    style:
+                                                        AppTextStyles().normal,
+                                                  )),
+                                            )
+                                          : Container(
+                                              height: 100,
+                                              width: 100,
+                                              decoration: BoxDecoration(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          15)),
+                                              child: Image.memory(
+                                                state.candidateRoles![index]
+                                                    .$2[subIndex].file!.bytes!,
+                                                scale: 4,
+                                              )),
                                       const Gap(10),
                                       Expanded(
                                         child: Container(

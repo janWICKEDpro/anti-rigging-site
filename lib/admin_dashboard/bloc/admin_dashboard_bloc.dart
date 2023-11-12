@@ -19,8 +19,7 @@ class AdminDashboardBloc
     });
     on<OnAddCandidateButtonClicked>((event, emit) {
       log('${state.candidateRoles![event.index].$2}');
-      state.candidateRoles![event.index].$2.add(
-          Candidate(candidateName: 'hi', candidateDescription: 'hoojasdf'));
+      state.candidateRoles![event.index].$2.add(Candidate());
       emit(state.copyWith(candidates: state.candidateRoles));
     });
     on<OnRoleNameChanged>((event, emit) {
@@ -40,5 +39,12 @@ class AdminDashboardBloc
       state.stackedIndex++;
       emit(state.copyWith(index: state.stackedIndex));
     });
+    on<OnCandidatePhotoChanged>(
+      (event, emit) async {
+        final photo = await filepicker.pickFile();
+        state.candidateRoles![event.index].$2[event.index2].file = photo;
+        emit(state.copyWith(candidates: state.candidateRoles));
+      },
+    );
   }
 }

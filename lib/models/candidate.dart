@@ -1,12 +1,12 @@
-import 'dart:io';
+import 'package:file_picker/file_picker.dart';
 
 class Candidate {
   final String? candidateName;
   final String? candidateDescription;
   final String? imageUrl;
-  final File? file;
+  PlatformFile? file;
 
-  const Candidate(
+  Candidate(
       {this.candidateDescription,
       this.candidateName,
       this.file,
