@@ -18,7 +18,7 @@ class ElectionName extends StatelessWidget {
       builder: (context, state) {
         return SizedBox(
           height: height * 0.4,
-          width: width * 0.4,
+          width: width * 0.6,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [

@@ -5,6 +5,7 @@ import 'package:anti_rigging/utils/colors.dart';
 import 'package:anti_rigging/utils/text_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:gap/gap.dart';
 
 class Role extends StatefulWidget {
   const Role({super.key});
@@ -27,7 +28,7 @@ class _RoleState extends State<Role> {
       builder: (context, state) {
         return SizedBox(
           height: height * 0.7,
-          width: width * 0.4,
+          width: width * 0.6,
           child: SingleChildScrollView(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -68,7 +69,10 @@ class _RoleState extends State<Role> {
                         BlocProvider.of<AdminDashboardBloc>(context)
                             .add(OnAddRoleButtonClicked());
                       },
-                      child: Icon(Icons.add),
+                      child: Text(
+                        'Add Role +',
+                        style: AppTextStyles().normal,
+                      ),
                     ),
                     ListView.builder(
                       shrinkWrap: true,
@@ -89,12 +93,15 @@ class _RoleState extends State<Role> {
                                                 roleName: value));
                                       },
                                       decoration: InputDecoration(
-                                        labelText: 'Text Field ${index + 1}',
+                                        labelText: 'Role ${index + 1}',
                                       ),
                                     ),
                                   ),
                                   IconButton(
-                                    icon: Icon(Icons.remove),
+                                    icon: const Icon(
+                                      Icons.remove_circle,
+                                      color: Colors.redAccent,
+                                    ),
                                     onPressed: () {
                                       // setState(() {
                                       //   mainTextFieldValues.removeAt(index);
@@ -131,13 +138,55 @@ class _RoleState extends State<Role> {
                                           },
                                           decoration: InputDecoration(
                                             labelText:
-                                                'Sub Field ${subIndex + 1}',
+                                                'Candidate Name ${subIndex + 1}',
                                             contentPadding: EdgeInsets.zero,
                                           ),
                                         ),
                                       ),
+                                      const Gap(10),
+                                      Expanded(
+                                        child: ElevatedButton(
+                                            onPressed: () {},
+                                            child: Text(
+                                              'Pick Candidate Image',
+                                              style: AppTextStyles().normal,
+                                            )),
+                                      ),
+                                      const Gap(10),
+                                      Expanded(
+                                        child: Container(
+                                          width: width * 0.1,
+                                          padding: const EdgeInsets.all(10.0),
+                                          decoration: BoxDecoration(
+                                            border: Border.all(
+                                              color: Colors.grey,
+                                              width: 1.0,
+                                            ),
+                                            borderRadius:
+                                                BorderRadius.circular(8.0),
+                                          ),
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: TextField(
+                                              onChanged: (description) {},
+                                              maxLines:
+                                                  null, // Allows the text field to expand vertically
+                                              keyboardType:
+                                                  TextInputType.multiline,
+                                              decoration: const InputDecoration(
+                                                hintText:
+                                                    'Candidate Description',
+                                                border: InputBorder.none,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
                                       IconButton(
-                                        icon: Icon(Icons.remove),
+                                        icon: const Icon(
+                                          Icons.remove_circle_outline,
+                                          color: Colors.redAccent,
+                                        ),
                                         onPressed: () {
                                           // setState(() {
                                           //   associatedTextFieldValues[index].removeAt(subIndex);
