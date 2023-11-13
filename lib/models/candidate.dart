@@ -12,11 +12,11 @@ class Candidate {
       this.file,
       this.imageUrl});
 
-  Map<String, dynamic> toJson() {
+  Map<String, dynamic> toJson(String url) {
     return {
       'candidateName': candidateName,
       'candidateDescription': candidateDescription,
-      'imageUrl': imageUrl
+      'imageUrl': url
     };
   }
 

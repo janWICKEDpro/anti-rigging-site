@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:anti_rigging/models/candidate.dart';
+import 'package:anti_rigging/models/election.dart';
 import 'package:anti_rigging/models/user.dart';
 import 'package:anti_rigging/services/storage/storage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -26,5 +27,25 @@ class DbService {
     }
   }
 
-  Future createElection(List<(String, List<Candidate>)> electionInfo) async {}
+  Future createElection(
+      List<(String, List<Candidate>)> electionInfo, Election election) async {
+    try {
+      for (int i = 0; i < electionInfo.length; i++) {
+        //create a role docRef
+        final docRef = _dbInstance
+            .collection('ELECTIONS')
+            .doc('${election.electionName}')
+            .set(election.toJson());
+        for (var candidate in electionInfo[i].$2) {
+          //store image and retrieve download url
+          final imageUrl = _storage.storeImage(candidate.file!);
+
+          //use download url to create a candidate on firestore for the roles docRef
+        }
+      }
+    } catch (e) {
+      log('Error from create Election $e');
+      rethrow;
+    }
+  }
 }

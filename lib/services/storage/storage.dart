@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:typed_data';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:file_picker/file_picker.dart';
@@ -10,6 +11,7 @@ class Storage {
       await _dbStorage.ref().child(file.name).putData(fileBytes);
       return await _dbStorage.ref().child(file.name).getDownloadURL();
     } catch (e) {
+      log(' Error from storage $e');
       throw 'Error Occured While Uploading Image';
     }
   }
