@@ -286,7 +286,8 @@ class _RoleState extends State<Role> {
                             .normal
                             .copyWith(color: Colors.redAccent),
                       )
-                    : Container()
+                    : Container(),
+                const Gap(10)
               ],
             ),
           ),

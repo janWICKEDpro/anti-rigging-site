@@ -45,7 +45,7 @@ class AdminDashboad extends StatelessWidget {
                                 ),
                                 child: FadeIndexedStack(
                                     index: state.stackedIndex,
-                                    children: [ElectionName(), Role()]),
+                                    children: const [ElectionName(), Role()]),
                               );
                             },
                           ),
