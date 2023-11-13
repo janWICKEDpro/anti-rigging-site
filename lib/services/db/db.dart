@@ -32,15 +32,22 @@ class DbService {
     try {
       for (int i = 0; i < electionInfo.length; i++) {
         //create a role docRef
-        final docRef = _dbInstance
+        await _dbInstance
             .collection('ELECTIONS')
             .doc('${election.electionName}')
             .set(election.toJson());
+        final docRef = _dbInstance
+            .collection('ELECTIONS')
+            .doc('${election.electionName}')
+            .collection('ROLE')
+            .doc(electionInfo[i].$1)
+            .collection('CANDIDATES');
         for (var candidate in electionInfo[i].$2) {
           //store image and retrieve download url
-          final imageUrl = _storage.storeImage(candidate.file!);
+          final imageUrl = await _storage.storeImage(candidate.file!);
 
           //use download url to create a candidate on firestore for the roles docRef
+          await docRef.doc().set(candidate.toJson(imageUrl));
         }
       }
     } catch (e) {

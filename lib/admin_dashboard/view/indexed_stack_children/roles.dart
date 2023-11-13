@@ -1,11 +1,13 @@
 import 'package:anti_rigging/admin_dashboard/bloc/admin_dashboard_bloc.dart';
 import 'package:anti_rigging/admin_dashboard/bloc/admin_dashboard_events.dart';
 import 'package:anti_rigging/admin_dashboard/bloc/admin_dashboard_state.dart';
+import 'package:anti_rigging/admin_dashboard/bloc/create_election_enum.dart';
 import 'package:anti_rigging/utils/colors.dart';
 import 'package:anti_rigging/utils/text_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 class Role extends StatefulWidget {
   const Role({super.key});
@@ -256,12 +258,21 @@ class _RoleState extends State<Role> {
                       context
                           .read<AdminDashboardBloc>()
                           .add(OnLaunchElectionsClicked());
+                      if (state.createELectionEnum ==
+                          CreateELectionEnum.success) {
+                        Navigator.of(context).pop();
+                      }
                     },
-                    child: Text(
-                      "Launch Elections",
-                      style:
-                          AppTextStyles().normal.copyWith(color: Colors.white),
-                    ),
+                    child:
+                        state.createELectionEnum == CreateELectionEnum.loading
+                            ? LoadingAnimationWidget.hexagonDots(
+                                color: Colors.white, size: 20)
+                            : Text(
+                                "Launch Elections",
+                                style: AppTextStyles()
+                                    .normal
+                                    .copyWith(color: Colors.white),
+                              ),
                   ),
                 ),
               ],

@@ -2,14 +2,17 @@ import 'dart:developer';
 
 import 'package:anti_rigging/admin_dashboard/bloc/admin_dashboard_events.dart';
 import 'package:anti_rigging/admin_dashboard/bloc/admin_dashboard_state.dart';
+import 'package:anti_rigging/admin_dashboard/bloc/create_election_enum.dart';
 import 'package:anti_rigging/models/candidate.dart';
 import 'package:anti_rigging/models/election.dart';
+import 'package:anti_rigging/services/db/db.dart';
 import 'package:anti_rigging/services/pick_file.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AdminDashboardBloc
     extends Bloc<AdminDashboardEvents, AdminDashBoardState> {
   final filepicker = FilePickerMethods();
+  final db = DbService();
   AdminDashboardBloc() : super(AdminDashBoardState(candidateRoles: [])) {
     on<OnElectionNameChanged>((event, emit) {
       emit(state.copyWith(
@@ -64,5 +67,19 @@ class AdminDashboardBloc
           event.candidateName;
       emit(state.copyWith(candidates: state.candidateRoles));
     });
+
+    on<OnLaunchElectionsClicked>(_onLaunchElectionsClicked);
+  }
+
+  _onLaunchElectionsClicked(
+      OnLaunchElectionsClicked event, Emitter<AdminDashBoardState> emit) async {
+    emit(state.copyWith(create: CreateELectionEnum.loading));
+    try {
+      await db.createElection(state.candidateRoles!, state.election!);
+      emit(state.copyWith(create: CreateELectionEnum.success));
+    } catch (e) {
+      // emit a failed state.
+      emit(state.copyWith(create: CreateELectionEnum.failed));
+    }
   }
 }
