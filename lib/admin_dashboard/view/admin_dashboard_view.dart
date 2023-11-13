@@ -1,4 +1,5 @@
 import 'package:anti_rigging/admin_dashboard/bloc/admin_dashboard_bloc.dart';
+import 'package:anti_rigging/admin_dashboard/bloc/admin_dashboard_events.dart';
 import 'package:anti_rigging/admin_dashboard/bloc/admin_dashboard_state.dart';
 import 'package:anti_rigging/admin_dashboard/view/indexed_stack_children/election_name.dart';
 import 'package:anti_rigging/admin_dashboard/view/indexed_stack_children/roles.dart';
@@ -91,7 +92,12 @@ class AdminDashboad extends StatelessWidget {
                       label: 'Logout',
                     ),
                   ],
-                  onTap: (index) {},
+                  onTap: (index) {
+                    if (index != 2) {
+                      BlocProvider.of<AdminDashboardBloc>(context)
+                          .add(OnSideBarNavigationIndexChanged(index));
+                    } else {}
+                  },
                 ),
                 const Expanded(
                   child: Column(
