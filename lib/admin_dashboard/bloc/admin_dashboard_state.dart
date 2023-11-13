@@ -9,9 +9,11 @@ class AdminDashBoardState {
   final CreateELectionEnum createELectionEnum;
   final bool? loadingElection;
   int stackedIndex;
+  int sideBarNavigationIndex;
 
   AdminDashBoardState(
       {this.election,
+      this.sideBarNavigationIndex = 0,
       this.createELectionEnum = CreateELectionEnum.initial,
       this.stackedIndex = 0,
       this.candidateRoles,
@@ -21,12 +23,14 @@ class AdminDashBoardState {
       {Election? elect,
       List<(String, List<Candidate>)>? candidates,
       int? index,
+      int? sideBarNav,
       CreateELectionEnum? create,
       bool? loadElection}) {
     return AdminDashBoardState(
         createELectionEnum: create ?? createELectionEnum,
         stackedIndex: index ?? stackedIndex,
         election: elect ?? election,
+        sideBarNavigationIndex: sideBarNav ?? sideBarNavigationIndex,
         candidateRoles: candidates ?? candidateRoles);
   }
 }

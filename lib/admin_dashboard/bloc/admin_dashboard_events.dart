@@ -58,3 +58,8 @@ class OnCandidateFieldsRemoved extends AdminDashboardEvents {
 class OnIndexIncremented extends AdminDashboardEvents {}
 
 class OnLaunchElectionsClicked extends AdminDashboardEvents {}
+
+class OnSideBarNavigationIndexChanged extends AdminDashboardEvents {
+  int index;
+  OnSideBarNavigationIndexChanged(this.index);
+}

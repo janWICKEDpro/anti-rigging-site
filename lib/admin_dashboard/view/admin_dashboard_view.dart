@@ -76,7 +76,7 @@ class AdminDashboad extends StatelessWidget {
                           showMainDivider: true,
                           showFooterDivider: true),
                       backgroundColor: lightColor),
-                  selectedIndex: 0,
+                  selectedIndex: state.sideBarNavigationIndex,
                   items: const [
                     SideNavigationBarItem(
                       icon: Icons.dashboard,

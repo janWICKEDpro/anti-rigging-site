@@ -70,6 +70,11 @@ class AdminDashboardBloc
     });
 
     on<OnLaunchElectionsClicked>(_onLaunchElectionsClicked);
+    on<OnElectionFetchedEvent>(_onElectionFetched);
+    on<OnSideBarNavigationIndexChanged>((event, emit) {
+      state.sideBarNavigationIndex = event.index;
+      emit(state.copyWith(sideBarNav: state.sideBarNavigationIndex));
+    });
   }
 
   _onLaunchElectionsClicked(
@@ -83,4 +88,7 @@ class AdminDashboardBloc
       emit(state.copyWith(create: CreateELectionEnum.failed));
     }
   }
+
+  _onElectionFetched(
+      OnElectionFetchedEvent event, Emitter<AdminDashBoardState> emit) async {}
 }

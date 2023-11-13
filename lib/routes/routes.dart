@@ -1,5 +1,4 @@
 import 'package:anti_rigging/admin_dashboard/view/admin_dashboard_view.dart';
-import 'package:anti_rigging/create_election/view/create_election_view.dart';
 import 'package:anti_rigging/login/view/login_view.dart';
 import 'package:anti_rigging/services/auth/auth.dart';
 import 'package:anti_rigging/signup/view/signup_view.dart';
@@ -41,13 +40,6 @@ GoRouter createRouter({required bool isScriptsEnabled}) {
         path: '/aqdmin',
         pageBuilder: (context, state) => NoTransitionPage(
           child: AdminDashboad.routeBuilder(context, state),
-        ),
-      ),
-      GoRoute(
-        name: 'create_election',
-        path: '/create_election',
-        pageBuilder: (context, state) => NoTransitionPage(
-          child: CreateElection.routeBuilder(context, state),
         ),
       ),
     ],
