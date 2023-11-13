@@ -255,26 +255,38 @@ class _RoleState extends State<Role> {
                         backgroundColor:
                             MaterialStateProperty.all(primaryColor)),
                     onPressed: () {
-                      context
-                          .read<AdminDashboardBloc>()
-                          .add(OnLaunchElectionsClicked());
                       if (state.createELectionEnum ==
                           CreateELectionEnum.success) {
-                        Navigator.of(context).pop();
+                        Navigator.pop(context);
+                      } else {
+                        context
+                            .read<AdminDashboardBloc>()
+                            .add(OnLaunchElectionsClicked());
                       }
                     },
                     child:
                         state.createELectionEnum == CreateELectionEnum.loading
                             ? LoadingAnimationWidget.hexagonDots(
-                                color: Colors.white, size: 20)
+                                color: Colors.white, size: 25)
                             : Text(
-                                "Launch Elections",
+                                state.createELectionEnum ==
+                                        CreateELectionEnum.success
+                                    ? "Continue"
+                                    : "Launch Elections",
                                 style: AppTextStyles()
                                     .normal
                                     .copyWith(color: Colors.white),
                               ),
                   ),
                 ),
+                state.createELectionEnum == CreateELectionEnum.failed
+                    ? Text(
+                        "Failed To Create Elections",
+                        style: AppTextStyles()
+                            .normal
+                            .copyWith(color: Colors.redAccent),
+                      )
+                    : Container()
               ],
             ),
           ),

@@ -18,6 +18,7 @@ class AdminDashboardBloc
       emit(state.copyWith(
           elect: Election(
               startDate: DateTime.now(),
+              isActive: true,
               electionName: event.electionName,
               endDate: DateTime.now().add(const Duration(days: 7)))));
     });
@@ -63,7 +64,7 @@ class AdminDashboardBloc
       emit(state.copyWith(candidates: state.candidateRoles));
     });
     on<OnCandidateNameChanged>((event, emit) {
-      state.candidateRoles![event.index].$2[event.index2].candidateDescription =
+      state.candidateRoles![event.index].$2[event.index2].candidateName =
           event.candidateName;
       emit(state.copyWith(candidates: state.candidateRoles));
     });
