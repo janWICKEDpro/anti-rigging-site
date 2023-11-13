@@ -5,9 +5,11 @@ class Candidate {
   String? candidateDescription;
   final String? imageUrl;
   PlatformFile? file;
+  int votes;
 
   Candidate(
       {this.candidateDescription,
+      this.votes = 0,
       this.candidateName,
       this.file,
       this.imageUrl});
@@ -16,7 +18,8 @@ class Candidate {
     return {
       'candidateName': candidateName,
       'candidateDescription': candidateDescription,
-      'imageUrl': url
+      'imageUrl': url,
+      'vote': votes
     };
   }
 
@@ -24,6 +27,7 @@ class Candidate {
     return Candidate(
         candidateName: map['candidateName'],
         candidateDescription: map['candidateDescription'],
-        imageUrl: map['imageUrl']);
+        imageUrl: map['imageUrl'],
+        votes: map['votes']);
   }
 }

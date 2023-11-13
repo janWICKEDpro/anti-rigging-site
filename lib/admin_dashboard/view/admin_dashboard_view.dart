@@ -20,7 +20,7 @@ class AdminDashboad extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => AdminDashboardBloc(),
+      create: (context) => AdminDashboardBloc()..add(OnElectionFetchedEvent()),
       child: BlocBuilder<AdminDashboardBloc, AdminDashBoardState>(
         builder: (context, state) {
           return Scaffold(

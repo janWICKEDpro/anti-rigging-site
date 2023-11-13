@@ -55,4 +55,19 @@ class DbService {
       rethrow;
     }
   }
+
+  //get elections
+
+  //get active elections
+
+  Future getActiveElection() async {
+    try {
+      final res = await _dbInstance
+          .collection('ELECTIONS')
+          .where('isActive', isEqualTo: true)
+          .get();
+    } catch (e) {
+      rethrow;
+    }
+  }
 }

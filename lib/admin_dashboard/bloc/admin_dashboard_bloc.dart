@@ -90,5 +90,11 @@ class AdminDashboardBloc
   }
 
   _onElectionFetched(
-      OnElectionFetchedEvent event, Emitter<AdminDashBoardState> emit) async {}
+      OnElectionFetchedEvent event, Emitter<AdminDashBoardState> emit) async {
+    try {
+      await db.getActiveElection();
+    } catch (e) {
+      log('$e');
+    }
+  }
 }
