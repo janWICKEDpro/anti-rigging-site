@@ -104,7 +104,7 @@ class AdminDashboardBloc
     emit(state.copyWith(fetchElections: FetchElectionList.loading));
     try {
       final elections = await db.getElections();
-
+      log('$elections');
       emit(state.copyWith(
           fetchElections: FetchElectionList.success, list: elections));
     } catch (e) {

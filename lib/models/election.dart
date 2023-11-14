@@ -19,9 +19,15 @@ class Election {
 
   factory Election.fromJson(Map<String, dynamic> map) {
     return Election(
-        startDate: map['startDate'],
-        endDate: map['endDate'],
+        startDate: map['startDate'].toDate(),
+        endDate: map['endDate'].toDate(),
         isActive: map['isActive'],
         electionName: map['electionName']);
+  }
+
+  @override
+  String toString() {
+    // TODO: implement toString
+    return 'electionName: $electionName, isActive: $isActive, startDate: $startDate, endDate: $endDate';
   }
 }

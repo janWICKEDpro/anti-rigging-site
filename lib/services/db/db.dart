@@ -62,6 +62,7 @@ class DbService {
       final elections = await _dbInstance.collection('ELECTIONS').get();
       return elections.docs.map((e) => Election.fromJson(e.data())).toList();
     } catch (e) {
+      log('$e');
       throw 'Error Fetching elections';
     }
   }

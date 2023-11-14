@@ -18,7 +18,7 @@ class ElectionList extends StatefulWidget {
 class _ElectionListState extends State<ElectionList> {
   @override
   void initState() {
-    // context.read<AdminDashboardBloc>().add(OnElectionListFetched());
+    context.read<AdminDashboardBloc>().add(OnElectionListFetched());
     super.initState();
   }
 
@@ -34,8 +34,14 @@ class _ElectionListState extends State<ElectionList> {
         BlocBuilder<AdminDashboardBloc, AdminDashBoardState>(
           builder: (context, state) {
             if (state.fetchElectionList == FetchElectionList.loading) {
-              return LoadingAnimationWidget.newtonCradle(
-                  color: darkColor, size: 100);
+              return Expanded(
+                child: Container(
+                  child: Center(
+                    child: LoadingAnimationWidget.newtonCradle(
+                        color: primaryColor, size: 100),
+                  ),
+                ),
+              );
             } else if (state.fetchElectionList == FetchElectionList.failed) {
               return Center(
                 child: Text(
@@ -44,46 +50,61 @@ class _ElectionListState extends State<ElectionList> {
                       AppTextStyles().normal.copyWith(color: Colors.redAccent),
                 ),
               );
+            } else {
+              return Expanded(
+                child: Container(
+                  child: ListView.builder(
+                      itemCount: state.electionsList!.length,
+                      itemBuilder: (context, index) {
+                        return Card(
+                          child: Padding(
+                            padding: const EdgeInsets.all(10.0),
+                            child: SizedBox(
+                              width: MediaQuery.of(context).size.width * 0.5,
+                              child: Column(
+                                children: [
+                                  Row(
+                                    children: [
+                                      Text(
+                                        'ElectionName: ',
+                                        style: AppTextStyles().normal,
+                                      ),
+                                      Text(
+                                        state.electionsList![index]
+                                            .electionName!,
+                                        style: AppTextStyles()
+                                            .normal
+                                            .copyWith(color: primaryColor),
+                                      )
+                                    ],
+                                  ),
+                                  Row(
+                                    children: [
+                                      Text(
+                                        'Status: ',
+                                        style: AppTextStyles().normal,
+                                      ),
+                                      Text(
+                                        state.electionsList![index].isActive!
+                                            ? 'Active'
+                                            : "Ended",
+                                        style: AppTextStyles().normal.copyWith(
+                                            color: state.electionsList![index]
+                                                    .isActive!
+                                                ? primaryColor
+                                                : Colors.redAccent),
+                                      )
+                                    ],
+                                  )
+                                ],
+                              ),
+                            ),
+                          ),
+                        );
+                      }),
+                ),
+              );
             }
-            return ListView.builder(
-                itemCount: state.electionsList!.length,
-                itemBuilder: (context, index) {
-                  return Card(
-                    child: Column(
-                      children: [
-                        Row(
-                          children: [
-                            Text(
-                              'ElectionName: ',
-                              style: AppTextStyles().normal,
-                            ),
-                            Text(
-                              state.election!.electionName!,
-                              style: AppTextStyles()
-                                  .normal
-                                  .copyWith(color: primaryColor),
-                            )
-                          ],
-                        ),
-                        Row(
-                          children: [
-                            Text(
-                              'Status: ',
-                              style: AppTextStyles().normal,
-                            ),
-                            Text(
-                              state.election!.isActive! ? 'Active' : "Ended",
-                              style: AppTextStyles().normal.copyWith(
-                                  color: state.election!.isActive!
-                                      ? primaryColor
-                                      : Colors.redAccent),
-                            )
-                          ],
-                        )
-                      ],
-                    ),
-                  );
-                });
           },
         )
       ],

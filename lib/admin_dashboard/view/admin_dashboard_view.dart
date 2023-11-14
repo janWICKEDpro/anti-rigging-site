@@ -3,6 +3,7 @@ import 'package:anti_rigging/admin_dashboard/bloc/admin_dashboard_events.dart';
 import 'package:anti_rigging/admin_dashboard/bloc/admin_dashboard_state.dart';
 import 'package:anti_rigging/admin_dashboard/view/indexed_stack_children/election_name.dart';
 import 'package:anti_rigging/admin_dashboard/view/indexed_stack_children/roles.dart';
+import 'package:anti_rigging/admin_dashboard/view/utils.dart';
 import 'package:anti_rigging/utils/colors.dart';
 import 'package:anti_rigging/utils/text_styles.dart';
 import 'package:anti_rigging/widgets/fade_transition.dart';
@@ -24,8 +25,6 @@ class AdminDashboad extends StatelessWidget {
       child: BlocBuilder<AdminDashboardBloc, AdminDashBoardState>(
         builder: (context, state) {
           return Scaffold(
-            floatingActionButtonLocation:
-                FloatingActionButtonLocation.centerFloat,
             floatingActionButton: SizedBox(
               width: 150,
               child: FloatingActionButton(
@@ -99,11 +98,8 @@ class AdminDashboad extends StatelessWidget {
                     } else {}
                   },
                 ),
-                const Expanded(
-                  child: Column(
-                    children: [],
-                  ),
-                )
+                Expanded(
+                    child: adminPages.elementAt(state.sideBarNavigationIndex))
               ],
             ),
           );
