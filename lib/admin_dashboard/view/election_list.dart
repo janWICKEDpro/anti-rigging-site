@@ -18,79 +18,75 @@ class ElectionList extends StatefulWidget {
 class _ElectionListState extends State<ElectionList> {
   @override
   void initState() {
-    context.read<AdminDashboardBloc>().add(OnElectionListFetched());
+    // context.read<AdminDashboardBloc>().add(OnElectionListFetched());
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider.value(
-      value: BlocProvider.of<AdminDashboardBloc>(context),
-      child: Column(
-        children: [
-          Center(
-              child: Text(
-            'List Of Elections',
-            style: AppTextStyles().headers.copyWith(color: darkColor),
-          )),
-          BlocBuilder<AdminDashboardBloc, AdminDashBoardState>(
-            builder: (context, state) {
-              if (state.fetchElectionList == FetchElectionList.loading) {
-                return LoadingAnimationWidget.newtonCradle(
-                    color: darkColor, size: 100);
-              } else if (state.fetchElectionList == FetchElectionList.failed) {
-                return Center(
-                  child: Text(
-                    'Failed to fetch elections',
-                    style: AppTextStyles()
-                        .normal
-                        .copyWith(color: Colors.redAccent),
-                  ),
-                );
-              }
-              return ListView.builder(
-                  itemCount: state.electionsList!.length,
-                  itemBuilder: (context, index) {
-                    return Card(
-                      child: Column(
-                        children: [
-                          Row(
-                            children: [
-                              Text(
-                                'ElectionName: ',
-                                style: AppTextStyles().normal,
-                              ),
-                              Text(
-                                state.election!.electionName!,
-                                style: AppTextStyles()
-                                    .normal
-                                    .copyWith(color: primaryColor),
-                              )
-                            ],
-                          ),
-                          Row(
-                            children: [
-                              Text(
-                                'Status: ',
-                                style: AppTextStyles().normal,
-                              ),
-                              Text(
-                                state.election!.isActive! ? 'Active' : "Ended",
-                                style: AppTextStyles().normal.copyWith(
-                                    color: state.election!.isActive!
-                                        ? primaryColor
-                                        : Colors.redAccent),
-                              )
-                            ],
-                          )
-                        ],
-                      ),
-                    );
-                  });
-            },
-          )
-        ],
-      ),
+    return Column(
+      children: [
+        Center(
+            child: Text(
+          'List Of Elections',
+          style: AppTextStyles().headers.copyWith(color: darkColor),
+        )),
+        BlocBuilder<AdminDashboardBloc, AdminDashBoardState>(
+          builder: (context, state) {
+            if (state.fetchElectionList == FetchElectionList.loading) {
+              return LoadingAnimationWidget.newtonCradle(
+                  color: darkColor, size: 100);
+            } else if (state.fetchElectionList == FetchElectionList.failed) {
+              return Center(
+                child: Text(
+                  'Failed to fetch elections',
+                  style:
+                      AppTextStyles().normal.copyWith(color: Colors.redAccent),
+                ),
+              );
+            }
+            return ListView.builder(
+                itemCount: state.electionsList!.length,
+                itemBuilder: (context, index) {
+                  return Card(
+                    child: Column(
+                      children: [
+                        Row(
+                          children: [
+                            Text(
+                              'ElectionName: ',
+                              style: AppTextStyles().normal,
+                            ),
+                            Text(
+                              state.election!.electionName!,
+                              style: AppTextStyles()
+                                  .normal
+                                  .copyWith(color: primaryColor),
+                            )
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            Text(
+                              'Status: ',
+                              style: AppTextStyles().normal,
+                            ),
+                            Text(
+                              state.election!.isActive! ? 'Active' : "Ended",
+                              style: AppTextStyles().normal.copyWith(
+                                  color: state.election!.isActive!
+                                      ? primaryColor
+                                      : Colors.redAccent),
+                            )
+                          ],
+                        )
+                      ],
+                    ),
+                  );
+                });
+          },
+        )
+      ],
     );
   }
 }

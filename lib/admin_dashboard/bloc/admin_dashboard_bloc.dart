@@ -71,7 +71,7 @@ class AdminDashboardBloc
 
     on<OnLaunchElectionsClicked>(_onLaunchElectionsClicked);
     on<OnElectionFetchedEvent>(_onElectionFetched);
-    on<OnElectionFetchedEvent>(_onElectionListFetched);
+    on<OnElectionListFetched>(_onElectionListFetched);
     on<OnSideBarNavigationIndexChanged>((event, emit) {
       state.sideBarNavigationIndex = event.index;
       emit(state.copyWith(sideBarNav: state.sideBarNavigationIndex));
@@ -100,7 +100,7 @@ class AdminDashboardBloc
   }
 
   _onElectionListFetched(
-      OnElectionFetchedEvent event, Emitter<AdminDashBoardState> emit) async {
+      OnElectionListFetched event, Emitter<AdminDashBoardState> emit) async {
     emit(state.copyWith(fetchElections: FetchElectionList.loading));
     try {
       final elections = await db.getElections();

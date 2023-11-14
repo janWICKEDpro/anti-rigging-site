@@ -28,7 +28,7 @@ class Candidate {
         candidateName: map['candidateName'],
         candidateDescription: map['candidateDescription'],
         imageUrl: map['imageUrl'],
-        votes: map['votes']);
+        votes: map['vote']);
   }
   @override
   String toString() {

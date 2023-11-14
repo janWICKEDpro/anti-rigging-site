@@ -78,8 +78,10 @@ class DbService {
       final roles = await election.docs[0].reference.collection('ROLE').get();
       for (var role in roles.docs) {
         final candidates = await role.reference.collection('CANDIDATES').get();
+        log('${candidates.docs[0].data()}');
         final List<Candidate> arr = [];
         for (var candidate in candidates.docs) {
+          log("${Candidate.fromJson(candidate.data())}");
           arr.add(Candidate.fromJson(candidate.data()));
         }
         electionData.add(((role.id), arr));
