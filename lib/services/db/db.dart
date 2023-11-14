@@ -57,17 +57,90 @@ class DbService {
   }
 
   //get elections
+  Future<List<Election>> getElections() async {
+    try {
+      final elections = await _dbInstance.collection('ELECTIONS').get();
+      return elections.docs.map((e) => Election.fromJson(e.data())).toList();
+    } catch (e) {
+      throw 'Error Fetching elections';
+    }
+  }
 
   //get active elections
-
-  Future getActiveElection() async {
+  Future<List<(String, List<Candidate>)>> getActiveElection() async {
+    List<(String, List<Candidate>)> electionData = [];
     try {
-      final res = await _dbInstance
+      final election = await _dbInstance
           .collection('ELECTIONS')
           .where('isActive', isEqualTo: true)
+          .limit(1)
           .get();
+      final roles = await election.docs[0].reference.collection('ROLE').get();
+      for (var role in roles.docs) {
+        final candidates = await role.reference.collection('CANDIDATES').get();
+        final List<Candidate> arr = [];
+        for (var candidate in candidates.docs) {
+          arr.add(Candidate.fromJson(candidate.data()));
+        }
+        electionData.add(((role.id), arr));
+      }
+      log('$electionData');
+      return electionData;
     } catch (e) {
-      rethrow;
+      log('$e');
+      throw 'Error occured while fetching election';
+    }
+  }
+
+  //close elections
+  Future<bool> closeElections(String electionName) async {
+    try {
+      await _dbInstance
+          .collection('ELECTIONS')
+          .doc(electionName)
+          .update({'isActive': false});
+      return true;
+    } catch (e) {
+      log('$e');
+      throw 'Error occured while closing elections';
+    }
+  }
+
+  Future<Candidate> getCandidate(
+      String electioName, String role, String candidateId) async {
+    try {
+      final candidate = await _dbInstance
+          .collection('ELECTIONS')
+          .doc(electioName)
+          .collection('ROLE')
+          .doc(role)
+          .collection('CANDIDATES')
+          .doc(candidateId)
+          .get();
+
+      return Candidate.fromJson(candidate.data()!);
+    } catch (e) {
+      throw 'could not get candidate';
+    }
+  }
+
+  Future vote(String electioName, String role, String candidateId) async {
+    try {
+      final candidate = await getCandidate(electioName, role, candidateId);
+      int val = candidate.votes;
+      val++;
+      await _dbInstance
+          .collection('ELECTIONS')
+          .doc(electioName)
+          .collection('ROLE')
+          .doc(role)
+          .collection('CANDIDATES')
+          .doc(candidateId)
+          .update({'vote': val});
+      //add the role and election voted for ina new collection.
+      //await _dbInstance.collection('VOTEDROLES').doc().;
+    } catch (e) {
+      throw 'error occured while voting';
     }
   }
 }

@@ -30,4 +30,8 @@ class Candidate {
         imageUrl: map['imageUrl'],
         votes: map['votes']);
   }
+  @override
+  String toString() {
+    return '{candidateName: $candidateName, candidateDescription: $candidateDescription, candidateimagurl: $imageUrl, votes: $votes}';
+  }
 }

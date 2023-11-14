@@ -2,6 +2,8 @@ sealed class AdminDashboardEvents {}
 
 class OnElectionFetchedEvent extends AdminDashboardEvents {}
 
+class OnElectionListFetched extends AdminDashboardEvents {}
+
 class OnElectionNameChanged extends AdminDashboardEvents {
   final String? electionName;
   OnElectionNameChanged({this.electionName});

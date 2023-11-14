@@ -71,6 +71,7 @@ class AdminDashboardBloc
 
     on<OnLaunchElectionsClicked>(_onLaunchElectionsClicked);
     on<OnElectionFetchedEvent>(_onElectionFetched);
+    on<OnElectionFetchedEvent>(_onElectionListFetched);
     on<OnSideBarNavigationIndexChanged>((event, emit) {
       state.sideBarNavigationIndex = event.index;
       emit(state.copyWith(sideBarNav: state.sideBarNavigationIndex));
@@ -95,6 +96,20 @@ class AdminDashboardBloc
       await db.getActiveElection();
     } catch (e) {
       log('$e');
+    }
+  }
+
+  _onElectionListFetched(
+      OnElectionFetchedEvent event, Emitter<AdminDashBoardState> emit) async {
+    emit(state.copyWith(fetchElections: FetchElectionList.loading));
+    try {
+      final elections = await db.getElections();
+
+      emit(state.copyWith(
+          fetchElections: FetchElectionList.success, list: elections));
+    } catch (e) {
+      log('$e');
+      emit(state.copyWith(fetchElections: FetchElectionList.failed));
     }
   }
 }
