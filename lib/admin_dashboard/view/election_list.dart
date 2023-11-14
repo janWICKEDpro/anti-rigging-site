@@ -1,4 +1,5 @@
 import 'package:anti_rigging/admin_dashboard/bloc/admin_dashboard_bloc.dart';
+import 'package:anti_rigging/admin_dashboard/bloc/admin_dashboard_events.dart';
 import 'package:anti_rigging/admin_dashboard/bloc/admin_dashboard_state.dart';
 import 'package:anti_rigging/admin_dashboard/bloc/create_election_enum.dart';
 import 'package:anti_rigging/utils/colors.dart';
@@ -15,6 +16,12 @@ class ElectionList extends StatefulWidget {
 }
 
 class _ElectionListState extends State<ElectionList> {
+  @override
+  void initState() {
+    context.read<AdminDashboardBloc>().add(OnElectionListFetched());
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider.value(
