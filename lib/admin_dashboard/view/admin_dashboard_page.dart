@@ -35,7 +35,31 @@ class _AdminDashBoardPageState extends State<AdminDashBoardPage>
                 mainAxisSpacing: 10,
                 crossAxisCount: 2,
                 children: <Widget>[
-                  DashBoardCard(Container()),
+                  DashBoardCard(Container(
+                    child: Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: Column(
+                        children: [
+                          Text(
+                            'Results',
+                            style: AppTextStyles()
+                                .normal
+                                .copyWith(color: darkColor),
+                          ),
+                          Row(
+                            children: [
+                              IconButton(
+                                  onPressed: () {},
+                                  icon: Icon(Icons.arrow_back_ios)),
+                              IconButton(
+                                  onPressed: () {},
+                                  icon: Icon(Icons.arrow_forward_ios)),
+                            ],
+                          )
+                        ],
+                      ),
+                    ),
+                  )),
                   DashBoardCard(Container(
                     child: SfCalendar(
                       view: CalendarView.week,

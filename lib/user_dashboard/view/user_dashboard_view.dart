@@ -1,6 +1,6 @@
 import 'package:anti_rigging/utils/colors.dart';
 import 'package:anti_rigging/utils/text_styles.dart';
-import 'package:anti_rigging/utils/user_dashboard_cards.dart';
+import 'package:anti_rigging/utils/dashboard_card.dart';
 import 'package:anti_rigging/vote/view/vote_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
