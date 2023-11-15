@@ -33,7 +33,7 @@ class _ElectionListState extends State<ElectionList> {
         )),
         BlocBuilder<AdminDashboardBloc, AdminDashBoardState>(
           builder: (context, state) {
-            if (state.fetchElectionList == FetchElectionList.loading) {
+            if (state.fetchList == FetchList.loading) {
               return Expanded(
                 child: Container(
                   child: Center(
@@ -42,7 +42,7 @@ class _ElectionListState extends State<ElectionList> {
                   ),
                 ),
               );
-            } else if (state.fetchElectionList == FetchElectionList.failed) {
+            } else if (state.fetchList == FetchList.failed) {
               return Center(
                 child: Text(
                   'Failed to fetch elections',

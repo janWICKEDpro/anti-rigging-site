@@ -9,15 +9,19 @@ class AdminDashBoardState {
   final List<Election>? electionsList;
   final CreateELectionEnum createELectionEnum;
   final bool? loadingElection;
+  final bool? noActiveElection;
   int stackedIndex;
   int sideBarNavigationIndex;
-  FetchElectionList fetchElectionList;
+  Fetch fetchElection;
+  FetchList fetchList;
 
   AdminDashBoardState(
       {this.election,
       this.electionsList,
+      this.fetchList = FetchList.loading,
+      this.noActiveElection = false,
       this.sideBarNavigationIndex = 0,
-      this.fetchElectionList = FetchElectionList.loading,
+      this.fetchElection = Fetch.loading,
       this.createELectionEnum = CreateELectionEnum.initial,
       this.stackedIndex = 0,
       this.candidateRoles,
@@ -29,11 +33,15 @@ class AdminDashBoardState {
       int? index,
       List<Election>? list,
       int? sideBarNav,
-      FetchElectionList? fetchElections,
+      bool? noActive,
+      Fetch? fetchElections,
+      FetchList? listFetch,
       CreateELectionEnum? create,
       bool? loadElection}) {
     return AdminDashBoardState(
-        fetchElectionList: fetchElections ?? fetchElectionList,
+        fetchList: listFetch ?? fetchList,
+        noActiveElection: noActive ?? noActiveElection,
+        fetchElection: fetchElections ?? fetchElection,
         electionsList: list ?? electionsList,
         createELectionEnum: create ?? createELectionEnum,
         stackedIndex: index ?? stackedIndex,

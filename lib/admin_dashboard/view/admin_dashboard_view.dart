@@ -1,6 +1,7 @@
 import 'package:anti_rigging/admin_dashboard/bloc/admin_dashboard_bloc.dart';
 import 'package:anti_rigging/admin_dashboard/bloc/admin_dashboard_events.dart';
 import 'package:anti_rigging/admin_dashboard/bloc/admin_dashboard_state.dart';
+import 'package:anti_rigging/admin_dashboard/bloc/create_election_enum.dart';
 import 'package:anti_rigging/admin_dashboard/view/indexed_stack_children/election_name.dart';
 import 'package:anti_rigging/admin_dashboard/view/indexed_stack_children/roles.dart';
 import 'package:anti_rigging/admin_dashboard/view/utils.dart';
@@ -27,46 +28,64 @@ class AdminDashboad extends StatelessWidget {
           return Scaffold(
             floatingActionButton: state.sideBarNavigationIndex != 0
                 ? Container()
-                : SizedBox(
-                    width: 150,
-                    child: FloatingActionButton(
-                      backgroundColor: primaryColor,
-                      onPressed: () {
-                        final bloc =
-                            BlocProvider.of<AdminDashboardBloc>(context);
-                        showDialog(
-                            context: context,
-                            builder: (BuildContext context) {
-                              return BlocProvider.value(
-                                value: bloc,
-                                child: BlocBuilder<AdminDashboardBloc,
-                                    AdminDashBoardState>(
-                                  builder: (context, state) {
-                                    return Dialog(
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(20.0),
-                                      ),
-                                      child: FadeIndexedStack(
-                                          index: state.stackedIndex,
-                                          children: const [
-                                            ElectionName(),
-                                            Role()
-                                          ]),
-                                    );
-                                  },
-                                ),
-                              );
-                            });
-                      },
-                      child: Text(
-                        'Create Election',
-                        style: AppTextStyles()
-                            .normal
-                            .copyWith(color: Colors.white),
-                      ),
-                    ),
-                  ),
+                : state.noActiveElection! &&
+                        state.fetchElection == Fetch.success
+                    ? SizedBox(
+                        width: 150,
+                        child: FloatingActionButton(
+                          backgroundColor: primaryColor,
+                          onPressed: () {
+                            final bloc =
+                                BlocProvider.of<AdminDashboardBloc>(context);
+                            showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return BlocProvider.value(
+                                    value: bloc,
+                                    child: BlocBuilder<AdminDashboardBloc,
+                                        AdminDashBoardState>(
+                                      builder: (context, state) {
+                                        return Dialog(
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(20.0),
+                                          ),
+                                          child: FadeIndexedStack(
+                                              index: state.stackedIndex,
+                                              children: const [
+                                                ElectionName(),
+                                                Role()
+                                              ]),
+                                        );
+                                      },
+                                    ),
+                                  );
+                                });
+                          },
+                          child: Text(
+                            'Create Election',
+                            style: AppTextStyles()
+                                .normal
+                                .copyWith(color: Colors.white),
+                          ),
+                        ),
+                      )
+                    : state.noActiveElection == false &&
+                            state.fetchElection == Fetch.success
+                        ? SizedBox(
+                            width: 150,
+                            child: FloatingActionButton(
+                              backgroundColor: Colors.redAccent,
+                              onPressed: () {},
+                              child: Text(
+                                'End Election',
+                                style: AppTextStyles()
+                                    .normal
+                                    .copyWith(color: Colors.white),
+                              ),
+                            ),
+                          )
+                        : Container(),
             body: Row(
               children: [
                 SideNavigationBar(

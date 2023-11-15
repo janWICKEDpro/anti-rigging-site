@@ -92,24 +92,33 @@ class AdminDashboardBloc
 
   _onElectionFetched(
       OnElectionFetchedEvent event, Emitter<AdminDashBoardState> emit) async {
+    emit(state.copyWith(fetchElections: Fetch.loading));
     try {
-      await db.getActiveElection();
+      final election = await db.getActiveElection();
+      if (election.isEmpty) {
+        emit(state.copyWith(fetchElections: Fetch.success, noActive: true));
+      } else {
+        emit(state.copyWith(
+            fetchElections: Fetch.success,
+            noActive: false,
+            candidates: election));
+      }
     } catch (e) {
       log('$e');
+      emit(state.copyWith(fetchElections: Fetch.failed));
     }
   }
 
   _onElectionListFetched(
       OnElectionListFetched event, Emitter<AdminDashBoardState> emit) async {
-    emit(state.copyWith(fetchElections: FetchElectionList.loading));
+    emit(state.copyWith(listFetch: FetchList.loading));
     try {
       final elections = await db.getElections();
       log('$elections');
-      emit(state.copyWith(
-          fetchElections: FetchElectionList.success, list: elections));
+      emit(state.copyWith(listFetch: FetchList.success, list: elections));
     } catch (e) {
       log('$e');
-      emit(state.copyWith(fetchElections: FetchElectionList.failed));
+      emit(state.copyWith(listFetch: FetchList.failed));
     }
   }
 }
