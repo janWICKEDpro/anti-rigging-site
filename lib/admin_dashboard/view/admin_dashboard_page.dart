@@ -35,10 +35,13 @@ class _AdminDashBoardPageState extends State<AdminDashBoardPage>
                 mainAxisSpacing: 10,
                 crossAxisCount: 2,
                 children: <Widget>[
+                  DashBoardCard(Container()),
                   DashBoardCard(Container(
-                    height: 100,
-                    width: 100,
+                    child: SfCalendar(
+                      view: CalendarView.week,
+                    ),
                   )),
+                  DashBoardCard(Container())
                 ],
               ),
             ),
