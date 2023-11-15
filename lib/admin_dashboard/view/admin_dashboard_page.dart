@@ -14,6 +14,33 @@ class AdminDashBoardPage extends StatefulWidget {
 
 class _AdminDashBoardPageState extends State<AdminDashBoardPage>
     with TickerProviderStateMixin {
+  final List<String> pages = ['Page 1', 'Page 2', 'Page 3', 'Page 4'];
+  final PageController _pageController = PageController(initialPage: 0);
+
+  void nextPage() {
+    if (_pageController.page! < pages.length - 1) {
+      _pageController.nextPage(
+        duration: const Duration(milliseconds: 500),
+        curve: Curves.ease,
+      );
+    }
+  }
+
+  void previousPage() {
+    if (_pageController.page! > 0) {
+      _pageController.previousPage(
+        duration: const Duration(milliseconds: 500),
+        curve: Curves.ease,
+      );
+    }
+  }
+
+  @override
+  void dispose() {
+    _pageController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -35,8 +62,8 @@ class _AdminDashBoardPageState extends State<AdminDashBoardPage>
                 mainAxisSpacing: 10,
                 crossAxisCount: 2,
                 children: <Widget>[
-                  DashBoardCard(Container(
-                    child: Padding(
+                  DashBoardCard(
+                    Padding(
                       padding: const EdgeInsets.all(10.0),
                       child: Column(
                         children: [
@@ -47,25 +74,45 @@ class _AdminDashBoardPageState extends State<AdminDashBoardPage>
                                 .copyWith(color: darkColor),
                           ),
                           Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               IconButton(
-                                  onPressed: () {},
+                                  onPressed: previousPage,
                                   icon: Icon(Icons.arrow_back_ios)),
                               IconButton(
-                                  onPressed: () {},
+                                  onPressed: nextPage,
                                   icon: Icon(Icons.arrow_forward_ios)),
                             ],
-                          )
+                          ),
+                          Expanded(
+                            child: SizedBox(
+                              child: PageView.builder(
+                                controller: _pageController,
+                                itemCount: pages.length,
+                                itemBuilder: (context, index) {
+                                  return Container(
+                                    color: Colors.blue,
+                                    child: Center(
+                                      child: Text(
+                                        pages[index],
+                                        style: TextStyle(
+                                          fontSize: 24,
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                    ),
+                                  );
+                                },
+                              ),
+                            ),
+                          ),
                         ],
                       ),
                     ),
-                  )),
-                  DashBoardCard(Container(
-                    child: SfCalendar(
-                      view: CalendarView.week,
-                    ),
-                  )),
-                  DashBoardCard(Container())
+                  ),
+                  DashBoardCard(SfCalendar(
+                    view: CalendarView.week,
+                  ))
                 ],
               ),
             ),
