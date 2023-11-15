@@ -4,8 +4,6 @@ import 'package:anti_rigging/utils/user_dashboard_cards.dart';
 import 'package:anti_rigging/vote/view/vote_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:gap/gap.dart';
 import 'package:sidebarx/sidebarx.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
@@ -174,7 +172,7 @@ class MainDashBoard extends StatelessWidget {
               StaggeredGridTile.count(
                 crossAxisCellCount: 2,
                 mainAxisCellCount: 1,
-                child: UserDashboardCard(
+                child: DashBoardCard(
                   Padding(
                     padding: EdgeInsets.all(15.0),
                     child: Column(
@@ -226,7 +224,7 @@ class MainDashBoard extends StatelessWidget {
               StaggeredGridTile.count(
                 crossAxisCellCount: 2,
                 mainAxisCellCount: 1,
-                child: UserDashboardCard(SfCalendar(
+                child: DashBoardCard(SfCalendar(
                   todayHighlightColor: primaryColor,
                   view: CalendarView.week,
                 )),
@@ -234,7 +232,7 @@ class MainDashBoard extends StatelessWidget {
               StaggeredGridTile.count(
                 crossAxisCellCount: 3,
                 mainAxisCellCount: 1,
-                child: UserDashboardCard(
+                child: DashBoardCard(
                   Center(
                     child: Text('hi'),
                   ),
@@ -243,7 +241,7 @@ class MainDashBoard extends StatelessWidget {
               StaggeredGridTile.count(
                 crossAxisCellCount: 1,
                 mainAxisCellCount: 3,
-                child: UserDashboardCard(
+                child: DashBoardCard(
                   Center(
                     child: Text('hi'),
                   ),

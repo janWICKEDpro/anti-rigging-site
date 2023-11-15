@@ -25,39 +25,48 @@ class AdminDashboad extends StatelessWidget {
       child: BlocBuilder<AdminDashboardBloc, AdminDashBoardState>(
         builder: (context, state) {
           return Scaffold(
-            floatingActionButton: SizedBox(
-              width: 150,
-              child: FloatingActionButton(
-                backgroundColor: primaryColor,
-                onPressed: () {
-                  final bloc = BlocProvider.of<AdminDashboardBloc>(context);
-                  showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return BlocProvider.value(
-                          value: bloc,
-                          child: BlocBuilder<AdminDashboardBloc,
-                              AdminDashBoardState>(
-                            builder: (context, state) {
-                              return Dialog(
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(20.0),
+            floatingActionButton: state.sideBarNavigationIndex != 0
+                ? Container()
+                : SizedBox(
+                    width: 150,
+                    child: FloatingActionButton(
+                      backgroundColor: primaryColor,
+                      onPressed: () {
+                        final bloc =
+                            BlocProvider.of<AdminDashboardBloc>(context);
+                        showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return BlocProvider.value(
+                                value: bloc,
+                                child: BlocBuilder<AdminDashboardBloc,
+                                    AdminDashBoardState>(
+                                  builder: (context, state) {
+                                    return Dialog(
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(20.0),
+                                      ),
+                                      child: FadeIndexedStack(
+                                          index: state.stackedIndex,
+                                          children: const [
+                                            ElectionName(),
+                                            Role()
+                                          ]),
+                                    );
+                                  },
                                 ),
-                                child: FadeIndexedStack(
-                                    index: state.stackedIndex,
-                                    children: const [ElectionName(), Role()]),
                               );
-                            },
-                          ),
-                        );
-                      });
-                },
-                child: Text(
-                  'Create Election',
-                  style: AppTextStyles().normal.copyWith(color: Colors.white),
-                ),
-              ),
-            ),
+                            });
+                      },
+                      child: Text(
+                        'Create Election',
+                        style: AppTextStyles()
+                            .normal
+                            .copyWith(color: Colors.white),
+                      ),
+                    ),
+                  ),
             body: Row(
               children: [
                 SideNavigationBar(

@@ -76,6 +76,7 @@ class DbService {
           .where('isActive', isEqualTo: true)
           .limit(1)
           .get();
+      if (election.docs.isEmpty) return [];
       final roles = await election.docs[0].reference.collection('ROLE').get();
       for (var role in roles.docs) {
         final candidates = await role.reference.collection('CANDIDATES').get();

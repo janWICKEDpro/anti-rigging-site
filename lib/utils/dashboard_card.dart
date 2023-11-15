@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class UserDashboardCard extends StatelessWidget {
-  const UserDashboardCard(this.child, {super.key, this.onTap});
+class DashBoardCard extends StatelessWidget {
+  const DashBoardCard(this.child, {super.key, this.onTap});
   final Widget child;
   final Function()? onTap;
   @override
@@ -9,6 +9,8 @@ class UserDashboardCard extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
+        height: 100,
+        width: 100,
         decoration: BoxDecoration(
           boxShadow: [
             BoxShadow(
