@@ -2,12 +2,15 @@ import 'package:anti_rigging/admin_dashboard/bloc/admin_dashboard_bloc.dart';
 import 'package:anti_rigging/admin_dashboard/bloc/admin_dashboard_events.dart';
 import 'package:anti_rigging/admin_dashboard/bloc/admin_dashboard_state.dart';
 import 'package:anti_rigging/admin_dashboard/bloc/create_election_enum.dart';
+import 'package:anti_rigging/models/candidate.dart';
 import 'package:anti_rigging/utils/colors.dart';
 import 'package:anti_rigging/utils/text_styles.dart';
 import 'package:anti_rigging/utils/dashboard_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
+
+import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
@@ -20,11 +23,15 @@ class AdminDashBoardPage extends StatefulWidget {
 
 class _AdminDashBoardPageState extends State<AdminDashBoardPage>
     with TickerProviderStateMixin {
-  final List<String> pages = ['Page 1', 'Page 2', 'Page 3', 'Page 4'];
   final PageController _pageController = PageController(initialPage: 0);
-
+  late TooltipBehavior _tooltip;
+  late List<Candidate> data = [];
+  int index = 0;
   void nextPage() {
-    if (_pageController.page! < pages.length - 1) {
+    if (_pageController.page! <
+        context.read<AdminDashboardBloc>().state.candidateRoles!.length - 1) {
+      index++;
+      data = context.read<AdminDashboardBloc>().state.candidateRoles![index].$2;
       _pageController.nextPage(
         duration: const Duration(milliseconds: 500),
         curve: Curves.ease,
@@ -34,11 +41,20 @@ class _AdminDashBoardPageState extends State<AdminDashBoardPage>
 
   void previousPage() {
     if (_pageController.page! > 0) {
+      index--;
+      data = context.read<AdminDashboardBloc>().state.candidateRoles![index].$2;
       _pageController.previousPage(
         duration: const Duration(milliseconds: 500),
         curve: Curves.ease,
       );
     }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    data = context.read<AdminDashboardBloc>().state.candidateRoles![index].$2;
+    _tooltip = TooltipBehavior(enable: true);
   }
 
   @override
@@ -135,6 +151,12 @@ class _AdminDashBoardPageState extends State<AdminDashBoardPage>
                                     IconButton(
                                         onPressed: previousPage,
                                         icon: Icon(Icons.arrow_back_ios)),
+                                    Text(
+                                      state.candidateRoles![index].$1,
+                                      style: AppTextStyles()
+                                          .normal
+                                          .copyWith(color: darkColor),
+                                    ),
                                     IconButton(
                                         onPressed: nextPage,
                                         icon: Icon(Icons.arrow_forward_ios)),
@@ -144,19 +166,33 @@ class _AdminDashBoardPageState extends State<AdminDashBoardPage>
                                   child: SizedBox(
                                     child: PageView.builder(
                                       controller: _pageController,
-                                      itemCount: pages.length,
+                                      itemCount: state.candidateRoles!.length,
                                       itemBuilder: (context, index) {
                                         return Container(
-                                          color: Colors.blue,
+                                          color: const Color.fromARGB(
+                                              255, 175, 208, 235),
                                           child: Center(
-                                            child: Text(
-                                              pages[index],
-                                              style: TextStyle(
-                                                fontSize: 24,
-                                                color: Colors.white,
-                                              ),
-                                            ),
-                                          ),
+                                              child: SfCartesianChart(
+                                                  primaryXAxis: CategoryAxis(),
+                                                  primaryYAxis: NumericAxis(
+                                                      minimum: 0,
+                                                      maximum: 40,
+                                                      interval: 10),
+                                                  tooltipBehavior: _tooltip,
+                                                  series: <ChartSeries<
+                                                      Candidate, String>>[
+                                                BarSeries<Candidate, String>(
+                                                    dataSource: data,
+                                                    xValueMapper:
+                                                        (Candidate data, _) =>
+                                                            data.candidateName,
+                                                    yValueMapper:
+                                                        (Candidate data, _) =>
+                                                            data.votes,
+                                                    name: 'Votes',
+                                                    color: const Color.fromRGBO(
+                                                        8, 142, 255, 1)),
+                                              ])),
                                         );
                                       },
                                     ),
