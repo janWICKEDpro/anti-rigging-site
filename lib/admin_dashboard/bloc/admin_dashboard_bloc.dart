@@ -85,7 +85,6 @@ class AdminDashboardBloc
       await db.createElection(state.candidateRoles!, state.election!);
       emit(state.copyWith(create: CreateELectionEnum.success));
     } catch (e) {
-      // emit a failed state.
       emit(state.copyWith(create: CreateELectionEnum.failed));
     }
   }
