@@ -26,6 +26,7 @@ class _AdminDashBoardPageState extends State<AdminDashBoardPage>
   final PageController _pageController = PageController(initialPage: 0);
   late TooltipBehavior _tooltip;
   late List<Candidate> data = [];
+
   int index = 0;
   void nextPage() {
     if (_pageController.page! <
@@ -53,7 +54,6 @@ class _AdminDashBoardPageState extends State<AdminDashBoardPage>
   @override
   void initState() {
     super.initState();
-    data = context.read<AdminDashboardBloc>().state.candidateRoles![index].$2;
     _tooltip = TooltipBehavior(enable: true);
   }
 
@@ -124,6 +124,11 @@ class _AdminDashBoardPageState extends State<AdminDashBoardPage>
                   ),
                 ));
               } else {
+                data = context
+                    .read<AdminDashboardBloc>()
+                    .state
+                    .candidateRoles![index]
+                    .$2;
                 return Expanded(
                   child: Container(
                     child: GridView.count(
@@ -137,12 +142,12 @@ class _AdminDashBoardPageState extends State<AdminDashBoardPage>
                           Padding(
                             padding: const EdgeInsets.all(10.0),
                             child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  'Results',
-                                  style: AppTextStyles()
-                                      .normal
-                                      .copyWith(color: darkColor),
+                                  'Live Results',
+                                  style: AppTextStyles().headers.copyWith(
+                                      color: primaryColor, fontSize: 18),
                                 ),
                                 Row(
                                   mainAxisAlignment:
@@ -169,18 +174,17 @@ class _AdminDashBoardPageState extends State<AdminDashBoardPage>
                                       itemCount: state.candidateRoles!.length,
                                       itemBuilder: (context, index) {
                                         return Container(
-                                          color: const Color.fromARGB(
-                                              255, 175, 208, 235),
+                                          color: lightColor,
                                           child: Center(
-                                              child: SfCartesianChart(
-                                                  primaryXAxis: CategoryAxis(),
-                                                  primaryYAxis: NumericAxis(
-                                                      minimum: 0,
-                                                      maximum: 40,
-                                                      interval: 10),
-                                                  tooltipBehavior: _tooltip,
-                                                  series: <ChartSeries<
-                                                      Candidate, String>>[
+                                            child: SfCartesianChart(
+                                              primaryXAxis: CategoryAxis(),
+                                              primaryYAxis: NumericAxis(
+                                                  minimum: 0,
+                                                  maximum: 40,
+                                                  interval: 10),
+                                              tooltipBehavior: _tooltip,
+                                              series: <ChartSeries<Candidate,
+                                                  String>>[
                                                 BarSeries<Candidate, String>(
                                                     dataSource: data,
                                                     xValueMapper:
@@ -190,9 +194,10 @@ class _AdminDashBoardPageState extends State<AdminDashBoardPage>
                                                         (Candidate data, _) =>
                                                             data.votes,
                                                     name: 'Votes',
-                                                    color: const Color.fromRGBO(
-                                                        8, 142, 255, 1)),
-                                              ])),
+                                                    color: primaryColor),
+                                              ],
+                                            ),
+                                          ),
                                         );
                                       },
                                     ),
