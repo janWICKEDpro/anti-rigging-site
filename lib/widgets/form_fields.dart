@@ -17,20 +17,24 @@ class CustomFormField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
-    return SizedBox(
+    return Container(
       width: width * 0.5,
-      height: 40,
-      child: TextFormField(
-        onChanged: onChanged,
-        obscureText: obscureText,
-        validator: validator,
-        decoration: InputDecoration(
-            label: Text(
-              name,
-              style: AppTextStyles().normal,
-            ),
-            border: OutlineInputBorder(
-                borderSide: BorderSide(color: primaryColor))),
+      height: 50,
+      decoration: BoxDecoration(
+          color: Color.fromARGB(255, 226, 221, 221),
+          borderRadius: BorderRadius.circular(5)),
+      child: Center(
+        child: TextFormField(
+          onChanged: onChanged,
+          obscureText: obscureText,
+          validator: validator,
+          decoration: InputDecoration(
+              label: Text(
+                name,
+                style: AppTextStyles().normal,
+              ),
+              border: OutlineInputBorder(borderSide: BorderSide.none)),
+        ),
       ),
     );
   }

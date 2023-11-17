@@ -18,6 +18,7 @@ class _AppState extends State<App> {
       title: 'Anti-Rigging',
       theme: AppThemes().theme,
       routerConfig: routes,
+      debugShowCheckedModeBanner: false,
     );
   }
 }
