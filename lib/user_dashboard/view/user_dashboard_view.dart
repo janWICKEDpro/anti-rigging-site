@@ -29,7 +29,6 @@ class _UserDashBoardState extends State<UserDashBoard> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
       body: Row(
         children: [
           SidebarX(
