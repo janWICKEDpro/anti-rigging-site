@@ -1,4 +1,3 @@
-import 'package:anti_rigging/utils/colors.dart';
 import 'package:anti_rigging/utils/text_styles.dart';
 import 'package:flutter/material.dart';
 
@@ -23,17 +22,20 @@ class CustomFormField extends StatelessWidget {
       decoration: BoxDecoration(
           color: Color.fromARGB(255, 226, 221, 221),
           borderRadius: BorderRadius.circular(5)),
-      child: Center(
-        child: TextFormField(
-          onChanged: onChanged,
-          obscureText: obscureText,
-          validator: validator,
-          decoration: InputDecoration(
-              label: Text(
-                name,
-                style: AppTextStyles().normal,
-              ),
-              border: OutlineInputBorder(borderSide: BorderSide.none)),
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Center(
+          child: TextFormField(
+            onChanged: onChanged,
+            obscureText: obscureText,
+            validator: validator,
+            decoration: InputDecoration(
+                label: Text(
+                  name,
+                  style: AppTextStyles().normal.copyWith(fontSize: 14),
+                ),
+                border: OutlineInputBorder(borderSide: BorderSide.none)),
+          ),
         ),
       ),
     );

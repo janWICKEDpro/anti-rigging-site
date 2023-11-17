@@ -9,16 +9,16 @@ import 'package:go_router/go_router.dart';
 GoRouter createRouter({required bool isScriptsEnabled}) {
   final auth = AuthenticationService();
   return GoRouter(
-    redirect: (context, state) {
-      if (auth.status == null) {
-        return '/signup';
-      } else {
-        return null;
-      }
-    },
+    // redirect: (context, state) {
+    //   if (auth.status == null) {
+    //     return '/signup';
+    //   } else {
+    //     return null;
+    //   }
+    // },
     routes: [
       GoRoute(
-        path: '/',
+        path: '/asdf',
         pageBuilder: (context, state) => NoTransitionPage(
           child: UserDashBoard.routeBuilder(context, state),
         ),
@@ -30,7 +30,7 @@ GoRouter createRouter({required bool isScriptsEnabled}) {
         ),
       ),
       GoRoute(
-        path: '/signup',
+        path: '/',
         pageBuilder: (context, state) => NoTransitionPage(
           child: SignUp.routeBuilder(context, state),
         ),

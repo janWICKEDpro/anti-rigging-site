@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:anti_rigging/models/program_enum.dart';
 import 'package:anti_rigging/signup/bloc/signup_bloc.dart';
 import 'package:anti_rigging/signup/bloc/signup_events.dart';
@@ -9,6 +11,7 @@ import 'package:anti_rigging/widgets/form_fields.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
+import 'package:go_router/go_router.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 class SignUp extends StatelessWidget {
@@ -34,18 +37,14 @@ class SignUp extends StatelessWidget {
                 children: [
                   Expanded(
                       child: Container(
-                    color: lightColor,
+                    color: Color.fromARGB(255, 228, 226, 226),
                   )),
-                  Expanded(
-                      child: Container(
-                    color: darkColor,
-                  ))
                 ],
               ),
               Positioned(
                 top: 0,
                 left: 0,
-                right: 10,
+                right: 0,
                 bottom: 0,
                 child: Center(
                   child: Container(
@@ -54,187 +53,203 @@ class SignUp extends StatelessWidget {
                       child: Row(
                         children: [
                           Expanded(
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Center(
-                                child: Form(
-                                  key: signUpKey,
-                                  child: SingleChildScrollView(
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Text(
-                                          'Create An Account',
-                                          style: AppTextStyles()
-                                              .headers
-                                              .copyWith(color: darkColor),
-                                        ),
-                                        const Gap(30),
-                                        CustomFormField(
-                                            'Full Names',
-                                            (validator) {
-                                              if (validator!.isEmpty) {
-                                                return 'Please Enter your full Names';
-                                              } else if (validator.length < 3) {
-                                                return 'Enter a name greater than 3 characters';
-                                              } else {
-                                                return null;
-                                              }
-                                            },
-                                            false,
-                                            (names) {
-                                              context.read<SignUpBloc>().add(
-                                                  OnFullNameChanged(names));
-                                            }),
-                                        const Gap(10),
-                                        CustomFormField(
-                                            'Email ',
-                                            (validator) {
-                                              if (validator!.isEmpty) {
-                                                return 'Please enter Your Email';
-                                              } else if (!RegExp(
-                                                      r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-                                                  .hasMatch(validator)) {
-                                                return 'Please enter a valid Email';
-                                              } else {
-                                                return null;
-                                              }
-                                            },
-                                            false,
-                                            (email) {
-                                              context
-                                                  .read<SignUpBloc>()
-                                                  .add(OnEmailChanged(email));
-                                            }),
-                                        const Gap(10),
-                                        CustomFormField(
-                                            'RegNo',
-                                            (validator) {
-                                              if (validator!.isEmpty) {
-                                                return 'Please Enter your full Names';
-                                              } else if (validator.length < 3) {
-                                                return 'Enter a name greater than 3 characters';
-                                              } else {
-                                                return null;
-                                              }
-                                            },
-                                            false,
-                                            (regNo) {
-                                              context
-                                                  .read<SignUpBloc>()
-                                                  .add(OnRegNoChanged(regNo));
-                                            }),
-                                        const Gap(20),
-                                        DropdownButtonFormField(
-                                          onChanged: (val) {
-                                            context
-                                                .read<SignUpBloc>()
-                                                .add(OnProgramChanged(val));
-                                          },
-                                          value: Program.none,
-                                          validator: (text) {
-                                            if (text == Program.none) {
-                                              return 'Please Select a Program';
-                                            } else {
-                                              return null;
-                                            }
-                                          },
-                                          decoration: InputDecoration(
-                                              label: Text(
-                                                'Program',
-                                                style: AppTextStyles().normal,
-                                              ),
-                                              border: OutlineInputBorder(
-                                                  borderSide: BorderSide(
-                                                      color: primaryColor))),
-                                          items: [
-                                            ...Program.values
-                                                .map((e) => DropdownMenuItem(
-                                                    value: e,
-                                                    child: Text(e
-                                                        .toString()
-                                                        .split('.')
-                                                        .last)))
-                                                .toList()
-                                          ],
-                                        ),
-                                        const Gap(20),
-                                        CustomFormField(
-                                            'Password',
-                                            (validator) {
-                                              if (validator!.isEmpty) {
-                                                return 'Please Enter a password';
-                                              } else if (validator.length < 8) {
-                                                return 'Enter a password greater than 8 characters';
-                                              } else {
-                                                return null;
-                                              }
-                                            },
-                                            true,
-                                            (password) {
-                                              context.read<SignUpBloc>().add(
-                                                  OnPasswordChanged(password));
-                                            }),
-                                        const Gap(10),
-                                        CustomFormField(
-                                            'ConfirmPassword',
-                                            (validator) {
-                                              if (validator != state.password) {
-                                                return 'Passwords do not match';
-                                              }
-                                              return null;
-                                            },
-                                            true,
-                                            (confirmPassword) {
-                                              context.read<SignUpBloc>().add(
-                                                  OnConfirmPasswordChanged(
-                                                      confirmPassword));
-                                            }),
-                                        const Gap(30),
-                                        Center(
-                                          child: Container(
-                                            width: 400,
-                                            height: 40,
-                                            child: ElevatedButton(
-                                              style: ButtonStyle(
-                                                  backgroundColor:
-                                                      MaterialStateProperty.all(
-                                                          primaryColor)),
-                                              child: state.loading!
-                                                  ? LoadingAnimationWidget
-                                                      .hexagonDots(
-                                                          color: Colors.white,
-                                                          size: 20)
-                                                  : Text(
-                                                      'Signup',
-                                                      style: AppTextStyles()
-                                                          .normal
-                                                          .copyWith(
-                                                              color:
-                                                                  Colors.white),
-                                                    ),
-                                              onPressed: () {
-                                                if (signUpKey.currentState!
-                                                    .validate()) {
-                                                  context.read<SignUpBloc>().add(
-                                                      OnSignUpButtonClicked());
+                            child: Container(
+                              decoration: const BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.only(
+                                      topLeft: Radius.circular(15),
+                                      bottomLeft: Radius.circular(15))),
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Center(
+                                  child: Form(
+                                    key: signUpKey,
+                                    child: SingleChildScrollView(
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Text(
+                                            'Create An Account',
+                                            style: AppTextStyles()
+                                                .headers
+                                                .copyWith(color: darkColor),
+                                          ),
+                                          const Gap(10),
+                                          CustomFormField(
+                                              'Full Names',
+                                              (validator) {
+                                                if (validator!.isEmpty) {
+                                                  return 'Please Enter your full Names';
+                                                } else if (validator.length <
+                                                    3) {
+                                                  return 'Enter a name greater than 3 characters';
+                                                } else {
+                                                  return null;
                                                 }
                                               },
+                                              false,
+                                              (names) {
+                                                context.read<SignUpBloc>().add(
+                                                    OnFullNameChanged(names));
+                                              }),
+                                          const Gap(10),
+                                          CustomFormField(
+                                              'Email ',
+                                              (validator) {
+                                                if (validator!.isEmpty) {
+                                                  return 'Please enter Your Email';
+                                                } else if (!RegExp(
+                                                        r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                                                    .hasMatch(validator)) {
+                                                  return 'Please enter a valid Email';
+                                                } else {
+                                                  return null;
+                                                }
+                                              },
+                                              false,
+                                              (email) {
+                                                context
+                                                    .read<SignUpBloc>()
+                                                    .add(OnEmailChanged(email));
+                                              }),
+                                          const Gap(10),
+                                          CustomFormField(
+                                              'RegNo',
+                                              (validator) {
+                                                if (validator!.isEmpty) {
+                                                  return 'Please Enter your full Names';
+                                                } else if (validator.length <
+                                                    3) {
+                                                  return 'Enter a name greater than 3 characters';
+                                                } else {
+                                                  return null;
+                                                }
+                                              },
+                                              false,
+                                              (regNo) {
+                                                context
+                                                    .read<SignUpBloc>()
+                                                    .add(OnRegNoChanged(regNo));
+                                              }),
+                                          const Gap(20),
+                                          DropdownButtonFormField(
+                                            onChanged: (val) {
+                                              context
+                                                  .read<SignUpBloc>()
+                                                  .add(OnProgramChanged(val));
+                                            },
+                                            value: Program.none,
+                                            validator: (text) {
+                                              if (text == Program.none) {
+                                                return 'Please Select a Program';
+                                              } else {
+                                                return null;
+                                              }
+                                            },
+                                            decoration: InputDecoration(
+                                                label: Text(
+                                                  'Program',
+                                                  style: AppTextStyles().normal,
+                                                ),
+                                                border: OutlineInputBorder(
+                                                    borderSide: BorderSide(
+                                                        color: primaryColor))),
+                                            items: [
+                                              ...Program.values
+                                                  .map((e) => DropdownMenuItem(
+                                                      value: e,
+                                                      child: Text(e
+                                                          .toString()
+                                                          .split('.')
+                                                          .last)))
+                                                  .toList()
+                                            ],
+                                          ),
+                                          const Gap(20),
+                                          CustomFormField(
+                                              'Password',
+                                              (validator) {
+                                                if (validator!.isEmpty) {
+                                                  return 'Please Enter a password';
+                                                } else if (validator.length <
+                                                    8) {
+                                                  return 'Enter a password greater than 8 characters';
+                                                } else {
+                                                  return null;
+                                                }
+                                              },
+                                              true,
+                                              (password) {
+                                                context.read<SignUpBloc>().add(
+                                                    OnPasswordChanged(
+                                                        password));
+                                              }),
+                                          const Gap(10),
+                                          CustomFormField(
+                                              'ConfirmPassword',
+                                              (validator) {
+                                                if (validator !=
+                                                    state.password) {
+                                                  return 'Passwords do not match';
+                                                }
+                                                return null;
+                                              },
+                                              true,
+                                              (confirmPassword) {
+                                                context.read<SignUpBloc>().add(
+                                                    OnConfirmPasswordChanged(
+                                                        confirmPassword));
+                                              }),
+                                          const Gap(20),
+                                          Center(
+                                            child: Container(
+                                              width: 400,
+                                              height: 40,
+                                              child: ElevatedButton(
+                                                style: ButtonStyle(
+                                                    backgroundColor:
+                                                        MaterialStateProperty
+                                                            .all(primaryColor)),
+                                                child: state.loading!
+                                                    ? LoadingAnimationWidget
+                                                        .hexagonDots(
+                                                            color: Colors.white,
+                                                            size: 20)
+                                                    : Text(
+                                                        'Signup',
+                                                        style: AppTextStyles()
+                                                            .normal
+                                                            .copyWith(
+                                                                color: Colors
+                                                                    .white),
+                                                      ),
+                                                onPressed: () {
+                                                  if (signUpKey.currentState!
+                                                      .validate()) {
+                                                    context.read<SignUpBloc>().add(
+                                                        OnSignUpButtonClicked());
+                                                  }
+                                                },
+                                              ),
                                             ),
                                           ),
-                                        ),
-                                        Gap(20),
-                                        TextButton(
-                                          onPressed: () {},
-                                          child: Text(
-                                            'Have an account? Login',
-                                            style: AppTextStyles()
-                                                .normal
-                                                .copyWith(color: primaryColor),
-                                          ),
-                                        )
-                                      ],
+                                          const Gap(15),
+                                          TextButton(
+                                            onPressed: () {
+                                              log('hi');
+                                              GoRouter.of(context).go('/login');
+                                            },
+                                            child: Text(
+                                              'Have an account? Login',
+                                              style: AppTextStyles()
+                                                  .normal
+                                                  .copyWith(
+                                                      color: primaryColor),
+                                            ),
+                                          )
+                                        ],
+                                      ),
                                     ),
                                   ),
                                 ),
