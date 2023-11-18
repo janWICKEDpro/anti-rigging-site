@@ -1,3 +1,3 @@
-enum FetchInfo { loading, success, failed }
+enum FetchInfo { loading, success, failed, noElection }
 
 enum FetchVoteList { loading, success, failed }

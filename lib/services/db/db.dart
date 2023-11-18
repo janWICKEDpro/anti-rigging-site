@@ -67,8 +67,24 @@ class DbService {
     }
   }
 
-  //get active elections
-  Future<List<(String, List<Candidate>)>> getActiveElection() async {
+  // get active election
+  Future<Election?> getActiveElection() async {
+    try {
+      final election = await _dbInstance
+          .collection('ELECTIONS')
+          .where('isActive', isEqualTo: true)
+          .limit(1)
+          .get();
+      if (election.docs.isEmpty) return null;
+      return Election.fromJson(election.docs[0].data());
+    } catch (e) {
+      log('$e');
+      throw 'Error occured';
+    }
+  }
+
+  //get active election ** * check it oh when no election and list empty
+  Future<List<(String, List<Candidate>)>> getActiveElectionInfo() async {
     List<(String, List<Candidate>)> electionData = [];
     try {
       final election = await _dbInstance

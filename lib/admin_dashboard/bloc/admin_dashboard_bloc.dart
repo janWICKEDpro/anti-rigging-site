@@ -93,7 +93,7 @@ class AdminDashboardBloc
       OnElectionFetchedEvent event, Emitter<AdminDashBoardState> emit) async {
     emit(state.copyWith(fetchElections: Fetch.loading));
     try {
-      final election = await db.getActiveElection();
+      final election = await db.getActiveElectionInfo();
       if (election.isEmpty) {
         emit(state.copyWith(fetchElections: Fetch.success, noActive: true));
       } else {
