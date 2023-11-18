@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:anti_rigging/models/program_enum.dart';
 import 'package:anti_rigging/signup/bloc/signup_bloc.dart';
 import 'package:anti_rigging/signup/bloc/signup_events.dart';
@@ -23,8 +21,6 @@ class SignUp extends StatelessWidget {
   }
   @override
   Widget build(BuildContext context) {
-    final width = MediaQuery.of(context).size.width;
-
     final height = MediaQuery.of(context).size.height;
     return BlocProvider(
       create: (context) => SignUpBloc(),
@@ -237,7 +233,6 @@ class SignUp extends StatelessWidget {
                                           const Gap(15),
                                           TextButton(
                                             onPressed: () {
-                                              log('hi');
                                               GoRouter.of(context).go('/login');
                                             },
                                             child: Text(

@@ -6,19 +6,26 @@ import 'package:anti_rigging/user_dashboard/view/user_dashboard_view.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-GoRouter createRouter({required bool isScriptsEnabled}) {
+Future<GoRouter> createRouter({required bool isScriptsEnabled}) async {
   final auth = AuthenticationService();
+
   return GoRouter(
-    // redirect: (context, state) {
-    //   if (auth.status == null) {
-    //     return '/signup';
-    //   } else {
-    //     return null;
-    //   }
-    // },
+    debugLogDiagnostics: true,
+    redirect: (context, state) {
+      if (state.fullPath == '/signup') {
+        return '/signup';
+      }
+
+      if (auth.status == null) {
+        return '/login';
+      } else {
+        return null;
+      }
+    },
+    //initialLocation: auth.status != null ? '/' : '/login',
     routes: [
       GoRoute(
-        path: '/asdf',
+        path: '/',
         pageBuilder: (context, state) => NoTransitionPage(
           child: UserDashBoard.routeBuilder(context, state),
         ),
@@ -30,14 +37,14 @@ GoRouter createRouter({required bool isScriptsEnabled}) {
         ),
       ),
       GoRoute(
-        path: '/',
+        path: '/signup',
         pageBuilder: (context, state) => NoTransitionPage(
           child: SignUp.routeBuilder(context, state),
         ),
       ),
       GoRoute(
         name: 'admin',
-        path: '/aqdmin',
+        path: '/admin',
         pageBuilder: (context, state) => NoTransitionPage(
           child: AdminDashboad.routeBuilder(context, state),
         ),
