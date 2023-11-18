@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:anti_rigging/models/election.dart';
 import 'package:anti_rigging/models/user.dart';
 import 'package:anti_rigging/services/auth/auth.dart';
@@ -15,9 +17,10 @@ class UserDashboardBloc extends Bloc<UserDashboardEvent, UserDashboardState> {
   UserDashboardBloc() : super(UserDashboardState()) {
     on<OnFetchDashboardInfo>((event, emit) async {
       //get user
+      emit(state.copyWith(fetchInfo: FetchInfo.loading));
       try {
         final user = await db.getUser(auth.status!.uid);
-
+        log('${auth.status!.uid}');
         final election = await db.getActiveElection();
         if (election != null) {
           emit(state.copyWith(
@@ -27,10 +30,18 @@ class UserDashboardBloc extends Bloc<UserDashboardEvent, UserDashboardState> {
               user: user, election: election, fetchInfo: FetchInfo.noElection));
         }
       } catch (e) {
+        log('$e');
         emit(state.copyWith(fetchInfo: FetchInfo.failed));
       }
-
-      //get active election
     });
+
+    on<OnVoteListFetched>(_onVoteListFetched);
+  }
+
+  _onVoteListFetched(
+      OnVoteListFetched event, Emitter<UserDashboardState> emit) async {
+    try {} catch (e) {
+      emit(state.copyWith(fetchVoteList: FetchVoteList.failed));
+    }
   }
 }

@@ -9,9 +9,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class DbService {
   final _dbInstance = FirebaseFirestore.instance;
   final _storage = Storage();
-  Future<void> insertUser(Map<String, dynamic> user) async {
+  Future<void> insertUser(Map<String, dynamic> user, String uid) async {
     try {
-      await _dbInstance.collection('USERS').add(user);
+      await _dbInstance.collection('USERS').doc(uid).set(user);
     } catch (e) {
       log('$e');
       throw Exception('$e');

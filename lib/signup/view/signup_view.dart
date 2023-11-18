@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:anti_rigging/models/program_enum.dart';
 import 'package:anti_rigging/signup/bloc/signup_bloc.dart';
 import 'package:anti_rigging/signup/bloc/signup_events.dart';
@@ -27,6 +29,7 @@ class SignUp extends StatelessWidget {
       child: BlocConsumer<SignUpBloc, SignUpState>(
         listener: (context, state) {
           if (state.authRes == 'Success') {
+            log('Success');
             GoRouter.of(context).go('/');
           }
         },

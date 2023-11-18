@@ -110,7 +110,7 @@ class Login extends StatelessWidget {
                                               true,
                                               (password) => context
                                                   .read<LoginBloc>()
-                                                  .add(OnEmailChanged(
+                                                  .add(OnPasswordChanged(
                                                       password!))),
                                           const Gap(30),
                                           Center(

@@ -12,7 +12,7 @@ class AuthenticationService {
       await _authInstance.createUserWithEmailAndPassword(
           email: user.email!, password: password);
       //add user to db
-      await _db.insertUser(user.toJson());
+      await _db.insertUser(user.toJson(), _authInstance.currentUser!.uid);
       return 'Success';
     } on FirebaseAuthException catch (e) {
       return evaluateAuthCode(e.code);
