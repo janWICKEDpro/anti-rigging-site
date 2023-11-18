@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:anti_rigging/login/bloc/login_events.dart';
 import 'package:anti_rigging/login/bloc/login_state.dart';
 import 'package:anti_rigging/services/auth/auth.dart';
@@ -20,7 +18,6 @@ class LoginBloc extends Bloc<LoginEvents, LoginState> {
   onLoginButtonClicked(
       OnLoginButtonClicked event, Emitter<LoginState> emit) async {
     emit(state.copyWith(load: true));
-    log('${state.email} ${state.password}');
     final res = await auth.login(state.email!, state.password!);
     emit(state.copyWith(load: false, us: res.$1, result: res.$2));
   }
