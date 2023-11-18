@@ -52,8 +52,7 @@ class SignUpBloc extends Bloc<SignUpEvents, SignUpState> {
       regno: state.regno,
       program: state.program,
     );
-    log('${user.email}');
-    log('${state.password}');
+
     final result = await auth.signup(user, state.confirmPassword!);
     log(result);
     emit(state.copyWith(load: false, stat: true, res: result));

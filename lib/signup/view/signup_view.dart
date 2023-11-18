@@ -25,7 +25,11 @@ class SignUp extends StatelessWidget {
     return BlocProvider(
       create: (context) => SignUpBloc(),
       child: BlocConsumer<SignUpBloc, SignUpState>(
-        listener: (context, state) {},
+        listener: (context, state) {
+          if (state.authRes == 'Success') {
+            GoRouter.of(context).go('/');
+          }
+        },
         builder: (context, state) {
           return Scaffold(
             body: Stack(children: [
