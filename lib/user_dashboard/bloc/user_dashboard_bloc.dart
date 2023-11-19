@@ -42,7 +42,11 @@ class UserDashboardBloc extends Bloc<UserDashboardEvent, UserDashboardState> {
       OnVoteListFetched event, Emitter<UserDashboardState> emit) async {
     emit(state.copyWith(fetchVoteList: FetchVoteList.loading));
     try {
-      emit(state.copyWith(fetchVoteList: FetchVoteList.success));
+      // final electionName = await db.getActiveElection(); redundancy
+      final elections = await db.getActiveElectionInfo();
+
+      final voted =
+          await emit(state.copyWith(fetchVoteList: FetchVoteList.success));
     } catch (e) {
       emit(state.copyWith(fetchVoteList: FetchVoteList.failed));
     }
