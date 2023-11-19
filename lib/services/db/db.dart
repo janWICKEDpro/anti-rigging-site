@@ -47,7 +47,8 @@ class DbService {
           final imageUrl = await _storage.storeImage(candidate.file!);
 
           //use download url to create a candidate on firestore for the roles docRef
-          await docRef.doc().set(candidate.toJson(imageUrl));
+          final ref = docRef.doc();
+          await docRef.doc(ref.id).set(candidate.toJson(imageUrl, ref.id));
         }
       }
     } catch (e) {
@@ -127,11 +128,11 @@ class DbService {
   }
 
   Future<Candidate> getCandidate(
-      String electioName, String role, String candidateId) async {
+      String electionName, String role, String candidateId) async {
     try {
       final candidate = await _dbInstance
           .collection('ELECTIONS')
-          .doc(electioName)
+          .doc(electionName)
           .collection('ROLE')
           .doc(role)
           .collection('CANDIDATES')
@@ -144,21 +145,25 @@ class DbService {
     }
   }
 
-  Future vote(String electioName, String role, String candidateId) async {
+  Future vote(
+      String electionName, String role, String candidateId, String uid) async {
     try {
-      final candidate = await getCandidate(electioName, role, candidateId);
+      final candidate = await getCandidate(electionName, role, candidateId);
       int val = candidate.votes;
       val++;
       await _dbInstance
           .collection('ELECTIONS')
-          .doc(electioName)
+          .doc(electionName)
           .collection('ROLE')
           .doc(role)
           .collection('CANDIDATES')
           .doc(candidateId)
           .update({'vote': val});
       //add the role and election voted for ina new collection.
-      //await _dbInstance.collection('VOTEDROLES').doc().;
+      await _dbInstance
+          .collection('USERVOTEDROLES')
+          .doc(uid + electionName + role)
+          .set({candidateId: candidateId});
     } catch (e) {
       throw 'error occured while voting';
     }
