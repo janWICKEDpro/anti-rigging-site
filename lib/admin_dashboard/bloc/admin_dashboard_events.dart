@@ -35,8 +35,7 @@ class OnCandidateDescriptionChanged extends AdminDashboardEvents {
   final String? candidateDescription;
   int index;
   int index2;
-  OnCandidateDescriptionChanged(this.index, this.index2,
-      {this.candidateDescription});
+  OnCandidateDescriptionChanged(this.index, this.index2, {this.candidateDescription});
 }
 
 class OnCandidatePhotoChanged extends AdminDashboardEvents {
@@ -65,3 +64,5 @@ class OnSideBarNavigationIndexChanged extends AdminDashboardEvents {
   int index;
   OnSideBarNavigationIndexChanged(this.index);
 }
+
+class OnSignOutButtonClicked extends AdminDashboardEvents {}

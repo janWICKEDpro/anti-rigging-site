@@ -3,16 +3,18 @@ import 'dart:developer';
 import 'package:anti_rigging/admin_dashboard/bloc/admin_dashboard_events.dart';
 import 'package:anti_rigging/admin_dashboard/bloc/admin_dashboard_state.dart';
 import 'package:anti_rigging/admin_dashboard/bloc/create_election_enum.dart';
+import 'package:anti_rigging/enums.dart';
 import 'package:anti_rigging/models/candidate.dart';
 import 'package:anti_rigging/models/election.dart';
+import 'package:anti_rigging/services/auth/auth.dart';
 import 'package:anti_rigging/services/db/db.dart';
 import 'package:anti_rigging/services/pick_file.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class AdminDashboardBloc
-    extends Bloc<AdminDashboardEvents, AdminDashBoardState> {
+class AdminDashboardBloc extends Bloc<AdminDashboardEvents, AdminDashBoardState> {
   final filepicker = FilePickerMethods();
   final db = DbService();
+  final auth = AuthenticationService();
   AdminDashboardBloc() : super(AdminDashBoardState(candidateRoles: [])) {
     on<OnElectionNameChanged>((event, emit) {
       emit(state.copyWith(
@@ -35,8 +37,7 @@ class AdminDashboardBloc
       emit(state.copyWith(candidates: state.candidateRoles));
     });
     on<OnRoleNameChanged>((event, emit) {
-      state.candidateRoles![event.index] =
-          (event.roleName!, state.candidateRoles![event.index].$2);
+      state.candidateRoles![event.index] = (event.roleName!, state.candidateRoles![event.index].$2);
       emit(state.copyWith(candidates: state.candidateRoles));
     });
     on<OnRoleFieldRemoved>((event, emit) {
@@ -59,13 +60,11 @@ class AdminDashboardBloc
       },
     );
     on<OnCandidateDescriptionChanged>((event, emit) {
-      state.candidateRoles![event.index].$2[event.index2].candidateDescription =
-          event.candidateDescription;
+      state.candidateRoles![event.index].$2[event.index2].candidateDescription = event.candidateDescription;
       emit(state.copyWith(candidates: state.candidateRoles));
     });
     on<OnCandidateNameChanged>((event, emit) {
-      state.candidateRoles![event.index].$2[event.index2].candidateName =
-          event.candidateName;
+      state.candidateRoles![event.index].$2[event.index2].candidateName = event.candidateName;
       emit(state.copyWith(candidates: state.candidateRoles));
     });
 
@@ -76,10 +75,13 @@ class AdminDashboardBloc
       state.sideBarNavigationIndex = event.index;
       emit(state.copyWith(sideBarNav: state.sideBarNavigationIndex));
     });
+    on<OnSignOutButtonClicked>((event, emit) async {
+      await auth.signOut();
+      emit(state.copyWith(loginStatus: LoginStatus.signedOut));
+    });
   }
 
-  _onLaunchElectionsClicked(
-      OnLaunchElectionsClicked event, Emitter<AdminDashBoardState> emit) async {
+  _onLaunchElectionsClicked(OnLaunchElectionsClicked event, Emitter<AdminDashBoardState> emit) async {
     emit(state.copyWith(create: CreateELectionEnum.loading));
     try {
       await db.createElection(state.candidateRoles!, state.election!);
@@ -89,18 +91,14 @@ class AdminDashboardBloc
     }
   }
 
-  _onElectionFetched(
-      OnElectionFetchedEvent event, Emitter<AdminDashBoardState> emit) async {
+  _onElectionFetched(OnElectionFetchedEvent event, Emitter<AdminDashBoardState> emit) async {
     emit(state.copyWith(fetchElections: Fetch.loading));
     try {
       final election = await db.getActiveElectionInfo();
       if (election.isEmpty) {
         emit(state.copyWith(fetchElections: Fetch.success, noActive: true));
       } else {
-        emit(state.copyWith(
-            fetchElections: Fetch.success,
-            noActive: false,
-            candidates: election));
+        emit(state.copyWith(fetchElections: Fetch.success, noActive: false, candidates: election));
       }
     } catch (e) {
       log('$e');
@@ -108,8 +106,7 @@ class AdminDashboardBloc
     }
   }
 
-  _onElectionListFetched(
-      OnElectionListFetched event, Emitter<AdminDashBoardState> emit) async {
+  _onElectionListFetched(OnElectionListFetched event, Emitter<AdminDashBoardState> emit) async {
     emit(state.copyWith(listFetch: FetchList.loading));
     try {
       final elections = await db.getElections();
