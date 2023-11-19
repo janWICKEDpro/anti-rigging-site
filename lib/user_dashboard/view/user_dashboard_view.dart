@@ -1,8 +1,8 @@
 import 'package:anti_rigging/user_dashboard/bloc/user_dashboard_bloc.dart';
 import 'package:anti_rigging/user_dashboard/view/main_dashboard_view.dart';
+import 'package:anti_rigging/user_dashboard/view/vote_view.dart';
 import 'package:anti_rigging/utils/colors.dart';
 import 'package:anti_rigging/utils/text_styles.dart';
-import 'package:anti_rigging/vote/view/vote_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sidebarx/sidebarx.dart';
