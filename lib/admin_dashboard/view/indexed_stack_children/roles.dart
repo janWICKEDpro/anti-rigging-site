@@ -42,16 +42,13 @@ class _RoleState extends State<Role> {
                         height: 50,
                         decoration: const BoxDecoration(
                             color: primaryColor,
-                            borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(15),
-                                topRight: Radius.circular(15))),
+                            borderRadius:
+                                BorderRadius.only(topLeft: Radius.circular(15), topRight: Radius.circular(15))),
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Text(
                             'Roles',
-                            style: AppTextStyles()
-                                .headers
-                                .copyWith(color: Colors.white),
+                            style: AppTextStyles().headers.copyWith(color: Colors.white),
                           ),
                         ),
                       ),
@@ -68,8 +65,7 @@ class _RoleState extends State<Role> {
                         // mainTextFieldValues.add('');
                         // associatedTextFieldValues.add([]);
                         // setState(() {});
-                        BlocProvider.of<AdminDashboardBloc>(context)
-                            .add(OnAddRoleButtonClicked());
+                        BlocProvider.of<AdminDashboardBloc>(context).add(OnAddRoleButtonClicked());
                       },
                       child: Text(
                         'Add Role +',
@@ -89,10 +85,8 @@ class _RoleState extends State<Role> {
                                   Expanded(
                                     child: TextField(
                                       onChanged: (value) {
-                                        BlocProvider.of<AdminDashboardBloc>(
-                                                context)
-                                            .add(OnRoleNameChanged(index,
-                                                roleName: value));
+                                        BlocProvider.of<AdminDashboardBloc>(context)
+                                            .add(OnRoleNameChanged(index, roleName: value));
                                       },
                                       decoration: InputDecoration(
                                         labelText: 'Role ${index + 1}',
@@ -110,9 +104,7 @@ class _RoleState extends State<Role> {
                                       //   associatedTextFieldValues.removeAt(index);
                                       // });
 
-                                      BlocProvider.of<AdminDashboardBloc>(
-                                              context)
-                                          .add(OnRoleFieldRemoved(index));
+                                      BlocProvider.of<AdminDashboardBloc>(context).add(OnRoleFieldRemoved(index));
                                     },
                                   ),
                                 ],
@@ -123,8 +115,7 @@ class _RoleState extends State<Role> {
                               itemCount: state.candidateRoles![index].$2.length,
                               itemBuilder: (context, subIndex) {
                                 return Padding(
-                                  padding:
-                                      EdgeInsets.only(left: 16.0, right: 8.0),
+                                  padding: EdgeInsets.only(left: 16.0, right: 8.0),
                                   child: Row(
                                     children: [
                                       Expanded(
@@ -133,50 +124,35 @@ class _RoleState extends State<Role> {
                                             // setState(() {
                                             //   associatedTextFieldValues[index][subIndex] = value;
                                             // });
-                                            BlocProvider.of<AdminDashboardBloc>(
-                                                    context)
-                                                .add(OnCandidateNameChanged(
-                                                    index, subIndex,
-                                                    candidateName: value));
+                                            BlocProvider.of<AdminDashboardBloc>(context)
+                                                .add(OnCandidateNameChanged(index, subIndex, candidateName: value));
                                           },
                                           decoration: InputDecoration(
-                                            labelText:
-                                                'Candidate Name ${subIndex + 1}',
+                                            labelText: 'Candidate Name ${subIndex + 1}',
                                             contentPadding: EdgeInsets.zero,
                                           ),
                                         ),
                                       ),
                                       const Gap(10),
-                                      (state.candidateRoles![index].$2[subIndex]
-                                                  .file ==
-                                              null)
+                                      (state.candidateRoles![index].$2[subIndex].file == null)
                                           ? Expanded(
                                               child: ElevatedButton(
                                                   onPressed: () {
                                                     context
-                                                        .read<
-                                                            AdminDashboardBloc>()
-                                                        .add(
-                                                            OnCandidatePhotoChanged(
-                                                                index,
-                                                                subIndex));
+                                                        .read<AdminDashboardBloc>()
+                                                        .add(OnCandidatePhotoChanged(index, subIndex));
                                                   },
                                                   child: Text(
                                                     'Pick Candidate Image',
-                                                    style:
-                                                        AppTextStyles().normal,
+                                                    style: AppTextStyles().normal,
                                                   )),
                                             )
                                           : Container(
                                               height: 100,
                                               width: 100,
-                                              decoration: BoxDecoration(
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          15)),
+                                              decoration: BoxDecoration(borderRadius: BorderRadius.circular(15)),
                                               child: Image.memory(
-                                                state.candidateRoles![index]
-                                                    .$2[subIndex].file!.bytes!,
+                                                state.candidateRoles![index].$2[subIndex].file!.bytes!,
                                                 scale: 4,
                                               )),
                                       const Gap(10),
@@ -189,27 +165,21 @@ class _RoleState extends State<Role> {
                                               color: Colors.grey,
                                               width: 1.0,
                                             ),
-                                            borderRadius:
-                                                BorderRadius.circular(8.0),
+                                            borderRadius: BorderRadius.circular(8.0),
                                           ),
                                           child: Padding(
                                             padding: const EdgeInsets.all(8.0),
                                             child: TextField(
                                               onChanged: (description) {
-                                                context
-                                                    .read<AdminDashboardBloc>()
-                                                    .add(OnCandidateDescriptionChanged(
-                                                        index, subIndex,
-                                                        candidateDescription:
-                                                            description));
+                                                context.read<AdminDashboardBloc>().add(OnCandidateDescriptionChanged(
+                                                    index, subIndex,
+                                                    candidateDescription: description));
                                               },
-                                              maxLines:
-                                                  null, // Allows the text field to expand vertically
-                                              keyboardType:
-                                                  TextInputType.multiline,
+                                              maxLength: 150,
+                                              maxLines: null, // Allows the text field to expand vertically
+                                              keyboardType: TextInputType.multiline,
                                               decoration: const InputDecoration(
-                                                hintText:
-                                                    'Candidate Description',
+                                                hintText: 'Candidate Description',
                                                 border: InputBorder.none,
                                               ),
                                             ),
@@ -222,10 +192,8 @@ class _RoleState extends State<Role> {
                                           color: Colors.redAccent,
                                         ),
                                         onPressed: () {
-                                          BlocProvider.of<AdminDashboardBloc>(
-                                                  context)
-                                              .add(OnCandidateFieldsRemoved(
-                                                  index, subIndex));
+                                          BlocProvider.of<AdminDashboardBloc>(context)
+                                              .add(OnCandidateFieldsRemoved(index, subIndex));
                                         },
                                       ),
                                     ],
@@ -236,9 +204,7 @@ class _RoleState extends State<Role> {
                             const Gap(5),
                             ElevatedButton(
                               onPressed: () {
-                                context
-                                    .read<AdminDashboardBloc>()
-                                    .add(OnAddCandidateButtonClicked(index));
+                                context.read<AdminDashboardBloc>().add(OnAddCandidateButtonClicked(index));
                               },
                               child: Icon(Icons.add),
                             ),
@@ -251,40 +217,26 @@ class _RoleState extends State<Role> {
                 const Gap(55),
                 Center(
                   child: ElevatedButton(
-                    style: ButtonStyle(
-                        backgroundColor:
-                            MaterialStateProperty.all(primaryColor)),
+                    style: ButtonStyle(backgroundColor: MaterialStateProperty.all(primaryColor)),
                     onPressed: () {
-                      if (state.createELectionEnum ==
-                          CreateELectionEnum.success) {
+                      if (state.createELectionEnum == CreateELectionEnum.success) {
                         Navigator.pop(context);
                       } else {
-                        context
-                            .read<AdminDashboardBloc>()
-                            .add(OnLaunchElectionsClicked());
+                        context.read<AdminDashboardBloc>().add(OnLaunchElectionsClicked());
                       }
                     },
-                    child:
-                        state.createELectionEnum == CreateELectionEnum.loading
-                            ? LoadingAnimationWidget.hexagonDots(
-                                color: Colors.white, size: 25)
-                            : Text(
-                                state.createELectionEnum ==
-                                        CreateELectionEnum.success
-                                    ? "Continue"
-                                    : "Launch Elections",
-                                style: AppTextStyles()
-                                    .normal
-                                    .copyWith(color: Colors.white),
-                              ),
+                    child: state.createELectionEnum == CreateELectionEnum.loading
+                        ? LoadingAnimationWidget.hexagonDots(color: Colors.white, size: 25)
+                        : Text(
+                            state.createELectionEnum == CreateELectionEnum.success ? "Continue" : "Launch Elections",
+                            style: AppTextStyles().normal.copyWith(color: Colors.white),
+                          ),
                   ),
                 ),
                 state.createELectionEnum == CreateELectionEnum.failed
                     ? Text(
                         "Failed To Create Elections",
-                        style: AppTextStyles()
-                            .normal
-                            .copyWith(color: Colors.redAccent),
+                        style: AppTextStyles().normal.copyWith(color: Colors.redAccent),
                       )
                     : Container(),
                 const Gap(10)

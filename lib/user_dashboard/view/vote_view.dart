@@ -17,108 +17,99 @@ class VoteView extends StatefulWidget {
 class _VoteViewState extends State<VoteView> {
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<UserDashboardBloc, UserDashboardState>(
-      builder: (context, state) {
-        return Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              'You May Now Cast Your Votes',
-              style: AppTextStyles().headers.copyWith(color: primaryColor),
-            ),
-            Builder(builder: (context) {
-              if (state.fetchVoteList == FetchVoteList.loading) {
-                return Expanded(
-                  child: SizedBox(
-                    child: Center(
+    return BlocProvider.value(
+      value: BlocProvider.of<UserDashboardBloc>(context)..add(OnVoteListFetched()),
+      child: BlocBuilder<UserDashboardBloc, UserDashboardState>(
+        builder: (context, state) {
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'You May Now Cast Your Votes',
+                style: AppTextStyles().headers.copyWith(color: primaryColor),
+              ),
+              Builder(builder: (context) {
+                if (state.fetchVoteList == FetchVoteList.loading) {
+                  return Expanded(
+                    child: SizedBox(
                       child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           const Text('Loading Votes'),
-                          LoadingAnimationWidget.hexagonDots(
-                              color: primaryColor, size: 60)
+                          LoadingAnimationWidget.hexagonDots(color: primaryColor, size: 60)
                         ],
                       ),
                     ),
-                  ),
-                );
-              } else if (state.fetchVoteList == FetchVoteList.failed) {
-                return Expanded(
-                  child: SizedBox(
-                    child: Center(
+                  );
+                } else if (state.fetchVoteList == FetchVoteList.failed) {
+                  return Expanded(
+                    child: SizedBox(
                       child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           Text(
-                            'Loading Votes',
-                            style: AppTextStyles()
-                                .normal
-                                .copyWith(color: Colors.redAccent),
+                            'Error Occured',
+                            style: AppTextStyles().normal.copyWith(color: Colors.redAccent),
                           ),
                           OutlinedButton(
-                              style: ButtonStyle(
-                                  backgroundColor:
-                                      MaterialStateProperty.all(primaryColor)),
+                              style: ButtonStyle(backgroundColor: MaterialStateProperty.all(primaryColor)),
                               onPressed: () {
-                                context
-                                    .read<UserDashboardBloc>()
-                                    .add(OnVoteListFetched());
+                                context.read<UserDashboardBloc>().add(OnVoteListFetched());
                               },
                               child: Text(
                                 'Retry',
-                                style: AppTextStyles()
-                                    .normal
-                                    .copyWith(color: Colors.white),
+                                style: AppTextStyles().normal.copyWith(color: Colors.white),
                               ))
                         ],
                       ),
                     ),
-                  ),
-                );
-              }
-              return Expanded(
-                  child: SizedBox(
-                child: ListView.builder(
-                    itemCount: state.voteList!.length,
-                    itemBuilder: (context, index) {
-                      return Padding(
-                        padding: const EdgeInsets.all(10.0),
-                        child: Container(
-                          child: Center(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Text(
-                                  state.voteList![index].$1,
-                                  style: AppTextStyles().normal,
+                  );
+                } else {
+                  return Container(
+                    height: 400,
+                    child: ListView.builder(
+                        itemCount: state.voteList!.length,
+                        itemBuilder: (context, index) {
+                          return Padding(
+                            padding: const EdgeInsets.all(10.0),
+                            child: Container(
+                              height: 300,
+                              child: Center(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      state.voteList![index].$1,
+                                      style: AppTextStyles().normal,
+                                    ),
+                                    Expanded(
+                                        child: SizedBox(
+                                      child: ListView.builder(
+                                          scrollDirection: Axis.horizontal,
+                                          itemCount: state.voteList![index].$2.length,
+                                          itemBuilder: (context, subIndex) {
+                                            return CandidateCard(
+                                              name: state.voteList![index].$2[subIndex].candidateName,
+                                              description: state.voteList![index].$2[subIndex].candidateDescription,
+                                              imageUrl: state.voteList![index].$2[subIndex].imageUrl,
+                                            );
+                                          }),
+                                    ))
+                                  ],
                                 ),
-                                Expanded(
-                                    child: SizedBox(
-                                  child: ListView.builder(
-                                      itemCount:
-                                          state.voteList![index].$2.length,
-                                      itemBuilder: (context, subIndex) {
-                                        return CandidateCard(
-                                          name: state.voteList![index]
-                                              .$2[subIndex].candidateName,
-                                          description: state
-                                              .voteList![index]
-                                              .$2[subIndex]
-                                              .candidateDescription,
-                                          imageUrl: state.voteList![index]
-                                              .$2[subIndex].imageUrl,
-                                        );
-                                      }),
-                                ))
-                              ],
+                              ),
                             ),
-                          ),
-                        ),
-                      );
-                    }),
-              ));
-            })
-          ],
-        );
-      },
+                          );
+                        }),
+                  );
+                }
+              })
+            ],
+          );
+        },
+      ),
     );
   }
 }

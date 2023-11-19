@@ -53,28 +53,37 @@ class UserDashboardBloc extends Bloc<UserDashboardEvent, UserDashboardState> {
       final voted = await db.userVotes(auth.status!.uid);
       final List<(String, List<Candidate>, bool)> finalVotedList = [];
       for (var role in roles) {
-        for (var vote in voted) {
-          if (vote.id.compareTo(auth.status!.uid + state.election!.electionName! + role.$1) == 0) {
-            final candidateList = role.$2.map((element) {
-              if (element.cid == (vote.data() as Map<String, dynamic>)['candidateId']) {
-                return Candidate(
-                    candidateDescription: element.candidateDescription,
-                    candidateName: element.candidateName,
-                    imageUrl: element.imageUrl,
-                    cid: element.cid,
-                    votes: element.votes,
-                    isvoted: true,
-                    file: element.file);
-              } else {
-                return element;
-              }
-            }).toList();
-            finalVotedList.add((role.$1, candidateList, true));
+        if (voted.isNotEmpty) {
+          for (var vote in voted) {
+            if (vote.id.compareTo(auth.status!.uid + state.election!.electionName! + role.$1) == 0) {
+              final candidateList = role.$2.map((element) {
+                if (element.cid == (vote.data() as Map<String, dynamic>)['candidateId']) {
+                  return Candidate(
+                      candidateDescription: element.candidateDescription,
+                      candidateName: element.candidateName,
+                      imageUrl: element.imageUrl,
+                      cid: element.cid,
+                      votes: element.votes,
+                      isvoted: true,
+                      file: element.file);
+                } else {
+                  return element;
+                }
+              }).toList();
+              finalVotedList.add((role.$1, candidateList, true));
+            } else {
+              finalVotedList.add((role.$1, role.$2, false));
+            }
           }
+        } else {
+          finalVotedList.add((role.$1, role.$2, false));
         }
       }
+
       emit(state.copyWith(fetchVoteList: FetchVoteList.success, voteList: finalVotedList));
+      log('${state.voteList!.length}');
     } catch (e) {
+      log('$e');
       emit(state.copyWith(fetchVoteList: FetchVoteList.failed));
     }
   }

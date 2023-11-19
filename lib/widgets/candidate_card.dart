@@ -29,15 +29,15 @@ class CandidateCard extends StatelessWidget {
         children: [
           Text(
             name!,
-            style: AppTextStyles()
-                .headers
-                .copyWith(color: darkColor, fontSize: 18),
+            style: AppTextStyles().headers.copyWith(color: darkColor, fontSize: 18),
           ),
           const Gap(15),
           ClipRRect(
             borderRadius: BorderRadius.circular(100),
             child: SizedBox(
-                height: 100, width: 100, child: Image.network(imageUrl!)),
+                height: 100,
+                width: 100,
+                child: imageUrl!.isEmpty ? Image.asset('images/realmale.png') : Image.network(imageUrl!)),
           ),
           const Gap(15),
           Text(
@@ -54,14 +54,11 @@ class CandidateCard extends StatelessWidget {
               BlocBuilder<UserDashboardBloc, UserDashboardState>(
                 builder: (context, state) {
                   return ElevatedButton(
-                      style: ButtonStyle(
-                          backgroundColor:
-                              MaterialStateProperty.all(darkColor)),
+                      style: ButtonStyle(backgroundColor: MaterialStateProperty.all(darkColor)),
                       onPressed: () {},
                       child: Text(
                         'Vote',
-                        style:
-                            AppTextStyles().normal.copyWith(color: lightColor),
+                        style: AppTextStyles().normal.copyWith(color: lightColor),
                       ));
                 },
               ),
