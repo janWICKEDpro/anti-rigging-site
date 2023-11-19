@@ -7,10 +7,12 @@ class Candidate {
   final String? imageUrl;
   PlatformFile? file;
   int votes;
+  bool isvoted;
 
   Candidate(
       {this.candidateDescription,
       this.votes = 0,
+      this.isvoted = false,
       this.candidateName,
       this.file,
       this.cid,

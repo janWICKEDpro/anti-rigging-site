@@ -168,4 +168,15 @@ class DbService {
       throw 'error occured while voting';
     }
   }
+
+  Future<List<QueryDocumentSnapshot>> userVotes(String userId) async {
+    try {
+      final userVotes = await _dbInstance.collection('USERVOTEDROLES').get();
+      return userVotes.docs
+          .where((element) => element.id.contains(userId))
+          .toList();
+    } catch (e) {
+      throw 'Something went wrong';
+    }
+  }
 }
