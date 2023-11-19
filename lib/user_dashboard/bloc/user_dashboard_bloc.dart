@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:anti_rigging/enums.dart';
 import 'package:anti_rigging/models/candidate.dart';
 import 'package:anti_rigging/models/election.dart';
 import 'package:anti_rigging/models/user.dart';
@@ -18,7 +19,7 @@ class UserDashboardBloc extends Bloc<UserDashboardEvent, UserDashboardState> {
   UserDashboardBloc() : super(UserDashboardState()) {
     on<OnFetchDashboardInfo>((event, emit) async {
       //get user
-      emit(state.copyWith(fetchInfo: FetchInfo.loading));
+      emit(state.copyWith(fetchInfo: FetchInfo.loading, loginStatus: LoginStatus.signedIn));
       try {
         final user = await db.getUser(auth.status!.uid);
 
@@ -35,6 +36,12 @@ class UserDashboardBloc extends Bloc<UserDashboardEvent, UserDashboardState> {
     });
 
     on<OnVoteListFetched>(_onVoteListFetched);
+    on<OnSignoutClicked>(
+      (event, emit) async {
+        await auth.signOut();
+        emit(state.copyWith(loginStatus: LoginStatus.signedOut));
+      },
+    );
   }
 
   _onVoteListFetched(OnVoteListFetched event, Emitter<UserDashboardState> emit) async {

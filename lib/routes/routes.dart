@@ -13,26 +13,34 @@ import 'package:go_router/go_router.dart';
 Future<GoRouter> createRouter({required bool isScriptsEnabled}) async {
   final auth = AuthenticationService();
   final db = DbService();
-  bool status = (auth.status == null);
-  AppUser? user;
-  if (!status) {
-    try {
-      user = await db.getUser(auth.status!.uid);
-    } catch (e) {
-      log('$e');
-    }
-  }
+
   return GoRouter(
     debugLogDiagnostics: true,
-    redirect: (context, state) {
+    redirect: (context, state) async {
+      bool status = (auth.status == null);
+      AppUser? user;
+      if (!status) {
+        try {
+          user = await db.getUser(auth.status!.uid);
+        } catch (e) {
+          log('$e');
+        }
+      }
       if (state.fullPath == '/signup') {
         return '/signup';
       }
-
+      // if (state.fullPath == '/admin') {
+      //   return '/admin';
+      // }
+      // if (state.fullPath == '/') {
+      //   return '/';
+      // }
       if (status) {
         return '/login';
+      } else if (user!.accountType == 'admin') {
+        return '/admin';
       } else {
-        return user!.accountType == 'admin' ? '/admin' : null;
+        return null;
       }
     },
     //initialLocation: auth.status != null ? '/' : '/login',

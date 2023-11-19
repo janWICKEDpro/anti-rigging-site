@@ -28,14 +28,13 @@ class MainDashBoard extends StatelessWidget {
                   'Loading Info',
                   style: AppTextStyles().normal.copyWith(color: darkColor),
                 ),
-                LoadingAnimationWidget.hexagonDots(
-                    color: primaryColor, size: 60)
+                LoadingAnimationWidget.hexagonDots(color: primaryColor, size: 60)
               ],
             ),
           );
         } else if (state.fetchInfo == FetchInfo.noElection) {
           return const Center(
-            child: Text('No Election infor'),
+            child: Text('No Election info'),
           );
         } else if (state.fetchInfo == FetchInfo.failed) {
           return Center(
@@ -44,20 +43,15 @@ class MainDashBoard extends StatelessWidget {
               children: [
                 Text(
                   'Loading Info',
-                  style:
-                      AppTextStyles().normal.copyWith(color: Colors.redAccent),
+                  style: AppTextStyles().normal.copyWith(color: Colors.redAccent),
                 ),
                 OutlinedButton(
                     onPressed: () {
-                      context
-                          .read<UserDashboardBloc>()
-                          .add(OnFetchDashboardInfo());
+                      context.read<UserDashboardBloc>().add(OnFetchDashboardInfo());
                     },
                     child: Text(
                       'Retry',
-                      style: AppTextStyles()
-                          .normal
-                          .copyWith(color: Colors.redAccent),
+                      style: AppTextStyles().normal.copyWith(color: Colors.redAccent),
                     ))
               ],
             )),
@@ -90,9 +84,7 @@ class MainDashBoard extends StatelessWidget {
                           children: [
                             Text(
                               'Ongoing Elections',
-                              style: AppTextStyles()
-                                  .normal
-                                  .copyWith(color: primaryColor),
+                              style: AppTextStyles().normal.copyWith(color: primaryColor),
                             ),
                             Row(
                               children: [
@@ -102,25 +94,20 @@ class MainDashBoard extends StatelessWidget {
                                     children: [
                                       Text(
                                         '${state.election!.electionName}',
-                                        style: AppTextStyles()
-                                            .headers
-                                            .copyWith(color: darkColor),
+                                        style: AppTextStyles().headers.copyWith(color: darkColor),
                                       ),
                                       OutlinedButton(
                                           onPressed: () {},
                                           child: Text(
                                             'vote now',
-                                            style: AppTextStyles()
-                                                .normal
-                                                .copyWith(color: primaryColor),
+                                            style: AppTextStyles().normal.copyWith(color: primaryColor),
                                           ))
                                     ],
                                   ),
                                 ),
                                 Expanded(
                                   child: Container(
-                                    height: MediaQuery.of(context).size.width *
-                                        0.15,
+                                    height: MediaQuery.of(context).size.width * 0.15,
                                     child: Image.asset('images/vote.png'),
                                   ),
                                 )
