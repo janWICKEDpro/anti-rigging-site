@@ -24,11 +24,9 @@ class UserDashboardBloc extends Bloc<UserDashboardEvent, UserDashboardState> {
 
         final election = await db.getActiveElection();
         if (election != null) {
-          emit(state.copyWith(
-              user: user, election: election, fetchInfo: FetchInfo.success));
+          emit(state.copyWith(user: user, election: election, fetchInfo: FetchInfo.success));
         } else {
-          emit(state.copyWith(
-              user: user, election: election, fetchInfo: FetchInfo.noElection));
+          emit(state.copyWith(user: user, election: election, fetchInfo: FetchInfo.noElection));
         }
       } catch (e) {
         log('$e');
@@ -39,8 +37,7 @@ class UserDashboardBloc extends Bloc<UserDashboardEvent, UserDashboardState> {
     on<OnVoteListFetched>(_onVoteListFetched);
   }
 
-  _onVoteListFetched(
-      OnVoteListFetched event, Emitter<UserDashboardState> emit) async {
+  _onVoteListFetched(OnVoteListFetched event, Emitter<UserDashboardState> emit) async {
     emit(state.copyWith(fetchVoteList: FetchVoteList.loading));
     try {
       // final electionName = await db.getActiveElection(); redundancy
@@ -50,12 +47,9 @@ class UserDashboardBloc extends Bloc<UserDashboardEvent, UserDashboardState> {
       final List<(String, List<Candidate>, bool)> finalVotedList = [];
       for (var role in roles) {
         for (var vote in voted) {
-          if (vote.id.compareTo(
-                  auth.status!.uid + state.election!.electionName! + role.$1) ==
-              0) {
+          if (vote.id.compareTo(auth.status!.uid + state.election!.electionName! + role.$1) == 0) {
             final candidateList = role.$2.map((element) {
-              if (element.cid ==
-                  (vote.data() as Map<String, dynamic>)['candidateId']) {
+              if (element.cid == (vote.data() as Map<String, dynamic>)['candidateId']) {
                 return Candidate(
                     candidateDescription: element.candidateDescription,
                     candidateName: element.candidateName,
@@ -72,9 +66,24 @@ class UserDashboardBloc extends Bloc<UserDashboardEvent, UserDashboardState> {
           }
         }
       }
-      emit(state.copyWith(fetchVoteList: FetchVoteList.success));
+      emit(state.copyWith(fetchVoteList: FetchVoteList.success, voteList: finalVotedList));
     } catch (e) {
       emit(state.copyWith(fetchVoteList: FetchVoteList.failed));
     }
   }
 }
+
+
+//  int index = role.$2.indexWhere((element) => (vote.id.compareTo(
+//                     auth.status!.uid +
+//                         state.election!.electionName! +
+//                         role.$1) ==
+//                 0));
+//            role.$2[ index ] = Candidate(
+//                     candidateDescription: role.$2[ index ].candidateDescription,
+//                     candidateName:  role.$2[ index ].candidateName,
+//                     imageUrl:  role.$2[ index ].imageUrl,
+//                     cid: role.$2[ index ].cid,
+//                     votes:  role.$2[ index ].votes,
+//                     isvoted: true,
+//                     file:  role.$2[ index ].file);
