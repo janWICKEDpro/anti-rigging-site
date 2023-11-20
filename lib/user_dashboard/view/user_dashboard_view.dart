@@ -111,7 +111,7 @@ class _UserDashBoardState extends State<UserDashBoard> {
                                   padding: const EdgeInsets.all(8.0),
                                   child: Center(
                                     child: Text(
-                                      'John Doe',
+                                      state.user != null ? state.user!.fullNames! : '',
                                       style: AppTextStyles().headers.copyWith(color: darkColor),
                                     ),
                                   ),

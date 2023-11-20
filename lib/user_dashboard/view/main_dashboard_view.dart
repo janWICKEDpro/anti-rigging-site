@@ -3,6 +3,7 @@ import 'package:anti_rigging/user_dashboard/bloc/user_dashboard_bloc.dart';
 import 'package:anti_rigging/utils/colors.dart';
 import 'package:anti_rigging/utils/dashboard_card.dart';
 import 'package:anti_rigging/utils/text_styles.dart';
+import 'package:anti_rigging/widgets/virtual_id.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
@@ -126,12 +127,16 @@ class MainDashBoard extends StatelessWidget {
                       view: CalendarView.week,
                     )),
                   ),
-                  const StaggeredGridTile.count(
+                  StaggeredGridTile.count(
                     crossAxisCellCount: 3,
                     mainAxisCellCount: 1,
                     child: DashBoardCard(
                       Center(
-                        child: Text('hi'),
+                        child: VirtualId(
+                          name: state.user!.fullNames,
+                          regno: state.user!.regno,
+                          programe: state.user!.program.toString(),
+                        ),
                       ),
                     ),
                   ),

@@ -99,9 +99,9 @@ class CandidateCard extends StatelessWidget {
                               isVoted
                                   ? 'Voted'
                                   : (state.voteList![index].$2.where((element) => element.isvoted == true).isNotEmpty)
-                                      ? ''
+                                      ? 'No vote'
                                       : 'Vote',
-                              style: AppTextStyles().normal.copyWith(color: lightColor),
+                              style: AppTextStyles().normal.copyWith(color: Colors.white),
                             ));
                 },
               ),
