@@ -76,8 +76,6 @@ class UserDashboardBloc extends Bloc<UserDashboardEvent, UserDashboardState> {
                 }
               }).toList();
               finalVotedList.add((role.$1, candidateList, true));
-            } else {
-              finalVotedList.add((role.$1, role.$2, false));
             }
           }
         } else {

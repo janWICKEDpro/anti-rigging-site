@@ -34,7 +34,7 @@ class Candidate {
         candidateDescription: map['candidateDescription'],
         imageUrl: map['imageUrl'],
         votes: map['vote'],
-        cid: map['candidateId']);
+        cid: map['id']);
   }
   @override
   String toString() {

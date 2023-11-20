@@ -2,7 +2,6 @@ import 'package:anti_rigging/admin_dashboard/bloc/admin_dashboard_bloc.dart';
 import 'package:anti_rigging/admin_dashboard/bloc/admin_dashboard_events.dart';
 import 'package:anti_rigging/admin_dashboard/bloc/admin_dashboard_state.dart';
 import 'package:anti_rigging/admin_dashboard/bloc/create_election_enum.dart';
-import 'package:anti_rigging/user_dashboard/bloc/user_dashboard_bloc.dart';
 import 'package:anti_rigging/utils/colors.dart';
 import 'package:anti_rigging/utils/text_styles.dart';
 import 'package:flutter/material.dart';

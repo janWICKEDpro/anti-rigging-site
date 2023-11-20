@@ -77,7 +77,8 @@ class _VoteViewState extends State<VoteView> {
                               padding: const EdgeInsets.all(10.0),
                               child: Container(
                                 decoration: BoxDecoration(
-                                    color: lightColor, borderRadius: BorderRadiusDirectional.circular(15)),
+                                    color: const Color.fromARGB(255, 238, 238, 238),
+                                    borderRadius: BorderRadiusDirectional.circular(15)),
                                 height: MediaQuery.of(context).size.height * 0.5,
                                 child: Padding(
                                   padding: const EdgeInsets.all(5.0),
