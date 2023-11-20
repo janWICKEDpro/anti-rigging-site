@@ -59,90 +59,93 @@ class MainDashBoard extends StatelessWidget {
           );
         }
 
-        return SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text('Hello, ${state.user!.fullNames!.split(' ').first}',
-                  style: AppTextStyles().headers.copyWith(color: darkColor)),
-              Text(
-                'Welcome to the Anti-rigging online voting system',
-                style: AppTextStyles().normal,
-              ),
-              StaggeredGrid.count(
-                crossAxisCount: 4,
-                mainAxisSpacing: 15,
-                crossAxisSpacing: 15,
-                children: [
-                  StaggeredGridTile.count(
-                    crossAxisCellCount: 2,
-                    mainAxisCellCount: 1,
-                    child: DashBoardCard(
-                      Padding(
-                        padding: EdgeInsets.all(15.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              'Ongoing Elections',
-                              style: AppTextStyles().normal.copyWith(color: primaryColor),
-                            ),
-                            Row(
-                              children: [
-                                Expanded(
-                                  child: Wrap(
-                                    direction: Axis.vertical,
-                                    children: [
-                                      Text(
-                                        '${state.election!.electionName}',
-                                        style: AppTextStyles().headers.copyWith(color: darkColor),
-                                      ),
-                                      OutlinedButton(
-                                          onPressed: () {},
-                                          child: Text(
-                                            'vote now',
-                                            style: AppTextStyles().normal.copyWith(color: primaryColor),
-                                          ))
-                                    ],
+        return Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text('Hello, ${state.user!.fullNames!.split(' ').first}',
+                    style: AppTextStyles().headers.copyWith(color: darkColor)),
+                Text(
+                  'Welcome to the Anti-rigging online voting system',
+                  style: AppTextStyles().normal,
+                ),
+                StaggeredGrid.count(
+                  crossAxisCount: 4,
+                  mainAxisSpacing: 15,
+                  crossAxisSpacing: 15,
+                  children: [
+                    StaggeredGridTile.count(
+                      crossAxisCellCount: 2,
+                      mainAxisCellCount: 1,
+                      child: DashBoardCard(
+                        Padding(
+                          padding: EdgeInsets.all(15.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Ongoing Elections',
+                                style: AppTextStyles().normal.copyWith(color: primaryColor),
+                              ),
+                              Row(
+                                children: [
+                                  Expanded(
+                                    child: Wrap(
+                                      direction: Axis.vertical,
+                                      children: [
+                                        Text(
+                                          '${state.election!.electionName}',
+                                          style: AppTextStyles().headers.copyWith(color: darkColor),
+                                        ),
+                                        OutlinedButton(
+                                            onPressed: () {},
+                                            child: Text(
+                                              'vote now',
+                                              style: AppTextStyles().normal.copyWith(color: primaryColor),
+                                            ))
+                                      ],
+                                    ),
                                   ),
-                                ),
-                                Expanded(
-                                  child: Container(
-                                    height: MediaQuery.of(context).size.width * 0.15,
-                                    child: Image.asset('images/vote.png'),
-                                  ),
-                                )
-                              ],
-                            )
-                          ],
+                                  Expanded(
+                                    child: Container(
+                                      height: MediaQuery.of(context).size.width * 0.15,
+                                      child: Image.asset('images/vote.png'),
+                                    ),
+                                  )
+                                ],
+                              )
+                            ],
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                  StaggeredGridTile.count(
-                    crossAxisCellCount: 2,
-                    mainAxisCellCount: 1,
-                    child: DashBoardCard(SfCalendar(
-                      todayHighlightColor: primaryColor,
-                      view: CalendarView.week,
-                    )),
-                  ),
-                  StaggeredGridTile.count(
-                    crossAxisCellCount: 3,
-                    mainAxisCellCount: 1,
-                    child: DashBoardCard(
-                      Center(
-                        child: VirtualId(
-                          name: state.user!.fullNames,
-                          regno: state.user!.regno,
-                          programe: state.user!.program.toString(),
+                    StaggeredGridTile.count(
+                      crossAxisCellCount: 2,
+                      mainAxisCellCount: 1,
+                      child: DashBoardCard(SfCalendar(
+                        todayHighlightColor: primaryColor,
+                        view: CalendarView.week,
+                      )),
+                    ),
+                    StaggeredGridTile.count(
+                      crossAxisCellCount: 2,
+                      mainAxisCellCount: 1,
+                      child: DashBoardCard(
+                        Center(
+                          child: VirtualId(
+                            name: state.user!.fullNames,
+                            regno: state.user!.regno,
+                            programe: state.user!.program.toString(),
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                ],
-              )
-            ],
+                  ],
+                )
+              ],
+            ),
           ),
         );
       },
