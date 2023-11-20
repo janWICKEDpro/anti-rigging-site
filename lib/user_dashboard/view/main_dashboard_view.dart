@@ -1,5 +1,6 @@
 import 'package:anti_rigging/user_dashboard/bloc/enums.dart';
 import 'package:anti_rigging/user_dashboard/bloc/user_dashboard_bloc.dart';
+import 'package:anti_rigging/user_dashboard/view/data_source.dart';
 import 'package:anti_rigging/utils/colors.dart';
 import 'package:anti_rigging/utils/dashboard_card.dart';
 import 'package:anti_rigging/utils/text_styles.dart';
@@ -125,8 +126,15 @@ class MainDashBoard extends StatelessWidget {
                       crossAxisCellCount: 2,
                       mainAxisCellCount: 1,
                       child: DashBoardCard(SfCalendar(
+                        selectionDecoration: BoxDecoration(
+                          color: Colors.transparent,
+                          border: Border.all(color: primaryColor, width: 2),
+                          borderRadius: const BorderRadius.all(Radius.circular(4)),
+                          shape: BoxShape.rectangle,
+                        ),
+                        dataSource: MeetingDataSource(state.meetings!),
                         todayHighlightColor: primaryColor,
-                        view: CalendarView.week,
+                        view: CalendarView.month,
                       )),
                     ),
                     StaggeredGridTile.count(

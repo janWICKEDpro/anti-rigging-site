@@ -8,10 +8,12 @@ class UserDashboardState {
   final LoginStatus loginStatus;
   final Vote? voteStatus;
   final List<(String, List<Candidate>, bool)>? voteList;
+  final List<Meeting>? meetings;
 
   UserDashboardState({
     this.user,
     this.voteStatus,
+    this.meetings,
     this.voteList,
     this.loginStatus = LoginStatus.signedIn,
     this.election,
@@ -24,10 +26,12 @@ class UserDashboardState {
       FetchInfo? fetchInfo,
       FetchVoteList? fetchVoteList,
       LoginStatus? loginStatus,
+      List<Meeting>? mettings,
       Vote? voteStatus,
       List<(String, List<Candidate>, bool)>? voteList,
       Election? election}) {
     return UserDashboardState(
+        meetings: mettings ?? this.meetings,
         voteList: voteList ?? this.voteList,
         user: user ?? this.user,
         voteStatus: voteStatus ?? this.voteStatus,

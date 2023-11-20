@@ -7,6 +7,8 @@ import 'package:anti_rigging/models/user.dart';
 import 'package:anti_rigging/services/auth/auth.dart';
 import 'package:anti_rigging/services/db/db.dart';
 import 'package:anti_rigging/user_dashboard/bloc/enums.dart';
+import 'package:anti_rigging/user_dashboard/view/data_source.dart';
+import 'package:anti_rigging/utils/colors.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -24,8 +26,10 @@ class UserDashboardBloc extends Bloc<UserDashboardEvent, UserDashboardState> {
         final user = await db.getUser(auth.status!.uid);
 
         final election = await db.getActiveElection();
+
         if (election != null) {
-          emit(state.copyWith(user: user, election: election, fetchInfo: FetchInfo.success));
+          final meetings = [Meeting('Vote Period', election.startDate, election.endDate!, darkColor, true)];
+          emit(state.copyWith(user: user, election: election, fetchInfo: FetchInfo.success, mettings: meetings));
         } else {
           emit(state.copyWith(user: user, election: election, fetchInfo: FetchInfo.noElection));
         }
