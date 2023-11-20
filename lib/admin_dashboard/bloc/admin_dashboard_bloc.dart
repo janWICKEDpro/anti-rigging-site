@@ -71,6 +71,7 @@ class AdminDashboardBloc extends Bloc<AdminDashboardEvents, AdminDashBoardState>
     on<OnLaunchElectionsClicked>(_onLaunchElectionsClicked);
     on<OnElectionFetchedEvent>(_onElectionFetched);
     on<OnElectionListFetched>(_onElectionListFetched);
+    on<OnEndElection>(_onEndElection);
     on<OnSideBarNavigationIndexChanged>((event, emit) {
       state.sideBarNavigationIndex = event.index;
       emit(state.copyWith(sideBarNav: state.sideBarNavigationIndex));
@@ -87,6 +88,21 @@ class AdminDashboardBloc extends Bloc<AdminDashboardEvents, AdminDashBoardState>
       await db.createElection(state.candidateRoles!, state.election!);
       emit(state.copyWith(create: CreateELectionEnum.success));
     } catch (e) {
+      emit(state.copyWith(create: CreateELectionEnum.failed));
+    }
+  }
+
+  _onEndElection(OnEndElection event, Emitter<AdminDashBoardState> emit) async {
+    emit(state.copyWith(create: CreateELectionEnum.loading));
+
+    try {
+      await db.endElection();
+
+      emit(state.copyWith(create: CreateELectionEnum.success));
+
+      add(OnElectionFetchedEvent());
+    } catch (e) {
+      log('$e');
       emit(state.copyWith(create: CreateELectionEnum.failed));
     }
   }

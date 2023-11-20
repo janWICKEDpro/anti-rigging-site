@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:anti_rigging/admin_dashboard/bloc/admin_dashboard_bloc.dart';
 import 'package:anti_rigging/admin_dashboard/bloc/admin_dashboard_events.dart';
 import 'package:anti_rigging/admin_dashboard/bloc/admin_dashboard_state.dart';
@@ -12,6 +14,7 @@ import 'package:anti_rigging/widgets/fade_transition.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:side_navigation/side_navigation.dart';
 
 class AdminDashboad extends StatelessWidget {
@@ -73,11 +76,16 @@ class AdminDashboad extends StatelessWidget {
                               width: 150,
                               child: FloatingActionButton(
                                 backgroundColor: Colors.redAccent,
-                                onPressed: () {},
-                                child: Text(
-                                  'End Election',
-                                  style: AppTextStyles().normal.copyWith(color: Colors.white),
-                                ),
+                                onPressed: () {
+                                  log('Loading');
+                                  context.read<AdminDashboardBloc>().add(OnEndElection());
+                                },
+                                child: state.createELectionEnum == CreateELectionEnum.loading
+                                    ? LoadingAnimationWidget.hexagonDots(color: Colors.white, size: 50)
+                                    : Text(
+                                        'End Election',
+                                        style: AppTextStyles().normal.copyWith(color: Colors.white),
+                                      ),
                               ),
                             )
                           : Container(),

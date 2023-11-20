@@ -32,6 +32,12 @@ class DbService {
       for (int i = 0; i < electionInfo.length; i++) {
         //create a role docRef
         await _dbInstance.collection('ELECTIONS').doc('${election.electionName}').set(election.toJson());
+        await _dbInstance
+            .collection('ELECTIONS')
+            .doc('${election.electionName}')
+            .collection('ROLE')
+            .doc(electionInfo[i].$1)
+            .set({'roleName': electionInfo[i].$1});
         final docRef = _dbInstance
             .collection('ELECTIONS')
             .doc('${election.electionName}')
@@ -80,9 +86,11 @@ class DbService {
   Future<List<(String, List<Candidate>)>> getActiveElectionInfo() async {
     List<(String, List<Candidate>)> electionData = [];
     try {
-      final election = await _dbInstance.collection('ELECTIONS').where('isActive', isEqualTo: true).limit(1).get();
+      final election = await _dbInstance.collection('ELECTIONS').where('isActive', isEqualTo: true).get();
+      log('${election.docs[0].id}');
       if (election.docs.isEmpty) return [];
       final roles = await election.docs[0].reference.collection('ROLE').get();
+      log('${roles.docs}');
       for (var role in roles.docs) {
         final candidates = await role.reference.collection('CANDIDATES').get();
 
@@ -93,7 +101,7 @@ class DbService {
         }
         electionData.add(((role.id), arr));
       }
-      log('$electionData');
+
       return electionData;
     } catch (e) {
       log('$e');
@@ -158,6 +166,17 @@ class DbService {
       return userVotes.docs.where((element) => element.id.contains(userId)).toList();
     } catch (e) {
       throw 'Something went wrong';
+    }
+  }
+
+  Future endElection() async {
+    try {
+      log('what hapepe');
+      final ref = await _dbInstance.collection('ELECTIONS').where('isActive', isEqualTo: true).get();
+      await ref.docs[0].reference.update({'isActive': false});
+    } catch (e) {
+      log('$e');
+      throw 'Error occured';
     }
   }
 }

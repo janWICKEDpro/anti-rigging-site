@@ -21,17 +21,16 @@ class AdminDashBoardPage extends StatefulWidget {
   State<AdminDashBoardPage> createState() => _AdminDashBoardPageState();
 }
 
-class _AdminDashBoardPageState extends State<AdminDashBoardPage>
-    with TickerProviderStateMixin {
+class _AdminDashBoardPageState extends State<AdminDashBoardPage> with TickerProviderStateMixin {
   final PageController _pageController = PageController(initialPage: 0);
   late TooltipBehavior _tooltip;
   late List<Candidate> data = [];
 
   int index = 0;
   void nextPage() {
-    if (_pageController.page! <
-        context.read<AdminDashboardBloc>().state.candidateRoles!.length - 1) {
+    if (_pageController.page! < context.read<AdminDashboardBloc>().state.candidateRoles!.length - 1) {
       index++;
+      setState(() {});
       data = context.read<AdminDashboardBloc>().state.candidateRoles![index].$2;
       _pageController.nextPage(
         duration: const Duration(milliseconds: 500),
@@ -43,6 +42,7 @@ class _AdminDashBoardPageState extends State<AdminDashBoardPage>
   void previousPage() {
     if (_pageController.page! > 0) {
       index--;
+      setState(() {});
       data = context.read<AdminDashboardBloc>().state.candidateRoles![index].$2;
       _pageController.previousPage(
         duration: const Duration(milliseconds: 500),
@@ -80,8 +80,7 @@ class _AdminDashBoardPageState extends State<AdminDashBoardPage>
               if (state.fetchElection == Fetch.loading) {
                 return Expanded(
                     child: Center(
-                  child: LoadingAnimationWidget.newtonCradle(
-                      color: darkColor, size: 100),
+                  child: LoadingAnimationWidget.newtonCradle(color: darkColor, size: 100),
                 ));
               } else if (state.fetchElection == Fetch.failed) {
                 return Expanded(
@@ -90,27 +89,20 @@ class _AdminDashBoardPageState extends State<AdminDashBoardPage>
                     children: [
                       Text(
                         "Failed to Fetch Active election Info",
-                        style: AppTextStyles()
-                            .normal
-                            .copyWith(color: Colors.redAccent),
+                        style: AppTextStyles().normal.copyWith(color: Colors.redAccent),
                       ),
                       OutlinedButton(
                           onPressed: () {
-                            context
-                                .read<AdminDashboardBloc>()
-                                .add(OnElectionFetchedEvent());
+                            context.read<AdminDashboardBloc>().add(OnElectionFetchedEvent());
                           },
                           child: Text(
                             'Retry',
-                            style: AppTextStyles()
-                                .normal
-                                .copyWith(color: primaryColor),
+                            style: AppTextStyles().normal.copyWith(color: primaryColor),
                           ))
                     ],
                   ),
                 ));
-              } else if (state.fetchElection == Fetch.success &&
-                  state.noActiveElection == true) {
+              } else if (state.fetchElection == Fetch.success && state.noActiveElection == true) {
                 return Expanded(
                     child: Center(
                   child: Container(
@@ -124,11 +116,7 @@ class _AdminDashBoardPageState extends State<AdminDashBoardPage>
                   ),
                 ));
               } else {
-                data = context
-                    .read<AdminDashboardBloc>()
-                    .state
-                    .candidateRoles![index]
-                    .$2;
+                data = context.read<AdminDashboardBloc>().state.candidateRoles![index].$2;
                 return Expanded(
                   child: Container(
                     child: GridView.count(
@@ -146,25 +134,17 @@ class _AdminDashBoardPageState extends State<AdminDashBoardPage>
                               children: [
                                 Text(
                                   'Live Results',
-                                  style: AppTextStyles().headers.copyWith(
-                                      color: primaryColor, fontSize: 18),
+                                  style: AppTextStyles().headers.copyWith(color: primaryColor, fontSize: 18),
                                 ),
                                 Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
-                                    IconButton(
-                                        onPressed: previousPage,
-                                        icon: Icon(Icons.arrow_back_ios)),
+                                    IconButton(onPressed: previousPage, icon: Icon(Icons.arrow_back_ios)),
                                     Text(
                                       state.candidateRoles![index].$1,
-                                      style: AppTextStyles()
-                                          .normal
-                                          .copyWith(color: darkColor),
+                                      style: AppTextStyles().normal.copyWith(color: darkColor),
                                     ),
-                                    IconButton(
-                                        onPressed: nextPage,
-                                        icon: Icon(Icons.arrow_forward_ios)),
+                                    IconButton(onPressed: nextPage, icon: Icon(Icons.arrow_forward_ios)),
                                   ],
                                 ),
                                 Expanded(
@@ -178,21 +158,13 @@ class _AdminDashBoardPageState extends State<AdminDashBoardPage>
                                           child: Center(
                                             child: SfCartesianChart(
                                               primaryXAxis: CategoryAxis(),
-                                              primaryYAxis: NumericAxis(
-                                                  minimum: 0,
-                                                  maximum: 40,
-                                                  interval: 10),
+                                              primaryYAxis: NumericAxis(minimum: 0, maximum: 40, interval: 10),
                                               tooltipBehavior: _tooltip,
-                                              series: <ChartSeries<Candidate,
-                                                  String>>[
+                                              series: <ChartSeries<Candidate, String>>[
                                                 BarSeries<Candidate, String>(
                                                     dataSource: data,
-                                                    xValueMapper:
-                                                        (Candidate data, _) =>
-                                                            data.candidateName,
-                                                    yValueMapper:
-                                                        (Candidate data, _) =>
-                                                            data.votes,
+                                                    xValueMapper: (Candidate data, _) => data.candidateName,
+                                                    yValueMapper: (Candidate data, _) => data.votes,
                                                     name: 'Votes',
                                                     color: primaryColor),
                                               ],

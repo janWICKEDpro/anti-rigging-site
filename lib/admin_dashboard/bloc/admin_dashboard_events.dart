@@ -66,3 +66,5 @@ class OnSideBarNavigationIndexChanged extends AdminDashboardEvents {
 }
 
 class OnSignOutButtonClicked extends AdminDashboardEvents {}
+
+class OnEndElection extends AdminDashboardEvents {}
