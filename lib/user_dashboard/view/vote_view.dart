@@ -91,6 +91,8 @@ class _VoteViewState extends State<VoteView> {
                                           itemCount: state.voteList![index].$2.length,
                                           itemBuilder: (context, subIndex) {
                                             return CandidateCard(
+                                              index: index,
+                                              isVoted: state.voteList![index].$2[subIndex].isvoted,
                                               name: state.voteList![index].$2[subIndex].candidateName,
                                               description: state.voteList![index].$2[subIndex].candidateDescription,
                                               imageUrl: state.voteList![index].$2[subIndex].imageUrl,
