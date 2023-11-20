@@ -13,4 +13,8 @@ class OnVoteListFetched extends UserDashboardEvent {}
 
 class OnSignoutClicked extends UserDashboardEvent {}
 
-class OnVote extends UserDashboardEvent {}
+class OnVote extends UserDashboardEvent {
+  final String candidateId;
+  final String role;
+  OnVote(this.candidateId, this.role);
+}

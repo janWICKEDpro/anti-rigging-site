@@ -5,6 +5,7 @@ import 'package:anti_rigging/utils/text_styles.dart';
 import 'package:anti_rigging/widgets/candidate_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:gap/gap.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 class VoteView extends StatefulWidget {
@@ -67,44 +68,51 @@ class _VoteViewState extends State<VoteView> {
                     ),
                   );
                 } else {
-                  return Container(
-                    height: 400,
-                    child: ListView.builder(
-                        itemCount: state.voteList!.length,
-                        itemBuilder: (context, index) {
-                          return Padding(
-                            padding: const EdgeInsets.all(10.0),
-                            child: Container(
-                              height: 300,
-                              child: Center(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    Text(
-                                      state.voteList![index].$1,
-                                      style: AppTextStyles().normal,
-                                    ),
-                                    Expanded(
-                                        child: SizedBox(
-                                      child: ListView.builder(
-                                          scrollDirection: Axis.horizontal,
-                                          itemCount: state.voteList![index].$2.length,
-                                          itemBuilder: (context, subIndex) {
-                                            return CandidateCard(
-                                              index: index,
-                                              isVoted: state.voteList![index].$2[subIndex].isvoted,
-                                              name: state.voteList![index].$2[subIndex].candidateName,
-                                              description: state.voteList![index].$2[subIndex].candidateDescription,
-                                              imageUrl: state.voteList![index].$2[subIndex].imageUrl,
-                                            );
-                                          }),
-                                    ))
-                                  ],
+                  return Expanded(
+                    child: Container(
+                      child: ListView.builder(
+                          itemCount: state.voteList!.length,
+                          itemBuilder: (context, index) {
+                            return Padding(
+                              padding: const EdgeInsets.all(10.0),
+                              child: Container(
+                                decoration: BoxDecoration(
+                                    color: lightColor, borderRadius: BorderRadiusDirectional.circular(15)),
+                                height: MediaQuery.of(context).size.height * 0.5,
+                                child: Padding(
+                                  padding: const EdgeInsets.all(5.0),
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    children: [
+                                      Text(
+                                        state.voteList![index].$1,
+                                        style: AppTextStyles().normal,
+                                      ),
+                                      Expanded(
+                                          child: SizedBox(
+                                        child: ListView.separated(
+                                            separatorBuilder: (context, index) => const Gap(10),
+                                            scrollDirection: Axis.horizontal,
+                                            itemCount: state.voteList![index].$2.length,
+                                            itemBuilder: (context, subIndex) {
+                                              return CandidateCard(
+                                                index: index,
+                                                cid: state.voteList![index].$2[subIndex].cid!,
+                                                role: state.voteList![index].$1,
+                                                isVoted: state.voteList![index].$2[subIndex].isvoted,
+                                                name: state.voteList![index].$2[subIndex].candidateName,
+                                                description: state.voteList![index].$2[subIndex].candidateDescription,
+                                                imageUrl: state.voteList![index].$2[subIndex].imageUrl,
+                                              );
+                                            }),
+                                      ))
+                                    ],
+                                  ),
                                 ),
                               ),
-                            ),
-                          );
-                        }),
+                            );
+                          }),
+                    ),
                   );
                 }
               })

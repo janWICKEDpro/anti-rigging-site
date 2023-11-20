@@ -36,6 +36,7 @@ class UserDashboardBloc extends Bloc<UserDashboardEvent, UserDashboardState> {
     });
 
     on<OnVoteListFetched>(_onVoteListFetched);
+    on<OnVote>(_onVote);
     on<OnSignoutClicked>(
       (event, emit) async {
         await auth.signOut();
@@ -85,6 +86,19 @@ class UserDashboardBloc extends Bloc<UserDashboardEvent, UserDashboardState> {
     } catch (e) {
       log('$e');
       emit(state.copyWith(fetchVoteList: FetchVoteList.failed));
+    }
+  }
+
+  _onVote(OnVote event, Emitter<UserDashboardState> emit) async {
+    emit(state.copyWith(voteStatus: Vote.loading));
+    try {
+      await db.vote(state.election!.electionName!, event.role, event.candidateId, auth.status!.uid);
+
+      emit(state.copyWith(voteStatus: Vote.success));
+      add(OnVoteListFetched());
+    } catch (e) {
+      log('$e');
+      emit(state.copyWith(voteStatus: Vote.failed));
     }
   }
 }

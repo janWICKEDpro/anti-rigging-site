@@ -27,15 +27,11 @@ class DbService {
     }
   }
 
-  Future createElection(
-      List<(String, List<Candidate>)> electionInfo, Election election) async {
+  Future createElection(List<(String, List<Candidate>)> electionInfo, Election election) async {
     try {
       for (int i = 0; i < electionInfo.length; i++) {
         //create a role docRef
-        await _dbInstance
-            .collection('ELECTIONS')
-            .doc('${election.electionName}')
-            .set(election.toJson());
+        await _dbInstance.collection('ELECTIONS').doc('${election.electionName}').set(election.toJson());
         final docRef = _dbInstance
             .collection('ELECTIONS')
             .doc('${election.electionName}')
@@ -71,11 +67,7 @@ class DbService {
   // get active election
   Future<Election?> getActiveElection() async {
     try {
-      final election = await _dbInstance
-          .collection('ELECTIONS')
-          .where('isActive', isEqualTo: true)
-          .limit(1)
-          .get();
+      final election = await _dbInstance.collection('ELECTIONS').where('isActive', isEqualTo: true).limit(1).get();
       if (election.docs.isEmpty) return null;
       return Election.fromJson(election.docs[0].data());
     } catch (e) {
@@ -88,16 +80,12 @@ class DbService {
   Future<List<(String, List<Candidate>)>> getActiveElectionInfo() async {
     List<(String, List<Candidate>)> electionData = [];
     try {
-      final election = await _dbInstance
-          .collection('ELECTIONS')
-          .where('isActive', isEqualTo: true)
-          .limit(1)
-          .get();
+      final election = await _dbInstance.collection('ELECTIONS').where('isActive', isEqualTo: true).limit(1).get();
       if (election.docs.isEmpty) return [];
       final roles = await election.docs[0].reference.collection('ROLE').get();
       for (var role in roles.docs) {
         final candidates = await role.reference.collection('CANDIDATES').get();
-        log('${candidates.docs[0].data()}');
+
         final List<Candidate> arr = [];
         for (var candidate in candidates.docs) {
           log("${Candidate.fromJson(candidate.data())}");
@@ -116,10 +104,7 @@ class DbService {
   //close elections
   Future<bool> closeElections(String electionName) async {
     try {
-      await _dbInstance
-          .collection('ELECTIONS')
-          .doc(electionName)
-          .update({'isActive': false});
+      await _dbInstance.collection('ELECTIONS').doc(electionName).update({'isActive': false});
       return true;
     } catch (e) {
       log('$e');
@@ -127,8 +112,7 @@ class DbService {
     }
   }
 
-  Future<Candidate> getCandidate(
-      String electionName, String role, String candidateId) async {
+  Future<Candidate> getCandidate(String electionName, String role, String candidateId) async {
     try {
       final candidate = await _dbInstance
           .collection('ELECTIONS')
@@ -138,15 +122,16 @@ class DbService {
           .collection('CANDIDATES')
           .doc(candidateId)
           .get();
-
+      log(electionName + role + candidateId);
+      log('${candidate.data()}');
       return Candidate.fromJson(candidate.data()!);
     } catch (e) {
+      log('$e');
       throw 'could not get candidate';
     }
   }
 
-  Future vote(
-      String electionName, String role, String candidateId, String uid) async {
+  Future vote(String electionName, String role, String candidateId, String uid) async {
     try {
       final candidate = await getCandidate(electionName, role, candidateId);
       int val = candidate.votes;
@@ -159,12 +144,10 @@ class DbService {
           .collection('CANDIDATES')
           .doc(candidateId)
           .update({'vote': val});
-      //add the role and election voted for ina new collection.
-      await _dbInstance
-          .collection('USERVOTEDROLES')
-          .doc(uid + electionName + role)
-          .set({candidateId: candidateId});
+      //add the role and election voted for in a new collection.
+      await _dbInstance.collection('USERVOTEDROLES').doc(uid + electionName + role).set({'candidateId': candidateId});
     } catch (e) {
+      log('$e');
       throw 'error occured while voting';
     }
   }
@@ -172,9 +155,7 @@ class DbService {
   Future<List<QueryDocumentSnapshot>> userVotes(String userId) async {
     try {
       final userVotes = await _dbInstance.collection('USERVOTEDROLES').get();
-      return userVotes.docs
-          .where((element) => element.id.contains(userId))
-          .toList();
+      return userVotes.docs.where((element) => element.id.contains(userId)).toList();
     } catch (e) {
       throw 'Something went wrong';
     }

@@ -1,23 +1,34 @@
+import 'package:anti_rigging/user_dashboard/bloc/enums.dart';
 import 'package:anti_rigging/user_dashboard/bloc/user_dashboard_bloc.dart';
 import 'package:anti_rigging/utils/colors.dart';
 import 'package:anti_rigging/utils/text_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 class CandidateCard extends StatelessWidget {
   const CandidateCard(
-      {super.key, this.name, this.description, this.imageUrl, required this.isVoted, required this.index});
+      {super.key,
+      this.name,
+      this.description,
+      this.imageUrl,
+      required this.isVoted,
+      required this.index,
+      required this.cid,
+      required this.role});
   final String? name;
   final String? description;
   final String? imageUrl;
   final bool isVoted;
+  final String cid;
+  final String role;
   final int index;
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 300,
+      height: 400,
       width: 250,
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(15),
@@ -34,7 +45,7 @@ class CandidateCard extends StatelessWidget {
             name!,
             style: AppTextStyles().headers.copyWith(color: darkColor, fontSize: 18),
           ),
-          const Gap(15),
+          const Gap(10),
           ClipRRect(
             borderRadius: BorderRadius.circular(100),
             child: SizedBox(
@@ -42,13 +53,16 @@ class CandidateCard extends StatelessWidget {
                 width: 100,
                 child: imageUrl!.isEmpty ? Image.asset('images/realmale.png') : Image.network(imageUrl!)),
           ),
-          const Gap(15),
-          Text(
-            description!,
-            textAlign: TextAlign.center,
-            style: AppTextStyles().normal.copyWith(
-                  color: primaryColor,
-                ),
+          const Gap(10),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 5.0),
+            child: Text(
+              description!,
+              textAlign: TextAlign.center,
+              style: AppTextStyles().normal.copyWith(
+                    color: primaryColor,
+                  ),
+            ),
           ),
           const Gap(15),
           Row(
@@ -76,17 +90,19 @@ class CandidateCard extends StatelessWidget {
                                   ),
                                 )));
                         } else {
-                          context.read<UserDashboardBloc>().add(OnVote());
+                          context.read<UserDashboardBloc>().add(OnVote(cid, role));
                         }
                       },
-                      child: Text(
-                        isVoted
-                            ? 'Voted'
-                            : (state.voteList![index].$2.where((element) => element.isvoted == true).isNotEmpty)
-                                ? ''
-                                : 'Vote',
-                        style: AppTextStyles().normal.copyWith(color: lightColor),
-                      ));
+                      child: state.voteStatus == Vote.loading
+                          ? LoadingAnimationWidget.hexagonDots(color: Colors.white, size: 15)
+                          : Text(
+                              isVoted
+                                  ? 'Voted'
+                                  : (state.voteList![index].$2.where((element) => element.isvoted == true).isNotEmpty)
+                                      ? ''
+                                      : 'Vote',
+                              style: AppTextStyles().normal.copyWith(color: lightColor),
+                            ));
                 },
               ),
             ],
