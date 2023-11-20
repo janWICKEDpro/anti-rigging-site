@@ -151,7 +151,7 @@ class Login extends StatelessWidget {
                               image: DecorationImage(
                                   fit: BoxFit.contain,
                                   image: AssetImage(
-                                    kDebugMode ? 'images/signup_bg.png' : 'assets/images/signup_bg.png',
+                                    kDebugMode ? 'assets/images/signup_bg.png' : 'assets/assets/images/signup_bg.png',
                                   )),
                               borderRadius:
                                   BorderRadius.only(topRight: Radius.circular(15), bottomRight: Radius.circular(15)),
