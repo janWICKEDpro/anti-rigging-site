@@ -3,6 +3,7 @@ import 'package:anti_rigging/admin_dashboard/bloc/admin_dashboard_events.dart';
 import 'package:anti_rigging/admin_dashboard/bloc/admin_dashboard_state.dart';
 import 'package:anti_rigging/admin_dashboard/bloc/create_election_enum.dart';
 import 'package:anti_rigging/models/candidate.dart';
+import 'package:anti_rigging/user_dashboard/view/data_source.dart';
 import 'package:anti_rigging/utils/colors.dart';
 import 'package:anti_rigging/utils/text_styles.dart';
 import 'package:anti_rigging/utils/dashboard_card.dart';
@@ -180,7 +181,15 @@ class _AdminDashBoardPageState extends State<AdminDashBoardPage> with TickerProv
                           ),
                         ),
                         DashBoardCard(SfCalendar(
-                          view: CalendarView.week,
+                          selectionDecoration: BoxDecoration(
+                            color: Colors.transparent,
+                            border: Border.all(color: primaryColor, width: 2),
+                            borderRadius: const BorderRadius.all(Radius.circular(4)),
+                            shape: BoxShape.rectangle,
+                          ),
+                          dataSource: MeetingDataSource(state.meetings!),
+                          todayHighlightColor: primaryColor,
+                          view: CalendarView.month,
                         ))
                       ],
                     ),

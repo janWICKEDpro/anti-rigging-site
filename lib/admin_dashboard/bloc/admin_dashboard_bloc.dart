@@ -9,6 +9,8 @@ import 'package:anti_rigging/models/election.dart';
 import 'package:anti_rigging/services/auth/auth.dart';
 import 'package:anti_rigging/services/db/db.dart';
 import 'package:anti_rigging/services/pick_file.dart';
+import 'package:anti_rigging/user_dashboard/view/data_source.dart';
+import 'package:anti_rigging/utils/colors.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AdminDashboardBloc extends Bloc<AdminDashboardEvents, AdminDashBoardState> {
@@ -110,11 +112,16 @@ class AdminDashboardBloc extends Bloc<AdminDashboardEvents, AdminDashBoardState>
   _onElectionFetched(OnElectionFetchedEvent event, Emitter<AdminDashBoardState> emit) async {
     emit(state.copyWith(fetchElections: Fetch.loading));
     try {
+      final elec = await db.getActiveElection();
       final election = await db.getActiveElectionInfo();
       if (election.isEmpty) {
         emit(state.copyWith(fetchElections: Fetch.success, noActive: true));
       } else {
-        emit(state.copyWith(fetchElections: Fetch.success, noActive: false, candidates: election));
+        emit(state.copyWith(
+            fetchElections: Fetch.success,
+            noActive: false,
+            candidates: election,
+            meeting: [Meeting('Vote Period', elec!.startDate, elec.endDate!, primaryColor, true)]));
       }
     } catch (e) {
       log('$e');

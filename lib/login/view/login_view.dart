@@ -10,6 +10,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
+import 'package:flutter/foundation.dart';
 
 class Login extends StatelessWidget {
   const Login({super.key});
@@ -25,11 +26,9 @@ class Login extends StatelessWidget {
       create: (context) => LoginBloc(),
       child: BlocConsumer<LoginBloc, LoginState>(
         listener: (context, state) {
-          if (state.loginResult == 'Success' &&
-              state.user!.accountType == 'student') {
+          if (state.loginResult == 'Success' && state.user!.accountType == 'student') {
             GoRouter.of(context).go('/');
-          } else if (state.loginResult == 'Success' &&
-              state.user!.accountType == 'admin') {
+          } else if (state.loginResult == 'Success' && state.user!.accountType == 'admin') {
             GoRouter.of(context).go('/admin');
           }
         },
@@ -62,9 +61,8 @@ class Login extends StatelessWidget {
                             child: Container(
                               decoration: const BoxDecoration(
                                   color: Colors.white,
-                                  borderRadius: BorderRadius.only(
-                                      topLeft: Radius.circular(15),
-                                      bottomLeft: Radius.circular(15))),
+                                  borderRadius:
+                                      BorderRadius.only(topLeft: Radius.circular(15), bottomLeft: Radius.circular(15))),
                               child: Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: Center(
@@ -72,14 +70,11 @@ class Login extends StatelessWidget {
                                     key: loginKey,
                                     child: SingleChildScrollView(
                                       child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
+                                        mainAxisAlignment: MainAxisAlignment.center,
                                         children: [
                                           Text(
                                             'Welcome Back!',
-                                            style: AppTextStyles()
-                                                .headers
-                                                .copyWith(color: darkColor),
+                                            style: AppTextStyles().headers.copyWith(color: darkColor),
                                           ),
                                           const Gap(10),
                                           CustomFormField(
@@ -95,10 +90,9 @@ class Login extends StatelessWidget {
                                               return null;
                                             },
                                             false,
-                                            (email) =>
-                                                context.read<LoginBloc>().add(
-                                                      OnEmailChanged(email!),
-                                                    ),
+                                            (email) => context.read<LoginBloc>().add(
+                                                  OnEmailChanged(email!),
+                                                ),
                                           ),
                                           const Gap(10),
                                           CustomFormField('Password', (text) {
@@ -108,10 +102,8 @@ class Login extends StatelessWidget {
                                             return null;
                                           },
                                               true,
-                                              (password) => context
-                                                  .read<LoginBloc>()
-                                                  .add(OnPasswordChanged(
-                                                      password!))),
+                                              (password) =>
+                                                  context.read<LoginBloc>().add(OnPasswordChanged(password!))),
                                           const Gap(30),
                                           Center(
                                             child: Container(
@@ -119,27 +111,16 @@ class Login extends StatelessWidget {
                                               height: 40,
                                               child: ElevatedButton(
                                                 style: ButtonStyle(
-                                                    backgroundColor:
-                                                        MaterialStateProperty
-                                                            .all(primaryColor)),
+                                                    backgroundColor: MaterialStateProperty.all(primaryColor)),
                                                 child: state.loading!
-                                                    ? LoadingAnimationWidget
-                                                        .hexagonDots(
-                                                            color: Colors.white,
-                                                            size: 20)
+                                                    ? LoadingAnimationWidget.hexagonDots(color: Colors.white, size: 20)
                                                     : Text(
                                                         'login',
-                                                        style: AppTextStyles()
-                                                            .normal
-                                                            .copyWith(
-                                                                color: Colors
-                                                                    .white),
+                                                        style: AppTextStyles().normal.copyWith(color: Colors.white),
                                                       ),
                                                 onPressed: () {
-                                                  if (loginKey.currentState!
-                                                      .validate()) {
-                                                    context.read<LoginBloc>().add(
-                                                        OnLoginButtonClicked());
+                                                  if (loginKey.currentState!.validate()) {
+                                                    context.read<LoginBloc>().add(OnLoginButtonClicked());
                                                   }
                                                 },
                                               ),
@@ -148,15 +129,11 @@ class Login extends StatelessWidget {
                                           const Gap(20),
                                           TextButton(
                                             onPressed: () {
-                                              GoRouter.of(context)
-                                                  .go('/signup');
+                                              GoRouter.of(context).go('/signup');
                                             },
                                             child: Text(
                                               'Don\'t have an account? signup for one',
-                                              style: AppTextStyles()
-                                                  .normal
-                                                  .copyWith(
-                                                      color: primaryColor),
+                                              style: AppTextStyles().normal.copyWith(color: primaryColor),
                                             ),
                                           )
                                         ],
@@ -174,11 +151,10 @@ class Login extends StatelessWidget {
                               image: DecorationImage(
                                   fit: BoxFit.contain,
                                   image: AssetImage(
-                                    'images/signup_bg.png',
+                                    kDebugMode ? 'images/signup_bg.png' : 'assets/images/signup_bg.png',
                                   )),
-                              borderRadius: BorderRadius.only(
-                                  topRight: Radius.circular(15),
-                                  bottomRight: Radius.circular(15)),
+                              borderRadius:
+                                  BorderRadius.only(topRight: Radius.circular(15), bottomRight: Radius.circular(15)),
                             ),
                           ))
                         ],

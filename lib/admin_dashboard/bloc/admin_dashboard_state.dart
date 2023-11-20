@@ -2,6 +2,7 @@ import 'package:anti_rigging/admin_dashboard/bloc/create_election_enum.dart';
 import 'package:anti_rigging/enums.dart';
 import 'package:anti_rigging/models/candidate.dart';
 import 'package:anti_rigging/models/election.dart';
+import 'package:anti_rigging/user_dashboard/view/data_source.dart';
 
 class AdminDashBoardState {
   final Election? election;
@@ -16,10 +17,12 @@ class AdminDashBoardState {
   Fetch fetchElection;
   FetchList fetchList;
   LoginStatus loginStatus;
+  final List<Meeting>? meetings;
 
   AdminDashBoardState(
       {this.election,
       this.electionsList,
+      this.meetings,
       this.loginStatus = LoginStatus.signedIn,
       this.fetchList = FetchList.loading,
       this.noActiveElection = false,
@@ -34,6 +37,7 @@ class AdminDashBoardState {
       {Election? elect,
       List<(String, List<Candidate>)>? candidates,
       int? index,
+      List<Meeting>? meeting,
       List<Election>? list,
       int? sideBarNav,
       bool? noActive,
@@ -43,6 +47,7 @@ class AdminDashBoardState {
       CreateELectionEnum? create,
       bool? loadElection}) {
     return AdminDashBoardState(
+        meetings: meeting ?? meetings,
         fetchList: listFetch ?? fetchList,
         noActiveElection: noActive ?? noActiveElection,
         fetchElection: fetchElections ?? fetchElection,
