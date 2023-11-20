@@ -2,6 +2,7 @@ import 'package:anti_rigging/user_dashboard/bloc/enums.dart';
 import 'package:anti_rigging/user_dashboard/bloc/user_dashboard_bloc.dart';
 import 'package:anti_rigging/user_dashboard/view/data_source.dart';
 import 'package:anti_rigging/utils/colors.dart';
+import 'package:anti_rigging/utils/constants.dart';
 import 'package:anti_rigging/utils/dashboard_card.dart';
 import 'package:anti_rigging/utils/text_styles.dart';
 import 'package:anti_rigging/widgets/virtual_id.dart';
@@ -112,7 +113,7 @@ class MainDashBoard extends StatelessWidget {
                                   Expanded(
                                     child: Container(
                                       height: MediaQuery.of(context).size.width * 0.15,
-                                      child: Image.asset('images/vote.png'),
+                                      child: Image.asset('${releasePath}assets/images/vote.png'),
                                     ),
                                   )
                                 ],

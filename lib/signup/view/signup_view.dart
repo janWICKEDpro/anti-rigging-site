@@ -6,6 +6,7 @@ import 'package:anti_rigging/signup/bloc/signup_events.dart';
 import 'package:anti_rigging/signup/bloc/signup_state.dart';
 import 'package:anti_rigging/signup/formkey.dart';
 import 'package:anti_rigging/utils/colors.dart';
+import 'package:anti_rigging/utils/constants.dart';
 import 'package:anti_rigging/utils/text_styles.dart';
 import 'package:anti_rigging/widgets/form_fields.dart';
 import 'package:flutter/material.dart';
@@ -59,9 +60,8 @@ class SignUp extends StatelessWidget {
                             child: Container(
                               decoration: const BoxDecoration(
                                   color: Colors.white,
-                                  borderRadius: BorderRadius.only(
-                                      topLeft: Radius.circular(15),
-                                      bottomLeft: Radius.circular(15))),
+                                  borderRadius:
+                                      BorderRadius.only(topLeft: Radius.circular(15), bottomLeft: Radius.circular(15))),
                               child: Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: Center(
@@ -69,14 +69,11 @@ class SignUp extends StatelessWidget {
                                     key: signUpKey,
                                     child: SingleChildScrollView(
                                       child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
+                                        mainAxisAlignment: MainAxisAlignment.center,
                                         children: [
                                           Text(
                                             'Create An Account',
-                                            style: AppTextStyles()
-                                                .headers
-                                                .copyWith(color: darkColor),
+                                            style: AppTextStyles().headers.copyWith(color: darkColor),
                                           ),
                                           const Gap(10),
                                           CustomFormField(
@@ -84,8 +81,7 @@ class SignUp extends StatelessWidget {
                                               (validator) {
                                                 if (validator!.isEmpty) {
                                                   return 'Please Enter your full Names';
-                                                } else if (validator.length <
-                                                    3) {
+                                                } else if (validator.length < 3) {
                                                   return 'Enter a name greater than 3 characters';
                                                 } else {
                                                   return null;
@@ -93,8 +89,7 @@ class SignUp extends StatelessWidget {
                                               },
                                               false,
                                               (names) {
-                                                context.read<SignUpBloc>().add(
-                                                    OnFullNameChanged(names));
+                                                context.read<SignUpBloc>().add(OnFullNameChanged(names));
                                               }),
                                           const Gap(10),
                                           CustomFormField(
@@ -112,9 +107,7 @@ class SignUp extends StatelessWidget {
                                               },
                                               false,
                                               (email) {
-                                                context
-                                                    .read<SignUpBloc>()
-                                                    .add(OnEmailChanged(email));
+                                                context.read<SignUpBloc>().add(OnEmailChanged(email));
                                               }),
                                           const Gap(10),
                                           CustomFormField(
@@ -122,8 +115,7 @@ class SignUp extends StatelessWidget {
                                               (validator) {
                                                 if (validator!.isEmpty) {
                                                   return 'Please Enter your full Names';
-                                                } else if (validator.length <
-                                                    3) {
+                                                } else if (validator.length < 3) {
                                                   return 'Enter a name greater than 3 characters';
                                                 } else {
                                                   return null;
@@ -131,16 +123,12 @@ class SignUp extends StatelessWidget {
                                               },
                                               false,
                                               (regNo) {
-                                                context
-                                                    .read<SignUpBloc>()
-                                                    .add(OnRegNoChanged(regNo));
+                                                context.read<SignUpBloc>().add(OnRegNoChanged(regNo));
                                               }),
                                           const Gap(20),
                                           DropdownButtonFormField(
                                             onChanged: (val) {
-                                              context
-                                                  .read<SignUpBloc>()
-                                                  .add(OnProgramChanged(val));
+                                              context.read<SignUpBloc>().add(OnProgramChanged(val));
                                             },
                                             value: Program.none,
                                             validator: (text) {
@@ -155,17 +143,12 @@ class SignUp extends StatelessWidget {
                                                   'Program',
                                                   style: AppTextStyles().normal,
                                                 ),
-                                                border: OutlineInputBorder(
-                                                    borderSide: BorderSide(
-                                                        color: primaryColor))),
+                                                border:
+                                                    OutlineInputBorder(borderSide: BorderSide(color: primaryColor))),
                                             items: [
                                               ...Program.values
                                                   .map((e) => DropdownMenuItem(
-                                                      value: e,
-                                                      child: Text(e
-                                                          .toString()
-                                                          .split('.')
-                                                          .last)))
+                                                      value: e, child: Text(e.toString().split('.').last)))
                                                   .toList()
                                             ],
                                           ),
@@ -175,8 +158,7 @@ class SignUp extends StatelessWidget {
                                               (validator) {
                                                 if (validator!.isEmpty) {
                                                   return 'Please Enter a password';
-                                                } else if (validator.length <
-                                                    8) {
+                                                } else if (validator.length < 8) {
                                                   return 'Enter a password greater than 8 characters';
                                                 } else {
                                                   return null;
@@ -184,25 +166,22 @@ class SignUp extends StatelessWidget {
                                               },
                                               true,
                                               (password) {
-                                                context.read<SignUpBloc>().add(
-                                                    OnPasswordChanged(
-                                                        password));
+                                                context.read<SignUpBloc>().add(OnPasswordChanged(password));
                                               }),
                                           const Gap(10),
                                           CustomFormField(
                                               'ConfirmPassword',
                                               (validator) {
-                                                if (validator !=
-                                                    state.password) {
+                                                if (validator != state.password) {
                                                   return 'Passwords do not match';
                                                 }
                                                 return null;
                                               },
                                               true,
                                               (confirmPassword) {
-                                                context.read<SignUpBloc>().add(
-                                                    OnConfirmPasswordChanged(
-                                                        confirmPassword));
+                                                context
+                                                    .read<SignUpBloc>()
+                                                    .add(OnConfirmPasswordChanged(confirmPassword));
                                               }),
                                           const Gap(20),
                                           Center(
@@ -211,27 +190,16 @@ class SignUp extends StatelessWidget {
                                               height: 40,
                                               child: ElevatedButton(
                                                 style: ButtonStyle(
-                                                    backgroundColor:
-                                                        MaterialStateProperty
-                                                            .all(primaryColor)),
+                                                    backgroundColor: MaterialStateProperty.all(primaryColor)),
                                                 child: state.loading!
-                                                    ? LoadingAnimationWidget
-                                                        .hexagonDots(
-                                                            color: Colors.white,
-                                                            size: 20)
+                                                    ? LoadingAnimationWidget.hexagonDots(color: Colors.white, size: 20)
                                                     : Text(
                                                         'Signup',
-                                                        style: AppTextStyles()
-                                                            .normal
-                                                            .copyWith(
-                                                                color: Colors
-                                                                    .white),
+                                                        style: AppTextStyles().normal.copyWith(color: Colors.white),
                                                       ),
                                                 onPressed: () {
-                                                  if (signUpKey.currentState!
-                                                      .validate()) {
-                                                    context.read<SignUpBloc>().add(
-                                                        OnSignUpButtonClicked());
+                                                  if (signUpKey.currentState!.validate()) {
+                                                    context.read<SignUpBloc>().add(OnSignUpButtonClicked());
                                                   }
                                                 },
                                               ),
@@ -244,10 +212,7 @@ class SignUp extends StatelessWidget {
                                             },
                                             child: Text(
                                               'Have an account? Login',
-                                              style: AppTextStyles()
-                                                  .normal
-                                                  .copyWith(
-                                                      color: primaryColor),
+                                              style: AppTextStyles().normal.copyWith(color: primaryColor),
                                             ),
                                           )
                                         ],
@@ -260,16 +225,15 @@ class SignUp extends StatelessWidget {
                           ),
                           Expanded(
                               child: Container(
-                            decoration: const BoxDecoration(
+                            decoration: BoxDecoration(
                               color: lightColor,
                               image: DecorationImage(
                                   fit: BoxFit.contain,
                                   image: AssetImage(
-                                    'images/signup_bg.png',
+                                    '${releasePath}assets/images/signup_bg.png',
                                   )),
-                              borderRadius: BorderRadius.only(
-                                  topRight: Radius.circular(15),
-                                  bottomRight: Radius.circular(15)),
+                              borderRadius: const BorderRadius.only(
+                                  topRight: Radius.circular(15), bottomRight: Radius.circular(15)),
                             ),
                           ))
                         ],

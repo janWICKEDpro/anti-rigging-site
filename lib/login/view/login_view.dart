@@ -3,6 +3,7 @@ import 'package:anti_rigging/login/bloc/login_events.dart';
 import 'package:anti_rigging/login/bloc/login_state.dart';
 import 'package:anti_rigging/login/form_key.dart';
 import 'package:anti_rigging/utils/colors.dart';
+import 'package:anti_rigging/utils/constants.dart';
 import 'package:anti_rigging/utils/text_styles.dart';
 import 'package:anti_rigging/widgets/form_fields.dart';
 import 'package:flutter/material.dart';
@@ -146,15 +147,12 @@ class Login extends StatelessWidget {
                           ),
                           Expanded(
                               child: Container(
-                            decoration: const BoxDecoration(
+                            decoration: BoxDecoration(
                               color: lightColor,
                               image: DecorationImage(
-                                  fit: BoxFit.contain,
-                                  image: AssetImage(
-                                    kDebugMode ? 'assets/images/signup_bg.png' : 'assets/assets/images/signup_bg.png',
-                                  )),
-                              borderRadius:
-                                  BorderRadius.only(topRight: Radius.circular(15), bottomRight: Radius.circular(15)),
+                                  fit: BoxFit.contain, image: AssetImage('${releasePath}assets/images/signup_bg.png')),
+                              borderRadius: const BorderRadius.only(
+                                  topRight: Radius.circular(15), bottomRight: Radius.circular(15)),
                             ),
                           ))
                         ],
