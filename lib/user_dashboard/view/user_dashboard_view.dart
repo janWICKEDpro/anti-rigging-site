@@ -96,24 +96,28 @@ class _UserDashBoardState extends State<UserDashBoard> {
                     headerBuilder: (context, extended) {
                       return Column(
                         children: [
-                          const SizedBox(
-                            height: 100,
-                            width: 100,
-                            child: Padding(
-                              padding: EdgeInsets.all(16.0),
-                              //    child: Image.asset('assets/images/avatar.png'),
-                              // child: SvgPicture.asset('icons/male.svg',
-                              //     semanticsLabel: 'Acme Logo'),
-                            ),
-                          ),
                           extended
-                              ? Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Center(
-                                    child: Text(
-                                      state.user != null ? state.user!.fullNames! : '',
-                                      style: AppTextStyles().headers.copyWith(color: darkColor),
+                              ? SizedBox(
+                                  height: 300,
+                                  width: 300,
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      color: lightColor,
+                                      image: DecorationImage(
+                                          fit: BoxFit.contain,
+                                          image: AssetImage(
+                                            'assets/images/kigali_bg.png',
+                                          )),
+                                      borderRadius: const BorderRadius.only(
+                                          topRight: Radius.circular(15), bottomRight: Radius.circular(15)),
                                     ),
+                                  ))
+                              : Container(),
+                          extended
+                              ? Center(
+                                  child: Text(
+                                    state.user != null ? state.user!.fullNames! : '',
+                                    style: AppTextStyles().headers.copyWith(color: darkColor, fontSize: 36),
                                   ),
                                 )
                               : Container()
@@ -123,7 +127,7 @@ class _UserDashBoardState extends State<UserDashBoard> {
                     items: [
                       SidebarXItem(
                         icon: Icons.dashboard,
-                        label: 'Dashbaord',
+                        label: 'Dashboard',
                         onTap: () {
                           if (selectedIndex != 0) {
                             selectedIndex = 0;

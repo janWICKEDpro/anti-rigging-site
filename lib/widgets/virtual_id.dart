@@ -1,5 +1,4 @@
 import 'package:anti_rigging/utils/colors.dart';
-import 'package:anti_rigging/utils/constants.dart';
 import 'package:anti_rigging/utils/text_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
@@ -82,7 +81,7 @@ class VirtualId extends StatelessWidget {
                           ],
                         ),
                         Image.asset(
-                          'images/9185570.png',
+                          'assets/images/9185570.png',
                           fit: BoxFit.fill,
                           height: MediaQuery.of(context).size.height * 0.1,
                           width: MediaQuery.of(context).size.height * 0.4,
@@ -97,7 +96,7 @@ class VirtualId extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Image.asset(
-                        '${releasePath}assets/images/kigali-bg.png',
+                        'assets/images/kigali-bg.png',
                         height: MediaQuery.of(context).size.height * 0.25,
                         width: MediaQuery.of(context).size.height * 0.3,
                       ),

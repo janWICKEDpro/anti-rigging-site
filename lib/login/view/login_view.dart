@@ -150,7 +150,7 @@ class Login extends StatelessWidget {
                             decoration: BoxDecoration(
                               color: lightColor,
                               image: DecorationImage(
-                                  fit: BoxFit.contain, image: AssetImage('${releasePath}assets/images/signup_bg.png')),
+                                  fit: BoxFit.contain, image: AssetImage('assets/images/signup_bg.png')),
                               borderRadius: const BorderRadius.only(
                                   topRight: Radius.circular(15), bottomRight: Radius.circular(15)),
                             ),

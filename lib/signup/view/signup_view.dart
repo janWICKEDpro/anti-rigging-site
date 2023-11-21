@@ -6,7 +6,6 @@ import 'package:anti_rigging/signup/bloc/signup_events.dart';
 import 'package:anti_rigging/signup/bloc/signup_state.dart';
 import 'package:anti_rigging/signup/formkey.dart';
 import 'package:anti_rigging/utils/colors.dart';
-import 'package:anti_rigging/utils/constants.dart';
 import 'package:anti_rigging/utils/text_styles.dart';
 import 'package:anti_rigging/widgets/form_fields.dart';
 import 'package:flutter/material.dart';
@@ -41,7 +40,7 @@ class SignUp extends StatelessWidget {
                 children: [
                   Expanded(
                       child: Container(
-                    color: Color.fromARGB(255, 228, 226, 226),
+                    color: const Color.fromARGB(255, 228, 226, 226),
                   )),
                 ],
               ),
@@ -51,7 +50,7 @@ class SignUp extends StatelessWidget {
                 right: 0,
                 bottom: 0,
                 child: Center(
-                  child: Container(
+                  child: SizedBox(
                     height: height * 0.85,
                     child: Card(
                       child: Row(
@@ -143,8 +142,8 @@ class SignUp extends StatelessWidget {
                                                   'Program',
                                                   style: AppTextStyles().normal,
                                                 ),
-                                                border:
-                                                    OutlineInputBorder(borderSide: BorderSide(color: primaryColor))),
+                                                border: const OutlineInputBorder(
+                                                    borderSide: BorderSide(color: primaryColor))),
                                             items: [
                                               ...Program.values
                                                   .map((e) => DropdownMenuItem(
@@ -185,7 +184,7 @@ class SignUp extends StatelessWidget {
                                               }),
                                           const Gap(20),
                                           Center(
-                                            child: Container(
+                                            child: SizedBox(
                                               width: 400,
                                               height: 40,
                                               child: ElevatedButton(
@@ -225,15 +224,15 @@ class SignUp extends StatelessWidget {
                           ),
                           Expanded(
                               child: Container(
-                            decoration: BoxDecoration(
+                            decoration: const BoxDecoration(
                               color: lightColor,
                               image: DecorationImage(
                                   fit: BoxFit.contain,
                                   image: AssetImage(
-                                    '${releasePath}assets/images/signup_bg.png',
+                                    'assets/images/signup_bg.png',
                                   )),
-                              borderRadius: const BorderRadius.only(
-                                  topRight: Radius.circular(15), bottomRight: Radius.circular(15)),
+                              borderRadius:
+                                  BorderRadius.only(topRight: Radius.circular(15), bottomRight: Radius.circular(15)),
                             ),
                           ))
                         ],
