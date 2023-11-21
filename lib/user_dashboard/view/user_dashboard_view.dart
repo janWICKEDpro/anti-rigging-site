@@ -45,7 +45,7 @@ class _UserDashBoardState extends State<UserDashBoard> {
               body: Row(
                 children: [
                   SidebarX(
-                    controller: SidebarXController(selectedIndex: selectedIndex, extended: true),
+                    controller: SidebarXController(selectedIndex: selectedIndex, extended: false),
                     theme: SidebarXTheme(
                       margin: const EdgeInsets.all(10),
                       decoration: BoxDecoration(
@@ -92,7 +92,7 @@ class _UserDashBoardState extends State<UserDashBoard> {
                         color: lightColor,
                       ),
                     ),
-                    footerDivider: Divider(),
+                    footerDivider: const Divider(),
                     headerBuilder: (context, extended) {
                       return Column(
                         children: [
@@ -101,14 +101,14 @@ class _UserDashBoardState extends State<UserDashBoard> {
                                   height: 300,
                                   width: 300,
                                   child: Container(
-                                    decoration: BoxDecoration(
+                                    decoration: const BoxDecoration(
                                       color: lightColor,
                                       image: DecorationImage(
                                           fit: BoxFit.contain,
                                           image: AssetImage(
                                             'assets/images/kigali_bg.png',
                                           )),
-                                      borderRadius: const BorderRadius.only(
+                                      borderRadius: BorderRadius.only(
                                           topRight: Radius.circular(15), bottomRight: Radius.circular(15)),
                                     ),
                                   ))
@@ -117,7 +117,7 @@ class _UserDashBoardState extends State<UserDashBoard> {
                               ? Center(
                                   child: Text(
                                     state.user != null ? state.user!.fullNames! : '',
-                                    style: AppTextStyles().headers.copyWith(color: darkColor, fontSize: 36),
+                                    style: AppTextStyles().headers.copyWith(color: darkColor, fontSize: 16),
                                   ),
                                 )
                               : Container()
