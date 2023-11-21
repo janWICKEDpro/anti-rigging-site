@@ -56,29 +56,34 @@ class UserDashboardBloc extends Bloc<UserDashboardEvent, UserDashboardState> {
       final roles = await db.getActiveElectionInfo();
 
       final voted = await db.userVotes(auth.status!.uid);
+      log('${voted.length}');
       final List<(String, List<Candidate>, bool)> finalVotedList = [];
       for (var role in roles) {
         if (voted.isNotEmpty) {
-          for (var vote in voted) {
-            if (vote.id.compareTo(auth.status!.uid + state.election!.electionName! + role.$1) == 0) {
-              final candidateList = role.$2.map((element) {
-                if (element.cid == (vote.data() as Map<String, dynamic>)['candidateId']) {
-                  return Candidate(
-                      candidateDescription: element.candidateDescription,
-                      candidateName: element.candidateName,
-                      imageUrl: element.imageUrl,
-                      cid: element.cid,
-                      votes: element.votes,
-                      isvoted: true,
-                      file: element.file);
-                } else {
-                  return element;
-                }
-              }).toList();
-              finalVotedList.add((role.$1, candidateList, true));
-            }
+          final item = voted
+              .where((vote) => vote.id.compareTo(auth.status!.uid + state.election!.electionName! + role.$1) == 0)
+              .toList();
+          if (item.isNotEmpty) {
+            final candidateList = role.$2.map((element) {
+              if (element.cid == (item[0].data() as Map<String, dynamic>)['candidateId']) {
+                return Candidate(
+                    candidateDescription: element.candidateDescription,
+                    candidateName: element.candidateName,
+                    imageUrl: element.imageUrl,
+                    cid: element.cid,
+                    votes: element.votes,
+                    isvoted: true,
+                    file: element.file);
+              } else {
+                return element;
+              }
+            }).toList();
+            finalVotedList.add((role.$1, candidateList, true));
+          } else {
+            finalVotedList.add((role.$1, role.$2, false));
           }
         } else {
+          log('should run');
           finalVotedList.add((role.$1, role.$2, false));
         }
       }
@@ -106,16 +111,23 @@ class UserDashboardBloc extends Bloc<UserDashboardEvent, UserDashboardState> {
 }
 
 
-//  int index = role.$2.indexWhere((element) => (vote.id.compareTo(
-//                     auth.status!.uid +
-//                         state.election!.electionName! +
-//                         role.$1) ==
-//                 0));
-//            role.$2[ index ] = Candidate(
-//                     candidateDescription: role.$2[ index ].candidateDescription,
-//                     candidateName:  role.$2[ index ].candidateName,
-//                     imageUrl:  role.$2[ index ].imageUrl,
-//                     cid: role.$2[ index ].cid,
-//                     votes:  role.$2[ index ].votes,
-//                     isvoted: true,
-//                     file:  role.$2[ index ].file);
+
+
+
+// if (vote.id.compareTo(auth.status!.uid + state.election!.electionName! + role.$1) == 0) {
+//               final candidateList = role.$2.map((element) {
+//                 if (element.cid == (vote.data() as Map<String, dynamic>)['candidateId']) {
+//                   return Candidate(
+//                       candidateDescription: element.candidateDescription,
+//                       candidateName: element.candidateName,
+//                       imageUrl: element.imageUrl,
+//                       cid: element.cid,
+//                       votes: element.votes,
+//                       isvoted: true,
+//                       file: element.file);
+//                 } else {
+//                   return element;
+//                 }
+//               }).toList();
+//               finalVotedList.add((role.$1, candidateList, true));
+//             }
