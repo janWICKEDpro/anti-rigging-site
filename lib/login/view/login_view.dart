@@ -3,7 +3,6 @@ import 'package:anti_rigging/login/bloc/login_events.dart';
 import 'package:anti_rigging/login/bloc/login_state.dart';
 import 'package:anti_rigging/login/form_key.dart';
 import 'package:anti_rigging/utils/colors.dart';
-import 'package:anti_rigging/utils/constants.dart';
 import 'package:anti_rigging/utils/text_styles.dart';
 import 'package:anti_rigging/widgets/form_fields.dart';
 import 'package:flutter/material.dart';
@@ -11,7 +10,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
-import 'package:flutter/foundation.dart';
 
 class Login extends StatelessWidget {
   const Login({super.key});
@@ -147,12 +145,12 @@ class Login extends StatelessWidget {
                           ),
                           Expanded(
                               child: Container(
-                            decoration: BoxDecoration(
+                            decoration: const BoxDecoration(
                               color: lightColor,
                               image: DecorationImage(
                                   fit: BoxFit.contain, image: AssetImage('assets/images/signup_bg.png')),
-                              borderRadius: const BorderRadius.only(
-                                  topRight: Radius.circular(15), bottomRight: Radius.circular(15)),
+                              borderRadius:
+                                  BorderRadius.only(topRight: Radius.circular(15), bottomRight: Radius.circular(15)),
                             ),
                           ))
                         ],

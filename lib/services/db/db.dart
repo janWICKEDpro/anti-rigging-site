@@ -87,7 +87,7 @@ class DbService {
     List<(String, List<Candidate>)> electionData = [];
     try {
       final election = await _dbInstance.collection('ELECTIONS').where('isActive', isEqualTo: true).get();
-      log('${election.docs[0].id}');
+
       if (election.docs.isEmpty) return [];
       final roles = await election.docs[0].reference.collection('ROLE').get();
       log('${roles.docs}');

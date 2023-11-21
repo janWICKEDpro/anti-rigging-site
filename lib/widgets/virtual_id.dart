@@ -96,7 +96,7 @@ class VirtualId extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Image.asset(
-                        'assets/images/kigali-bg.png',
+                        'assets/images/kigali_bg.png',
                         height: MediaQuery.of(context).size.height * 0.25,
                         width: MediaQuery.of(context).size.height * 0.3,
                       ),
