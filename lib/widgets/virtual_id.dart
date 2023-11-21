@@ -43,6 +43,7 @@ class VirtualId extends StatelessWidget {
             Row(
               children: [
                 Expanded(
+                  flex: 2,
                   child: Container(
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -74,36 +75,45 @@ class VirtualId extends StatelessWidget {
                           children: [
                             Text('PROGRAMME:', style: AppTextStyles().headers.copyWith(fontSize: 16, color: darkColor)),
                             const Gap(5),
-                            Text(
-                              programe!,
-                              style: AppTextStyles().normal.copyWith(),
-                            ),
+                            Wrap(children: [
+                              Container(
+                                child: Text(
+                                  programe!,
+                                  softWrap: true,
+                                  style: AppTextStyles().normal.copyWith(),
+                                ),
+                              ),
+                            ]),
                           ],
                         ),
-                        Image.asset(
-                          'assets/images/9185570.png',
-                          fit: BoxFit.fill,
-                          height: MediaQuery.of(context).size.height * 0.1,
-                          width: MediaQuery.of(context).size.height * 0.4,
+                        Align(
+                          alignment: Alignment.centerLeft,
+                          child: Image.asset(
+                            'assets/images/9185570.png',
+                            fit: BoxFit.fill,
+                            height: MediaQuery.of(context).size.height * 0.1,
+                            width: MediaQuery.of(context).size.height * 0.4,
+                          ),
                         ),
                       ],
                     ),
                   ),
                 ),
                 Expanded(
+                    flex: 1,
                     child: Container(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Image.asset(
-                        'assets/images/kigali_bg.png',
-                        height: MediaQuery.of(context).size.height * 0.25,
-                        width: MediaQuery.of(context).size.height * 0.3,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Image.asset(
+                            'assets/images/kigali_bg.png',
+                            height: MediaQuery.of(context).size.height * 0.25,
+                            width: MediaQuery.of(context).size.height * 0.3,
+                          ),
+                          const Gap(4),
+                        ],
                       ),
-                      const Gap(4),
-                    ],
-                  ),
-                ))
+                    ))
               ],
             ),
           ],

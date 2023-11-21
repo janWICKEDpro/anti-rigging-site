@@ -23,13 +23,20 @@ class UserDashBoard extends StatefulWidget {
 }
 
 class _UserDashBoardState extends State<UserDashBoard> {
-  List<Widget> screens = [
-    MainDashBoard(),
-    VoteView(),
-  ];
   int selectedIndex = 0;
+
   @override
   Widget build(BuildContext context) {
+    List<Widget> screens = [
+      MainDashBoard(
+        changeIndex: () {
+          setState(() {
+            selectedIndex = 1;
+          });
+        },
+      ),
+      VoteView(),
+    ];
     return BlocProvider(
       lazy: false,
       create: (context) => UserDashboardBloc()..add(OnFetchDashboardInfo()),

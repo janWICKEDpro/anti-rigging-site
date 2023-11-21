@@ -67,6 +67,24 @@ class _VoteViewState extends State<VoteView> {
                       ),
                     ),
                   );
+                } else if (state.voteList!.isEmpty) {
+                  return Expanded(
+                    child: Container(
+                      child: Align(
+                        alignment: Alignment.center,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Text(
+                              'No Ongoing Election. Contact your admin to create one',
+                              style: AppTextStyles().headers.copyWith(fontSize: 18, color: Colors.redAccent),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  );
                 } else {
                   return Expanded(
                     child: Container(
