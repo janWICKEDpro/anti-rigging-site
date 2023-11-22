@@ -6,11 +6,12 @@ class DashBoardCard extends StatelessWidget {
   final Function()? onTap;
   @override
   Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        height: 100,
-        width: 100,
+        height: width * 0.6,
+        width: width * 0.87,
         decoration: BoxDecoration(
           boxShadow: [
             BoxShadow(

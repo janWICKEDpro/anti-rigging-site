@@ -25,10 +25,17 @@ class _VoteViewState extends State<VoteView> {
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                'You May Now Cast Your Votes',
-                style: AppTextStyles().headers.copyWith(color: primaryColor),
-              ),
+              LayoutBuilder(builder: ((context, constraints) {
+                return Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    'You May Now Cast Your Votes',
+                    style: AppTextStyles()
+                        .headers
+                        .copyWith(fontSize: constraints.maxWidth < 600 ? 14 : null, color: primaryColor),
+                  ),
+                );
+              })),
               Builder(builder: (context) {
                 if (state.fetchVoteList == FetchVoteList.loading) {
                   return Expanded(
@@ -78,7 +85,7 @@ class _VoteViewState extends State<VoteView> {
                           children: [
                             Text(
                               'No Ongoing Election. Contact your admin to create one',
-                              style: AppTextStyles().headers.copyWith(fontSize: 18, color: Colors.redAccent),
+                              style: AppTextStyles().headers.copyWith(fontSize: 16, color: Colors.redAccent),
                             ),
                           ],
                         ),
