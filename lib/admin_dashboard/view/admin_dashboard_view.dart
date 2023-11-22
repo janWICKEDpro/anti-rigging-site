@@ -81,7 +81,7 @@ class AdminDashboad extends StatelessWidget {
                                   context.read<AdminDashboardBloc>().add(OnEndElection());
                                 },
                                 child: state.createELectionEnum == CreateELectionEnum.loading
-                                    ? LoadingAnimationWidget.hexagonDots(color: Colors.white, size: 50)
+                                    ? LoadingAnimationWidget.hexagonDots(color: Colors.white, size: 25)
                                     : Text(
                                         'End Election',
                                         style: AppTextStyles().normal.copyWith(color: Colors.white),

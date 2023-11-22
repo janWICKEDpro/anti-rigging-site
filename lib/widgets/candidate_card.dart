@@ -7,7 +7,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 
-class CandidateCard extends StatelessWidget {
+class CandidateCard extends StatefulWidget {
   const CandidateCard(
       {super.key,
       this.name,
@@ -26,6 +26,12 @@ class CandidateCard extends StatelessWidget {
   final int index;
 
   @override
+  State<CandidateCard> createState() => _CandidateCardState();
+}
+
+class _CandidateCardState extends State<CandidateCard> {
+  bool loading = false;
+  @override
   Widget build(BuildContext context) {
     return Container(
       height: 400,
@@ -42,7 +48,7 @@ class CandidateCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Text(
-            name!,
+            widget.name!,
             style: AppTextStyles().headers.copyWith(color: darkColor, fontSize: 18),
           ),
           const Gap(10),
@@ -51,13 +57,13 @@ class CandidateCard extends StatelessWidget {
             child: SizedBox(
                 height: 100,
                 width: 100,
-                child: imageUrl!.isEmpty ? Image.asset('images/realmale.png') : Image.network(imageUrl!)),
+                child: widget.imageUrl!.isEmpty ? Image.asset('images/realmale.png') : Image.network(widget.imageUrl!)),
           ),
           const Gap(10),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 5.0),
             child: Text(
-              description!,
+              widget.description!,
               textAlign: TextAlign.center,
               style: AppTextStyles().normal.copyWith(
                     color: primaryColor,
@@ -68,42 +74,58 @@ class CandidateCard extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              BlocBuilder<UserDashboardBloc, UserDashboardState>(
-                builder: (context, state) {
-                  return ElevatedButton(
-                      style: ButtonStyle(
-                          backgroundColor: MaterialStateProperty.all(isVoted
-                              ? Colors.greenAccent
-                              : (state.voteList![index].$2.where((element) => element.isvoted == true).isNotEmpty)
-                                  ? const Color.fromARGB(255, 233, 226, 226)
-                                  : darkColor)),
-                      onPressed: () {
-                        if (state.voteList![index].$2.where((element) => element.isvoted == true).isNotEmpty) {
-                          ScaffoldMessenger.of(context)
-                            ..hideCurrentSnackBar()
-                            ..showSnackBar(SnackBar(
-                                backgroundColor: Colors.redAccent,
-                                content: Center(
-                                  child: Text(
-                                    "Already Voted For this role",
-                                    style: AppTextStyles().normal.copyWith(color: Colors.white),
-                                  ),
-                                )));
-                        } else {
-                          context.read<UserDashboardBloc>().add(OnVote(cid, role));
-                        }
-                      },
-                      child: state.voteStatus == Vote.loading
-                          ? LoadingAnimationWidget.hexagonDots(color: Colors.white, size: 15)
-                          : Text(
-                              isVoted
-                                  ? 'Voted'
-                                  : (state.voteList![index].$2.where((element) => element.isvoted == true).isNotEmpty)
-                                      ? 'No vote'
-                                      : 'Vote',
-                              style: AppTextStyles().normal.copyWith(color: Colors.white),
-                            ));
+              BlocListener<UserDashboardBloc, UserDashboardState>(
+                listener: (context, state) {
+                  if (state.voteStatus != Vote.loading) {
+                    setState(() {
+                      loading = false;
+                    });
+                  }
                 },
+                child: BlocBuilder<UserDashboardBloc, UserDashboardState>(
+                  builder: (context, state) {
+                    return ElevatedButton(
+                        style: ButtonStyle(
+                            backgroundColor: MaterialStateProperty.all(widget.isVoted
+                                ? Colors.greenAccent
+                                : (state.voteList![widget.index].$2
+                                        .where((element) => element.isvoted == true)
+                                        .isNotEmpty)
+                                    ? const Color.fromARGB(255, 233, 226, 226)
+                                    : darkColor)),
+                        onPressed: () {
+                          if (state.voteList![widget.index].$2.where((element) => element.isvoted == true).isNotEmpty) {
+                            ScaffoldMessenger.of(context)
+                              ..hideCurrentSnackBar()
+                              ..showSnackBar(SnackBar(
+                                  backgroundColor: Colors.redAccent,
+                                  content: Center(
+                                    child: Text(
+                                      "Already Voted For this role",
+                                      style: AppTextStyles().normal.copyWith(color: Colors.white),
+                                    ),
+                                  )));
+                          } else {
+                            setState(() {
+                              loading = true;
+                            });
+                            context.read<UserDashboardBloc>().add(OnVote(widget.cid, widget.role));
+                          }
+                        },
+                        child: loading
+                            ? LoadingAnimationWidget.hexagonDots(color: Colors.white, size: 15)
+                            : Text(
+                                widget.isVoted
+                                    ? 'Voted'
+                                    : (state.voteList![widget.index].$2
+                                            .where((element) => element.isvoted == true)
+                                            .isNotEmpty)
+                                        ? 'No vote'
+                                        : 'Vote',
+                                style: AppTextStyles().normal.copyWith(color: Colors.white),
+                              ));
+                  },
+                ),
               ),
             ],
           )

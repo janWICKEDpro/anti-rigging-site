@@ -62,7 +62,7 @@ class DbService {
   //get elections
   Future<List<Election>> getElections() async {
     try {
-      final elections = await _dbInstance.collection('ELECTIONS').get();
+      final elections = await _dbInstance.collection('ELECTIONS').orderBy('startDate', descending: true).get();
       return elections.docs.map((e) => Election.fromJson(e.data())).toList();
     } catch (e) {
       log('$e');
@@ -141,19 +141,22 @@ class DbService {
 
   Future vote(String electionName, String role, String candidateId, String uid) async {
     try {
-      final candidate = await getCandidate(electionName, role, candidateId);
-      int val = candidate.votes;
-      val++;
-      await _dbInstance
-          .collection('ELECTIONS')
-          .doc(electionName)
-          .collection('ROLE')
-          .doc(role)
-          .collection('CANDIDATES')
-          .doc(candidateId)
-          .update({'vote': val});
-      //add the role and election voted for in a new collection.
-      await _dbInstance.collection('USERVOTEDROLES').doc(uid + electionName + role).set({'candidateId': candidateId});
+      final doc = await _dbInstance.collection('USERVOTEDROLES').doc(uid + electionName + role).get();
+      if (!doc.exists) {
+        final candidate = await getCandidate(electionName, role, candidateId);
+        int val = candidate.votes;
+        val++;
+        await _dbInstance
+            .collection('ELECTIONS')
+            .doc(electionName)
+            .collection('ROLE')
+            .doc(role)
+            .collection('CANDIDATES')
+            .doc(candidateId)
+            .update({'vote': val});
+        //add the role and election voted for in a new collection.
+        await _dbInstance.collection('USERVOTEDROLES').doc(uid + electionName + role).set({'candidateId': candidateId});
+      }
     } catch (e) {
       log('$e');
       throw 'error occured while voting';
@@ -171,7 +174,6 @@ class DbService {
 
   Future endElection() async {
     try {
-      log('what hapepe');
       final ref = await _dbInstance.collection('ELECTIONS').where('isActive', isEqualTo: true).get();
       await ref.docs[0].reference.update({'isActive': false});
     } catch (e) {
