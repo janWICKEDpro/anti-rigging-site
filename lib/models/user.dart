@@ -8,13 +8,7 @@ class AppUser {
   final String? accountType;
   final Program? program;
 
-  const AppUser(
-      {this.id,
-      this.fullNames,
-      this.regno,
-      this.accountType = 'student',
-      this.program,
-      this.email});
+  const AppUser({this.id, this.fullNames, this.regno, this.accountType = 'student', this.program, this.email});
 
   Map<String, dynamic> toJson() {
     return {
@@ -28,12 +22,10 @@ class AppUser {
 
   factory AppUser.fromJson(Map<String, dynamic> user) {
     return AppUser(
-        fullNames: (user['name'] as String).split(' ').first,
+        fullNames: (user['name'] as String),
         regno: user['regno'],
         email: user['email'],
         accountType: user['accountType'],
-        program: Program.values
-            .where((element) => element.toString() == user['program'])
-            .first);
+        program: Program.values.where((element) => element.toString() == user['program']).first);
   }
 }
