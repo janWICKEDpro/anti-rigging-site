@@ -16,28 +16,27 @@ class CustomFormField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
-    return Container(
-      width: width * 0.5,
-      height: 50,
-      decoration: BoxDecoration(
-          color: Color.fromARGB(255, 226, 221, 221),
-          borderRadius: BorderRadius.circular(5)),
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Center(
-          child: TextFormField(
-            onChanged: onChanged,
-            obscureText: obscureText,
-            validator: validator,
-            decoration: InputDecoration(
-                label: Text(
-                  name,
-                  style: AppTextStyles().normal.copyWith(fontSize: 14),
-                ),
-                border: OutlineInputBorder(borderSide: BorderSide.none)),
+    return LayoutBuilder(builder: (context, constraints) {
+      return Container(
+        width: constraints.maxWidth < 600 ? width * 0.8 : width * 0.5,
+        decoration: BoxDecoration(color: Color.fromARGB(255, 226, 221, 221), borderRadius: BorderRadius.circular(5)),
+        child: Padding(
+          padding: const EdgeInsets.all(5.0),
+          child: Center(
+            child: TextFormField(
+              onChanged: onChanged,
+              obscureText: obscureText,
+              validator: validator,
+              decoration: InputDecoration(
+                  label: Text(
+                    name,
+                    style: AppTextStyles().normal.copyWith(fontSize: 14),
+                  ),
+                  border: const OutlineInputBorder(borderSide: BorderSide.none)),
+            ),
           ),
         ),
-      ),
-    );
+      );
+    });
   }
 }
