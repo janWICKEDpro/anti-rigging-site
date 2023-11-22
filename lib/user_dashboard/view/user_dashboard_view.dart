@@ -52,7 +52,7 @@ class _UserDashBoardState extends State<UserDashBoard> {
               body: Row(
                 children: [
                   SidebarX(
-                    controller: SidebarXController(selectedIndex: selectedIndex, extended: false),
+                    controller: SidebarXController(selectedIndex: selectedIndex, extended: true),
                     theme: SidebarXTheme(
                       margin: const EdgeInsets.all(10),
                       decoration: BoxDecoration(

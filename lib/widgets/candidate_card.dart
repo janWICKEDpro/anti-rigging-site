@@ -57,7 +57,12 @@ class _CandidateCardState extends State<CandidateCard> {
             child: SizedBox(
                 height: 100,
                 width: 100,
-                child: widget.imageUrl!.isEmpty ? Image.asset('images/realmale.png') : Image.network(widget.imageUrl!)),
+                child: widget.imageUrl!.isEmpty
+                    ? Image.asset('images/realmale.png', fit: BoxFit.fill)
+                    : Image.network(
+                        widget.imageUrl!,
+                        fit: BoxFit.fill,
+                      )),
           ),
           const Gap(10),
           Padding(
