@@ -58,10 +58,10 @@ class _CandidateCardState extends State<CandidateCard> {
                 height: 100,
                 width: 100,
                 child: widget.imageUrl!.isEmpty
-                    ? Image.asset('images/realmale.png', fit: BoxFit.fill)
+                    ? Image.asset('images/realmale.png', fit: BoxFit.none)
                     : Image.network(
                         widget.imageUrl!,
-                        fit: BoxFit.fill,
+                        fit: BoxFit.cover,
                       )),
           ),
           const Gap(10),
