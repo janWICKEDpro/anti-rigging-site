@@ -179,6 +179,7 @@ class MainDashBoard extends StatelessWidget {
                   todayHighlightColor: primaryColor,
                   view: CalendarView.month,
                 )),
+                const Gap(20),
               ],
             );
           }
