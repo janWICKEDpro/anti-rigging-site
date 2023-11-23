@@ -58,7 +58,7 @@ class MainDashBoard extends StatelessWidget {
                         const Gap(20),
                         VirtualId(
                           name: state.user!.fullNames!,
-                          programe: state.user!.program!.toString(),
+                          programe: state.user!.program.toString().split('.').last.toUpperCase(),
                           regno: state.user!.regno,
                         )
                       ],
@@ -272,7 +272,7 @@ class MainDashBoard extends StatelessWidget {
                             child: VirtualId(
                               name: state.user!.fullNames,
                               regno: state.user!.regno,
-                              programe: state.user!.program.toString(),
+                              programe: state.user!.program.toString().split('.').last.toUpperCase(),
                             ),
                           ),
                         ),

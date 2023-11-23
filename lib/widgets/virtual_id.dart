@@ -16,7 +16,7 @@ class VirtualId extends StatelessWidget {
       if (constraints.maxHeight > 600) {
         return Container(
           height: 300,
-          width: 400,
+          width: width * 0.4,
           decoration: BoxDecoration(
               gradient: const LinearGradient(
                 colors: [
@@ -100,14 +100,14 @@ class VirtualId extends StatelessWidget {
                                 ]),
                               ],
                             ),
-                            const Gap(10),
+                            const Gap(30),
                             Align(
                               alignment: Alignment.centerLeft,
                               child: Image.asset(
                                 'assets/images/9185570.png',
                                 fit: BoxFit.cover,
-                                height: MediaQuery.of(context).size.height * 0.01,
-                                width: MediaQuery.of(context).size.height * 0.2,
+                                height: MediaQuery.of(context).size.height * 0.05,
+                                width: MediaQuery.of(context).size.width * 0.2,
                               ),
                             ),
                           ],
