@@ -112,7 +112,7 @@ class _AdminDashBoardPageState extends State<AdminDashBoardPage> with TickerProv
                     decoration: const BoxDecoration(
                         image: DecorationImage(
                             image: AssetImage(
-                      'images/no_data.jpg',
+                      'assets/images/no_data.jpg',
                     ))),
                   ),
                 ));
