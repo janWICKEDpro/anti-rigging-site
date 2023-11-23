@@ -13,7 +13,7 @@ class VirtualId extends StatelessWidget {
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
     return LayoutBuilder(builder: (context, constraints) {
-      if (constraints.maxHeight > 600) {
+      if (constraints.maxWidth > 600) {
         return Container(
           height: 300,
           width: width * 0.4,
@@ -231,13 +231,13 @@ class VirtualId extends StatelessWidget {
                               ]),
                             ],
                           ),
-                          const Gap(10),
+                          const Gap(30),
                           Align(
                             alignment: Alignment.centerLeft,
                             child: Image.asset(
                               'assets/images/9185570.png',
                               fit: BoxFit.cover,
-                              height: MediaQuery.of(context).size.height * 0.01,
+                              height: MediaQuery.of(context).size.height * 0.02,
                               width: MediaQuery.of(context).size.height * 0.2,
                             ),
                           ),

@@ -30,6 +30,7 @@ class _VoteViewState extends State<VoteView> {
                   padding: const EdgeInsets.all(8.0),
                   child: Text(
                     'You May Now Cast Your Votes',
+                    textAlign: TextAlign.center,
                     style: AppTextStyles()
                         .headers
                         .copyWith(fontSize: constraints.maxWidth < 600 ? 14 : null, color: primaryColor),
@@ -85,6 +86,7 @@ class _VoteViewState extends State<VoteView> {
                           children: [
                             Text(
                               'No Ongoing Election. Contact your admin to create one',
+                              textAlign: TextAlign.center,
                               style: AppTextStyles().headers.copyWith(fontSize: 16, color: Colors.redAccent),
                             ),
                           ],
