@@ -1,5 +1,7 @@
+import 'package:anti_rigging/user_session/bloc/user_session_bloc.dart';
 import 'package:anti_rigging/utils/themes.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 class App extends StatefulWidget {
@@ -12,11 +14,14 @@ class App extends StatefulWidget {
 class _AppState extends State<App> {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp.router(
-      title: 'Anti-Rigging',
-      theme: AppThemes().theme,
-      routerConfig: widget.routes,
-      debugShowCheckedModeBanner: false,
+    return BlocProvider(
+      create: (context) => UserSessionBloc(),
+      child: MaterialApp.router(
+        title: 'Anti-Rigging',
+        theme: AppThemes().theme,
+        routerConfig: widget.routes,
+        debugShowCheckedModeBanner: false,
+      ),
     );
   }
 }

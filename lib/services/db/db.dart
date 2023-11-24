@@ -181,4 +181,25 @@ class DbService {
       throw 'Error occured';
     }
   }
+
+  Future<DocumentReference<Map<String, dynamic>>> createSession(String uid) async {
+    try {
+      final docRef = _dbInstance.collection('USERS').doc(uid).collection('USERSESSION').doc();
+      await docRef.set({'userId': uid});
+      return docRef;
+    } catch (e) {
+      throw 'Error occured while creating session';
+    }
+  }
+
+  Future deleteSession(String uid) async {
+    try {
+      final docRef = await _dbInstance.collection('USERS').doc(uid).collection('USERSESSION').limit(1).get();
+      if (docRef.docs.isNotEmpty) {
+        await docRef.docs.first.reference.delete();
+      }
+    } catch (e) {
+      throw 'Failed to delete session';
+    }
+  }
 }

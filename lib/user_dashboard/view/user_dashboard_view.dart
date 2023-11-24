@@ -2,6 +2,7 @@ import 'package:anti_rigging/enums.dart';
 import 'package:anti_rigging/user_dashboard/bloc/user_dashboard_bloc.dart';
 import 'package:anti_rigging/user_dashboard/view/main_dashboard_view.dart';
 import 'package:anti_rigging/user_dashboard/view/vote_view.dart';
+import 'package:anti_rigging/user_session/bloc/user_session_bloc.dart';
 import 'package:anti_rigging/utils/colors.dart';
 import 'package:anti_rigging/utils/text_styles.dart';
 import 'package:flutter/material.dart';
@@ -39,13 +40,24 @@ class _UserDashBoardState extends State<UserDashBoard> {
     ];
     return BlocProvider(
       lazy: false,
-      create: (context) => UserDashboardBloc()..add(OnFetchDashboardInfo()),
-      child: BlocListener<UserDashboardBloc, UserDashboardState>(
-        listener: (context, state) {
-          if (state.loginStatus == LoginStatus.signedOut) {
-            GoRouter.of(context).pushReplacement('/login');
-          }
-        },
+      create: (context) => UserDashboardBloc(BlocProvider.of<UserSessionBloc>(context))..add(OnFetchDashboardInfo()),
+      child: MultiBlocListener(
+        listeners: [
+          BlocListener<UserSessionBloc, UserSessionState>(
+            listener: (context, state) {
+              if (state is SessionDeleted) {
+                context.read<UserDashboardBloc>().add(OnSignoutClicked());
+              }
+            },
+          ),
+          BlocListener<UserDashboardBloc, UserDashboardState>(
+            listener: (context, state) {
+              if (state.loginStatus == LoginStatus.signedOut) {
+                GoRouter.of(context).pushReplacement('/login');
+              }
+            },
+          )
+        ],
         child: BlocBuilder<UserDashboardBloc, UserDashboardState>(
           builder: (context, state) {
             return LayoutBuilder(builder: (context, constraints) {

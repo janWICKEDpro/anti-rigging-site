@@ -8,6 +8,7 @@ import 'package:anti_rigging/services/auth/auth.dart';
 import 'package:anti_rigging/services/db/db.dart';
 import 'package:anti_rigging/user_dashboard/bloc/enums.dart';
 import 'package:anti_rigging/user_dashboard/view/data_source.dart';
+import 'package:anti_rigging/user_session/bloc/user_session_bloc.dart';
 import 'package:anti_rigging/utils/colors.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -18,11 +19,13 @@ part 'user_dashboard_state.dart';
 class UserDashboardBloc extends Bloc<UserDashboardEvent, UserDashboardState> {
   final auth = AuthenticationService();
   final db = DbService();
-  UserDashboardBloc() : super(UserDashboardState()) {
+  final UserSessionBloc userSession;
+  UserDashboardBloc(this.userSession) : super(UserDashboardState()) {
     on<OnFetchDashboardInfo>((event, emit) async {
       //get user
       emit(state.copyWith(fetchInfo: FetchInfo.loading, loginStatus: LoginStatus.signedIn));
       try {
+        userSession.add(CreateSession());
         final user = await db.getUser(auth.status!.uid);
 
         final election = await db.getActiveElection();

@@ -10,6 +10,7 @@ import 'package:anti_rigging/services/auth/auth.dart';
 import 'package:anti_rigging/services/db/db.dart';
 import 'package:anti_rigging/services/pick_file.dart';
 import 'package:anti_rigging/user_dashboard/view/data_source.dart';
+import 'package:anti_rigging/user_session/bloc/user_session_bloc.dart';
 import 'package:anti_rigging/utils/colors.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -17,7 +18,8 @@ class AdminDashboardBloc extends Bloc<AdminDashboardEvents, AdminDashBoardState>
   final filepicker = FilePickerMethods();
   final db = DbService();
   final auth = AuthenticationService();
-  AdminDashboardBloc() : super(AdminDashBoardState(candidateRoles: [])) {
+  final UserSessionBloc userSession;
+  AdminDashboardBloc(this.userSession) : super(AdminDashBoardState(candidateRoles: [])) {
     on<OnElectionNameChanged>((event, emit) {
       emit(state.copyWith(
           elect: Election(
@@ -112,6 +114,7 @@ class AdminDashboardBloc extends Bloc<AdminDashboardEvents, AdminDashBoardState>
   _onElectionFetched(OnElectionFetchedEvent event, Emitter<AdminDashBoardState> emit) async {
     emit(state.copyWith(fetchElections: Fetch.loading));
     try {
+      userSession.add(CreateSession());
       final elec = await db.getActiveElection();
       final election = await db.getActiveElectionInfo();
       if (election.isEmpty) {

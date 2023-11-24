@@ -9,4 +9,4 @@ class CreateSession extends UserSessionEvent {}
 
 class ListenToSession extends UserSessionEvent {}
 
-class OnNewSessionCreated extends UserSessionEvent {}
+class OnSessionDeleted extends UserSessionEvent {}
