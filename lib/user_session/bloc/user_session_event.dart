@@ -1,8 +1,12 @@
 part of 'user_session_bloc.dart';
 
 sealed class UserSessionEvent extends Equatable {
-  const UserSessionEvent();
-
   @override
   List<Object> get props => [];
 }
+
+class CreateSession extends UserSessionEvent {}
+
+class ListenToSession extends UserSessionEvent {}
+
+class OnNewSessionCreated extends UserSessionEvent {}
