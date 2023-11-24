@@ -14,10 +14,12 @@ class UserSessionBloc extends Bloc<UserSessionEvent, UserSessionState> {
   final db = DbService();
   UserSessionBloc() : super(UserSessionInitial()) {
     on<CreateSession>((event, emit) async {
+      log('Creating Session');
       try {
         await db.deleteSession(auth.status!.uid);
         final docRef = await db.createSession(auth.status!.uid);
         emit(SessionCreated(docRef));
+        log('Session Created');
         add(ListenToSession());
       } catch (e) {
         log('$e');
