@@ -9,31 +9,30 @@ class AuthenticationService {
   final _db = DbService();
   Future<String> signup(AppUser user, String password) async {
     try {
-      await _authInstance.createUserWithEmailAndPassword(
-          email: user.email!, password: password);
+      await _authInstance.createUserWithEmailAndPassword(email: user.email!, password: password);
       //add user to db
       await _db.insertUser(user.toJson(), _authInstance.currentUser!.uid);
       return 'Success';
     } on FirebaseAuthException catch (e) {
-      return evaluateAuthCode(e.code);
+      throw evaluateAuthCode(e.code);
     } catch (e) {
       log('$e');
-      return 'Something went wrong';
+      throw 'Something went wrong while creating your account';
     }
   }
 
   Future<(AppUser?, String)> login(String email, String password) async {
     try {
-      final result = await _authInstance.signInWithEmailAndPassword(
-          email: email, password: password);
+      final result = await _authInstance.signInWithEmailAndPassword(email: email, password: password);
       //user user id to get user from db
       final user = await _db.getUser(result.user!.uid);
       return (user, 'Success');
     } on FirebaseAuthException catch (e) {
-      return (null, evaluateAuthCode(e.code));
+      throw evaluateAuthCode(e.code);
     } catch (e) {
       log('$e');
-      return (null, 'An error Occured');
+
+      throw 'An Unexpected Error Occured';
     }
   }
 

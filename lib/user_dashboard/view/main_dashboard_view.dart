@@ -37,7 +37,7 @@ class MainDashBoard extends StatelessWidget {
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text('Hello, ${state.user!.fullNames!.split(' ').first}',
+              Text('Hi, ${state.user!.fullNames!.split(' ').first}',
                   style: AppTextStyles().headers.copyWith(color: darkColor)),
               Text(
                 'Welcome to the Anti-rigging online voting system',

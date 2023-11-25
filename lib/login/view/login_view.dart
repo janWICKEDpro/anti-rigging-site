@@ -25,6 +25,18 @@ class Login extends StatelessWidget {
       create: (context) => LoginBloc(),
       child: BlocConsumer<LoginBloc, LoginState>(
         listener: (context, state) {
+          if (state.loginResult != 'Success') {
+            ScaffoldMessenger.of(context)
+              ..hideCurrentSnackBar()
+              ..showSnackBar(SnackBar(
+                  backgroundColor: Colors.redAccent,
+                  elevation: 5,
+                  content: Text(
+                    state.loginResult!,
+                    textAlign: TextAlign.center,
+                    style: AppTextStyles().normal.copyWith(color: Colors.white),
+                  )));
+          }
           if (state.loginResult == 'Success' && state.user!.accountType == 'student') {
             GoRouter.of(context).go('/');
           } else if (state.loginResult == 'Success' && state.user!.accountType == 'admin') {

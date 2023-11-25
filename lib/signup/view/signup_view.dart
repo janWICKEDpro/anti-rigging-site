@@ -34,6 +34,18 @@ class SignUp extends StatelessWidget {
             log('Success');
             GoRouter.of(context).go('/');
           }
+          if (state.authRes != 'Success') {
+            ScaffoldMessenger.of(context)
+              ..hideCurrentSnackBar()
+              ..showSnackBar(SnackBar(
+                  backgroundColor: Colors.redAccent,
+                  elevation: 5,
+                  content: Text(
+                    state.authRes!,
+                    textAlign: TextAlign.center,
+                    style: AppTextStyles().normal.copyWith(color: Colors.white),
+                  )));
+          }
         },
         builder: (context, state) {
           return LayoutBuilder(builder: (context, constraints) {

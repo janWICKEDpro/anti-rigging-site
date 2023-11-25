@@ -38,13 +38,11 @@ class SignUpBloc extends Bloc<SignUpEvents, SignUpState> {
     emit(state.copyWith(pass: event.password));
   }
 
-  onConfirmPasswordChanged(
-      OnConfirmPasswordChanged event, Emitter<SignUpState> emit) {
+  onConfirmPasswordChanged(OnConfirmPasswordChanged event, Emitter<SignUpState> emit) {
     emit(state.copyWith(confirm: event.confirmPassword));
   }
 
-  onSignUpButtonClicked(
-      OnSignUpButtonClicked event, Emitter<SignUpState> emit) async {
+  onSignUpButtonClicked(OnSignUpButtonClicked event, Emitter<SignUpState> emit) async {
     emit(state.copyWith(load: true, stat: false));
     final user = AppUser(
       fullNames: state.fullName,
@@ -52,9 +50,12 @@ class SignUpBloc extends Bloc<SignUpEvents, SignUpState> {
       regno: state.regno,
       program: state.program,
     );
-
-    final result = await auth.signup(user, state.confirmPassword!);
-    log(result);
-    emit(state.copyWith(load: false, stat: true, res: result));
+    try {
+      final result = await auth.signup(user, state.confirmPassword!);
+      log(result);
+      emit(state.copyWith(stat: true, res: result));
+    } catch (e) {
+      emit(state.copyWith(load: false, res: '$e'));
+    }
   }
 }

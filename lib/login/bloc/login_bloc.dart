@@ -21,7 +21,7 @@ class LoginBloc extends Bloc<LoginEvents, LoginState> {
     emit(state.copyWith(load: true));
     try {
       final res = await auth.login(state.email!, state.password!);
-      emit(state.copyWith(load: false, us: res.$1, result: res.$2));
+      emit(state.copyWith(us: res.$1, result: res.$2));
     } catch (e) {
       log('$e');
       emit(state.copyWith(load: false, result: '$e'));
