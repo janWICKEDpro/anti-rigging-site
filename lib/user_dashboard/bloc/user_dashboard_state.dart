@@ -31,7 +31,7 @@ class UserDashboardState {
       List<(String, List<Candidate>, bool)>? voteList,
       Election? election}) {
     return UserDashboardState(
-        meetings: mettings ?? this.meetings,
+        meetings: mettings ?? meetings,
         voteList: voteList ?? this.voteList,
         user: user ?? this.user,
         voteStatus: voteStatus ?? this.voteStatus,
