@@ -15,3 +15,5 @@ final class SessionCreated extends UserSessionState {
 }
 
 final class SessionDeleted extends UserSessionState {}
+
+final class FailedToEstablishSession extends UserSessionState {}

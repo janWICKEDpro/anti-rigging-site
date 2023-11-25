@@ -1,5 +1,5 @@
 import 'dart:developer';
-
+import 'dart:js_interop_unsafe';
 import 'package:anti_rigging/models/candidate.dart';
 import 'package:anti_rigging/models/election.dart';
 import 'package:anti_rigging/models/user.dart';
@@ -182,22 +182,28 @@ class DbService {
     }
   }
 
-  Future<DocumentReference<Map<String, dynamic>>> createSession(String uid) async {
+  Future<DocumentReference<Map<String, dynamic>>> createSession(String uid, String device) async {
     try {
       final docRef = _dbInstance.collection('USERS').doc(uid).collection('USERSESSION').doc();
-      await docRef.set({'userId': uid});
+      await docRef.set({'userId': uid, 'device': device});
       return docRef;
     } catch (e) {
       throw 'Error occured while creating session';
     }
   }
 
-  Future deleteSession(String uid) async {
+  Future<DocumentReference<Map<String, dynamic>>?> deleteSession(String uid, String device) async {
     try {
       final docRef = await _dbInstance.collection('USERS').doc(uid).collection('USERSESSION').limit(1).get();
       if (docRef.docs.isNotEmpty) {
-        await docRef.docs.first.reference.delete();
+        final data = await docRef.docs.first.reference.get();
+        if (data.data()!['device'] != device) {
+          await docRef.docs.first.reference.delete();
+          return null;
+        }
+        return data.reference;
       }
+      return null;
     } catch (e) {
       throw 'Failed to delete session';
     }
