@@ -113,72 +113,81 @@ class MainDashBoard extends StatelessWidget {
                   ),
                 ),
                 const Gap(20),
-                DashBoardCard(
-                  Padding(
-                    padding: EdgeInsets.all(15.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Ongoing Elections',
-                          style: AppTextStyles().normal.copyWith(fontSize: 10, color: primaryColor),
-                        ),
-                        Row(
-                          children: [
-                            Expanded(
-                              flex: 2,
-                              child: Wrap(
-                                direction: Axis.vertical,
-                                children: [
-                                  Text(
-                                    '${state.election!.electionName}',
-                                    style: AppTextStyles().headers.copyWith(fontSize: 14, color: darkColor),
-                                  ),
-                                  const Gap(20),
-                                  OutlinedButton(
-                                      onPressed: changeIndex,
-                                      child: Text(
-                                        'vote now',
-                                        style: AppTextStyles().normal.copyWith(color: primaryColor),
-                                      ))
-                                ],
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: DashBoardCard(
+                    Padding(
+                      padding: EdgeInsets.all(15.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Ongoing Elections',
+                            style: AppTextStyles().normal.copyWith(fontSize: 10, color: primaryColor),
+                          ),
+                          Row(
+                            children: [
+                              Expanded(
+                                flex: 2,
+                                child: Wrap(
+                                  direction: Axis.vertical,
+                                  children: [
+                                    Text(
+                                      '${state.election!.electionName}',
+                                      style: AppTextStyles().headers.copyWith(fontSize: 14, color: darkColor),
+                                    ),
+                                    const Gap(20),
+                                    OutlinedButton(
+                                        onPressed: changeIndex,
+                                        child: Text(
+                                          'vote now',
+                                          style: AppTextStyles().normal.copyWith(color: primaryColor),
+                                        ))
+                                  ],
+                                ),
                               ),
-                            ),
-                            Expanded(
-                              flex: 1,
-                              child: Container(
-                                height: MediaQuery.of(context).size.width * 0.25,
-                                child: Image.asset('assets/images/vote.png'),
-                              ),
-                            )
-                          ],
-                        )
-                      ],
+                              Expanded(
+                                flex: 1,
+                                child: Container(
+                                  height: MediaQuery.of(context).size.width * 0.25,
+                                  child: Image.asset('assets/images/vote.png'),
+                                ),
+                              )
+                            ],
+                          )
+                        ],
+                      ),
                     ),
                   ),
                 ),
                 const Gap(20),
-                DashBoardCard(
-                  Center(
-                    child: VirtualId(
-                      name: state.user!.fullNames,
-                      regno: state.user!.regno,
-                      programe: state.user!.program.toString().split('.').last.toUpperCase(),
+                Padding(
+                  padding: const EdgeInsets.all(5.0),
+                  child: DashBoardCard(
+                    Center(
+                      child: VirtualId(
+                        name: state.user!.fullNames,
+                        regno: state.user!.regno,
+                        programe: state.user!.program.toString().split('.').last.toUpperCase(),
+                      ),
                     ),
                   ),
                 ),
                 const Gap(20),
-                DashBoardCard(SfCalendar(
-                  selectionDecoration: BoxDecoration(
-                    color: Colors.transparent,
-                    border: Border.all(color: primaryColor, width: 2),
-                    borderRadius: const BorderRadius.all(Radius.circular(4)),
-                    shape: BoxShape.rectangle,
-                  ),
-                  dataSource: MeetingDataSource(state.meetings!),
-                  todayHighlightColor: primaryColor,
-                  view: CalendarView.month,
-                )),
+                Padding(
+                  padding: const EdgeInsets.all(5.0),
+                  child: DashBoardCard(SfCalendar(
+                    selectionDecoration: BoxDecoration(
+                      color: Colors.transparent,
+                      border: Border.all(color: primaryColor, width: 2),
+                      borderRadius: const BorderRadius.all(Radius.circular(4)),
+                      shape: BoxShape.rectangle,
+                    ),
+                    dataSource: MeetingDataSource(state.meetings!),
+                    todayHighlightColor: primaryColor,
+                    view: CalendarView.month,
+                  )),
+                ),
                 const Gap(20),
               ],
             );

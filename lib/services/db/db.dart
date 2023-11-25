@@ -197,7 +197,8 @@ class DbService {
       final docRef = await _dbInstance.collection('USERS').doc(uid).collection('USERSESSION').limit(1).get();
       if (docRef.docs.isNotEmpty) {
         final data = await docRef.docs.first.reference.get();
-        if (data.data()!['device'] != device) {
+        log("${data.data()!['device']} = ${device}");
+        if ((data.data()!['device'] as String).compareTo(device) != 0) {
           await docRef.docs.first.reference.delete();
           return null;
         }

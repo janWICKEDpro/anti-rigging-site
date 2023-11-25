@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:developer';
 
 import 'package:anti_rigging/services/auth/auth.dart';
@@ -14,9 +15,9 @@ part 'user_session_state.dart';
 class UserSessionBloc extends Bloc<UserSessionEvent, UserSessionState> {
   final auth = AuthenticationService();
   final db = DbService();
+  StreamSubscription? subscription;
   UserSessionBloc() : super(UserSessionInitial()) {
     on<CreateSession>((event, emit) async {
-      log('Creating Session');
       try {
         final String? device;
         if (kIsWeb && defaultTargetPlatform == TargetPlatform.iOS) {
@@ -34,7 +35,9 @@ class UserSessionBloc extends Bloc<UserSessionEvent, UserSessionState> {
           log('No new session');
           add(ListenToSession());
         } else {
+          log('Creating Session');
           final docRef = await db.createSession(auth.status!.uid, device);
+
           emit(SessionCreated(docRef));
           log('New Session Created');
           add(ListenToSession());
@@ -46,15 +49,17 @@ class UserSessionBloc extends Bloc<UserSessionEvent, UserSessionState> {
     });
     on<ListenToSession>((event, emit) {
       if (state is SessionCreated) {
-        (state as SessionCreated).docRef.snapshots().listen((snapshots) {
-          log('Got a snapshot');
+        subscription = (state as SessionCreated).docRef.snapshots().listen((snapshots) {
           if (!snapshots.exists) {
+            log('something got deleted');
+            subscription?.cancel();
             add(OnSessionDeleted());
           }
         });
       }
     });
     on<OnSessionDeleted>((event, emit) {
+      subscription?.cancel();
       emit(SessionDeleted());
     });
   }

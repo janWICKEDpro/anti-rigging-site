@@ -142,7 +142,7 @@ class VirtualId extends StatelessWidget {
       }
       return Container(
         height: width * 0.6,
-        width: width * 0.87,
+        width: width * 0.99,
         decoration: BoxDecoration(
             gradient: const LinearGradient(
               colors: [
