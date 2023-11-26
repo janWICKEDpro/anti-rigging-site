@@ -202,6 +202,7 @@ class DbService {
           await docRef.docs.first.reference.delete();
           return null;
         }
+
         return data.reference;
       }
       return null;
