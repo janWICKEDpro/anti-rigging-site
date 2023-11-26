@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:anti_rigging/login/bloc/login_bloc.dart';
 import 'package:anti_rigging/login/bloc/login_events.dart';
 import 'package:anti_rigging/login/bloc/login_state.dart';
@@ -25,7 +27,12 @@ class Login extends StatelessWidget {
       create: (context) => LoginBloc(),
       child: BlocConsumer<LoginBloc, LoginState>(
         listener: (context, state) {
-          if (state.loginResult != 'Success' && state.loginResult != null) {
+          if (state.loginResult == 'Success' && state.user!.accountType == 'student') {
+            GoRouter.of(context).go('/');
+          } else if (state.loginResult == 'Success' && state.user!.accountType == 'admin') {
+            GoRouter.of(context).go('/admin');
+          } else if (state.loginResult != null) {
+            log('${state.loginResult} error');
             ScaffoldMessenger.of(context)
               ..hideCurrentSnackBar()
               ..showSnackBar(SnackBar(
@@ -37,11 +44,6 @@ class Login extends StatelessWidget {
                     textAlign: TextAlign.center,
                     style: AppTextStyles().normal.copyWith(color: Colors.white),
                   )));
-          }
-          if (state.loginResult == 'Success' && state.user!.accountType == 'student') {
-            GoRouter.of(context).go('/');
-          } else if (state.loginResult == 'Success' && state.user!.accountType == 'admin') {
-            GoRouter.of(context).go('/admin');
           }
         },
         builder: (context, state) {

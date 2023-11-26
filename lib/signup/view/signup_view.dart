@@ -33,8 +33,7 @@ class SignUp extends StatelessWidget {
           if (state.authRes == 'Success') {
             log('Success');
             GoRouter.of(context).go('/');
-          }
-          if (state.authRes != 'Success' && state.authRes != null) {
+          } else if (state.authRes != null) {
             ScaffoldMessenger.of(context)
               ..hideCurrentSnackBar()
               ..showSnackBar(SnackBar(

@@ -12,19 +12,25 @@ class LoginBloc extends Bloc<LoginEvents, LoginState> {
       emit(state.copyWith(mail: event.email));
     });
     on<OnPasswordChanged>((OnPasswordChanged event, Emitter<LoginState> emit) {
-      emit(state.copyWith(pass: event.password));
+      emit(state.copyWith(
+        pass: event.password,
+      ));
     });
     on<OnLoginButtonClicked>(onLoginButtonClicked);
   }
 
   onLoginButtonClicked(OnLoginButtonClicked event, Emitter<LoginState> emit) async {
-    emit(state.copyWith(load: true));
+    emit(state.copyWith(
+      load: true,
+    ));
     try {
       final res = await auth.login(state.email!, state.password!);
       emit(state.copyWith(us: res.$1, result: res.$2));
     } catch (e) {
       log('$e');
       emit(state.copyWith(load: false, result: '$e'));
+      await Future.delayed(Duration(seconds: 1));
+      state.loginResult = null;
     }
   }
 }

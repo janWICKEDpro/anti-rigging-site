@@ -7,15 +7,9 @@ class LoginState {
   String? loginResult;
   AppUser? user;
 
-  LoginState(
-      {this.email,
-      this.password,
-      this.loading = false,
-      this.user,
-      this.loginResult});
+  LoginState({this.email, this.password, this.loading = false, this.user, this.loginResult});
 
-  LoginState copyWith(
-      {String? mail, String? pass, bool? load, AppUser? us, String? result}) {
+  LoginState copyWith({String? mail, String? pass, bool? load, AppUser? us, String? result}) {
     return LoginState(
         email: mail ?? email,
         password: pass ?? password,

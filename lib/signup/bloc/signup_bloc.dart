@@ -56,6 +56,8 @@ class SignUpBloc extends Bloc<SignUpEvents, SignUpState> {
       emit(state.copyWith(stat: true, res: result));
     } catch (e) {
       emit(state.copyWith(load: false, res: '$e'));
+      await Future.delayed(Duration(seconds: 1));
+      state.authRes = null;
     }
   }
 }
