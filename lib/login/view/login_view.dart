@@ -25,12 +25,13 @@ class Login extends StatelessWidget {
       create: (context) => LoginBloc(),
       child: BlocConsumer<LoginBloc, LoginState>(
         listener: (context, state) {
-          if (state.loginResult != 'Success') {
+          if (state.loginResult != 'Success' && state.loginResult != null) {
             ScaffoldMessenger.of(context)
               ..hideCurrentSnackBar()
               ..showSnackBar(SnackBar(
                   backgroundColor: Colors.redAccent,
                   elevation: 5,
+                  duration: const Duration(seconds: 3),
                   content: Text(
                     state.loginResult!,
                     textAlign: TextAlign.center,

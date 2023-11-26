@@ -34,12 +34,13 @@ class SignUp extends StatelessWidget {
             log('Success');
             GoRouter.of(context).go('/');
           }
-          if (state.authRes != 'Success') {
+          if (state.authRes != 'Success' && state.authRes != null) {
             ScaffoldMessenger.of(context)
               ..hideCurrentSnackBar()
               ..showSnackBar(SnackBar(
                   backgroundColor: Colors.redAccent,
                   elevation: 5,
+                  duration: const Duration(seconds: 3),
                   content: Text(
                     state.authRes!,
                     textAlign: TextAlign.center,
