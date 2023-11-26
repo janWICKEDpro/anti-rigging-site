@@ -166,6 +166,6 @@ class AuthenticationService {
       "web-storage-unsupported": "This browser is not supported or 3rd party cookies and data may be disabled."
     };
 
-    return authErrors[code] ?? 'Unexpected Error Occured';
+    return authErrors[code] ?? 'Unexpected Error Occured Please check your credentials';
   }
 }
