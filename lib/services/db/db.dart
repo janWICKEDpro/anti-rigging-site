@@ -182,30 +182,32 @@ class DbService {
     }
   }
 
-  Future<DocumentReference<Map<String, dynamic>>> createSession(String uid, String device) async {
+  Future<DocumentReference<Map<String, dynamic>>> createSession(String uid, int sessionId) async {
     try {
       final docRef = _dbInstance.collection('USERS').doc(uid).collection('USERSESSION').doc();
-      await docRef.set({'userId': uid, 'device': device});
+      await docRef.set({'userId': uid, 'sessionId': sessionId});
       return docRef;
     } catch (e) {
       throw 'Error occured while creating session';
     }
   }
 
-  Future<DocumentReference<Map<String, dynamic>>?> deleteSession(String uid, String device) async {
+  Future<DocumentSnapshot<Map<String, dynamic>>?> getSession(String uid) async {
+    try {
+      final docRef = await _dbInstance.collection('USERS').doc(uid).collection('USERSESSION').get();
+      if (docRef.docs.isNotEmpty) return docRef.docs.first;
+      return null;
+    } catch (e) {
+      throw 'Error occured while creating session';
+    }
+  }
+
+  Future deleteSession(String uid) async {
     try {
       final docRef = await _dbInstance.collection('USERS').doc(uid).collection('USERSESSION').limit(1).get();
       if (docRef.docs.isNotEmpty) {
-        final data = await docRef.docs.first.reference.get();
-        log("${data.data()!['device']} = ${device}");
-        if ((data.data()!['device'] as String).compareTo(device) != 0) {
-          await docRef.docs.first.reference.delete();
-          return null;
-        }
-
-        return data.reference;
+        await docRef.docs.first.reference.delete();
       }
-      return null;
     } catch (e) {
       throw 'Failed to delete session';
     }
