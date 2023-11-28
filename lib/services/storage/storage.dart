@@ -23,7 +23,7 @@ class Storage {
     try {
       final SharedPreferences prefs = await _prefs;
       int session = math.Random().nextInt(1000000) + 1000000;
-      await prefs.setInt('session', session);
+      await prefs.setInt('mySessionId', session);
       return session;
     } catch (e) {
       throw '$e';
@@ -33,7 +33,7 @@ class Storage {
   Future<int?> getCachedSession() async {
     try {
       final SharedPreferences prefs = await _prefs;
-      return prefs.getInt('session');
+      return prefs.getInt('mySessionId');
     } catch (e) {
       throw '$e';
     }
