@@ -1,6 +1,6 @@
 # anti_rigging
 
-A new Flutter project.
+An anti-riggin web applications to allow users vote with maximum security and free from any rigging.
 
 ## Getting Started
 
