@@ -16,4 +16,7 @@ final class SessionCreated extends UserSessionState {
 
 final class SessionDeleted extends UserSessionState {}
 
-final class FailedToEstablishSession extends UserSessionState {}
+final class FailedToEstablishSession extends UserSessionState {
+  final String errorMessage;
+  const FailedToEstablishSession(this.errorMessage);
+}

@@ -44,7 +44,7 @@ class UserSessionBloc extends Bloc<UserSessionEvent, UserSessionState> {
         }
       } catch (e) {
         log('$e');
-        emit(FailedToEstablishSession());
+        emit(FailedToEstablishSession('$e'));
       }
     });
     on<ListenToSession>((event, emit) {

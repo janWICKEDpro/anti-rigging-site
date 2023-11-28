@@ -1,5 +1,4 @@
 import 'dart:developer';
-import 'dart:js_interop_unsafe';
 import 'package:anti_rigging/models/candidate.dart';
 import 'package:anti_rigging/models/election.dart';
 import 'package:anti_rigging/models/user.dart';
