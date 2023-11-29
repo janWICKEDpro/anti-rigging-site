@@ -169,11 +169,13 @@ class _AdminDashBoardPageState extends State<AdminDashBoardPage> with TickerProv
                                               series: <ChartSeries<Candidate, String>>[
                                                 ...data.map((e) {
                                                   return BarSeries<Candidate, String>(
+                                                      spacing: 3,
                                                       dataSource: [e],
                                                       xValueMapper: (Candidate data, _) => data.candidateName,
                                                       yValueMapper: (Candidate data, _) => data.votes,
                                                       name: 'Votes',
-                                                      color: Colors.blue[(100 * e.votes).toInt()]);
+                                                      color: primaryColor
+                                                          .withOpacity(((e.votes * 20).clamp(0, 255) / 255)));
                                                 }).toList()
                                               ],
                                             ),
