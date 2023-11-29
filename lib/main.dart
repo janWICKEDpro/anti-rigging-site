@@ -8,7 +8,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  SharedPreferences.setMockInitialValues({});
+  pref = await SharedPreferences.getInstance();
   getIt.registerSingleton(DefaultFirebaseOptions());
 
   await Firebase.initializeApp(

@@ -29,27 +29,25 @@ class _AdminDashBoardPageState extends State<AdminDashBoardPage> with TickerProv
 
   int index = 0;
   void nextPage() {
-    if (_pageController.page! < context.read<AdminDashboardBloc>().state.candidateRoles!.length - 1) {
-      index++;
-      setState(() {});
-      data = context.read<AdminDashboardBloc>().state.candidateRoles![index].$2;
-      _pageController.nextPage(
-        duration: const Duration(milliseconds: 500),
-        curve: Curves.ease,
-      );
-    }
+    final candidateListLength = context.read<AdminDashboardBloc>().state.candidateRoles!.length;
+    index = (index + 1) % candidateListLength;
+    setState(() {});
+    data = context.read<AdminDashboardBloc>().state.candidateRoles![index].$2;
+    _pageController.nextPage(
+      duration: const Duration(milliseconds: 500),
+      curve: Curves.ease,
+    );
   }
 
   void previousPage() {
-    if (_pageController.page! > 0) {
-      index--;
-      setState(() {});
-      data = context.read<AdminDashboardBloc>().state.candidateRoles![index].$2;
-      _pageController.previousPage(
-        duration: const Duration(milliseconds: 500),
-        curve: Curves.ease,
-      );
-    }
+    final candidateListLength = context.read<AdminDashboardBloc>().state.candidateRoles!.length;
+    index = (index - 1) % candidateListLength;
+    setState(() {});
+    data = context.read<AdminDashboardBloc>().state.candidateRoles![index].$2;
+    _pageController.previousPage(
+      duration: const Duration(milliseconds: 500),
+      curve: Curves.ease,
+    );
   }
 
   @override

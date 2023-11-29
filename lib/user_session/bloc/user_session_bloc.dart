@@ -19,12 +19,11 @@ class UserSessionBloc extends Bloc<UserSessionEvent, UserSessionState> {
   UserSessionBloc() : super(UserSessionInitial()) {
     on<CreateSession>((event, emit) async {
       try {
-        int? sessionId = await storage.getCachedSession();
+        String? sessionId = await storage.getCachedSession();
         if (sessionId != null) {
           final doc = await db.getSession(auth.status!.uid);
-          if (doc!.data()!['sessionId'] != sessionId) {
-            await db.deleteSession(auth.status!.uid);
-
+          if (doc == null || doc.data()!['sessionId'] != sessionId) {
+            await db.deleteSession(auth.status!.uid); //redundant when doc is null
             final docRef = await db.createSession(auth.status!.uid, sessionId);
             emit(SessionCreated(docRef));
             log('New Session Created');

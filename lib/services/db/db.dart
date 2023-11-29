@@ -181,7 +181,7 @@ class DbService {
     }
   }
 
-  Future<DocumentReference<Map<String, dynamic>>> createSession(String uid, int sessionId) async {
+  Future<DocumentReference<Map<String, dynamic>>> createSession(String uid, String sessionId) async {
     try {
       final docRef = _dbInstance.collection('USERS').doc(uid).collection('USERSESSION').doc();
       await docRef.set({'userId': uid, 'sessionId': sessionId});

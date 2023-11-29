@@ -1,13 +1,13 @@
 import 'dart:developer';
 import 'dart:math' as math;
 import 'dart:typed_data';
+import 'package:anti_rigging/locator.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:file_picker/file_picker.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class Storage {
   final _dbStorage = FirebaseStorage.instance;
-  final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
+
   Future<String> storeImage(PlatformFile file) async {
     Uint8List fileBytes = file.bytes!;
     try {
@@ -19,21 +19,19 @@ class Storage {
     }
   }
 
-  Future<int> cacheSession() async {
+  Future<String> cacheSession() async {
     try {
-      final SharedPreferences prefs = await _prefs;
       int session = math.Random().nextInt(1000000) + 1000000;
-      await prefs.setInt('mySessionId', session);
-      return session;
+      await pref?.setString('mySessionId', session.toString());
+      return session.toString();
     } catch (e) {
       throw '$e';
     }
   }
 
-  Future<int?> getCachedSession() async {
+  Future<String?> getCachedSession() async {
     try {
-      final SharedPreferences prefs = await _prefs;
-      return prefs.getInt('mySessionId');
+      return pref?.getString('mySessionId');
     } catch (e) {
       throw '$e';
     }
