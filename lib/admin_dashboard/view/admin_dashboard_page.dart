@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:anti_rigging/admin_dashboard/bloc/admin_dashboard_bloc.dart';
 import 'package:anti_rigging/admin_dashboard/bloc/admin_dashboard_events.dart';
 import 'package:anti_rigging/admin_dashboard/bloc/admin_dashboard_state.dart';
@@ -62,7 +64,6 @@ class _AdminDashBoardPageState extends State<AdminDashBoardPage> with TickerProv
 
   @override
   Widget build(BuildContext context) {
-    final candidateListLength = context.read<AdminDashboardBloc>().state.candidateRoles!.length;
     return Padding(
       padding: const EdgeInsets.all(10.0),
       child: Column(
@@ -115,6 +116,8 @@ class _AdminDashBoardPageState extends State<AdminDashBoardPage> with TickerProv
                 ));
               } else {
                 data = context.read<AdminDashboardBloc>().state.candidateRoles![index].$2;
+                final candidateListLength = context.read<AdminDashboardBloc>().state.candidateRoles!.length;
+                log('$candidateListLength');
                 return Expanded(
                   child: Container(
                     child: GridView.count(
@@ -164,12 +167,14 @@ class _AdminDashBoardPageState extends State<AdminDashBoardPage> with TickerProv
                                               primaryYAxis: NumericAxis(minimum: 0, maximum: 40, interval: 10),
                                               tooltipBehavior: _tooltip,
                                               series: <ChartSeries<Candidate, String>>[
-                                                BarSeries<Candidate, String>(
-                                                    dataSource: data,
-                                                    xValueMapper: (Candidate data, _) => data.candidateName,
-                                                    yValueMapper: (Candidate data, _) => data.votes,
-                                                    name: 'Votes',
-                                                    color: primaryColor),
+                                                ...data.map((e) {
+                                                  return BarSeries<Candidate, String>(
+                                                      dataSource: [e],
+                                                      xValueMapper: (Candidate data, _) => data.candidateName,
+                                                      yValueMapper: (Candidate data, _) => data.votes,
+                                                      name: 'Votes',
+                                                      color: Colors.blue[(100 * e.votes).toInt()]);
+                                                }).toList()
                                               ],
                                             ),
                                           ),
