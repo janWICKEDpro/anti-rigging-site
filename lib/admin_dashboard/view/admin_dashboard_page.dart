@@ -28,9 +28,8 @@ class _AdminDashBoardPageState extends State<AdminDashBoardPage> with TickerProv
   late List<Candidate> data = [];
 
   int index = 0;
-  void nextPage() {
-    final candidateListLength = context.read<AdminDashboardBloc>().state.candidateRoles!.length;
-    index = (index + 1) % candidateListLength;
+  void nextPage(int length) {
+    index = (index + 1) % length;
     setState(() {});
     data = context.read<AdminDashboardBloc>().state.candidateRoles![index].$2;
     _pageController.nextPage(
@@ -39,9 +38,8 @@ class _AdminDashBoardPageState extends State<AdminDashBoardPage> with TickerProv
     );
   }
 
-  void previousPage() {
-    final candidateListLength = context.read<AdminDashboardBloc>().state.candidateRoles!.length;
-    index = (index - 1) % candidateListLength;
+  void previousPage(int length) {
+    index = (index - 1) % length;
     setState(() {});
     data = context.read<AdminDashboardBloc>().state.candidateRoles![index].$2;
     _pageController.previousPage(
@@ -64,6 +62,7 @@ class _AdminDashBoardPageState extends State<AdminDashBoardPage> with TickerProv
 
   @override
   Widget build(BuildContext context) {
+    final candidateListLength = context.read<AdminDashboardBloc>().state.candidateRoles!.length;
     return Padding(
       padding: const EdgeInsets.all(10.0),
       child: Column(
@@ -138,12 +137,17 @@ class _AdminDashBoardPageState extends State<AdminDashBoardPage> with TickerProv
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
-                                    IconButton(onPressed: previousPage, icon: Icon(Icons.arrow_back_ios)),
+                                    IconButton(
+                                        onPressed: () => previousPage(candidateListLength),
+                                        icon: Icon(Icons.arrow_back_ios_new_outlined)),
                                     Text(
                                       state.candidateRoles![index].$1,
                                       style: AppTextStyles().normal.copyWith(color: darkColor),
                                     ),
-                                    IconButton(onPressed: nextPage, icon: Icon(Icons.arrow_forward_ios)),
+                                    IconButton(
+                                        splashColor: lightColor,
+                                        onPressed: () => nextPage(candidateListLength),
+                                        icon: Icon(Icons.arrow_forward_ios_outlined)),
                                   ],
                                 ),
                                 Expanded(
