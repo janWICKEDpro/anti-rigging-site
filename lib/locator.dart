@@ -3,4 +3,4 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 GetIt getIt = GetIt.instance;
 
-SharedPreferences? pref;
+SharedPreferences? pref; // shared preferences
