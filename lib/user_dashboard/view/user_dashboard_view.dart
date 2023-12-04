@@ -57,19 +57,7 @@ class _UserDashBoardState extends State<UserDashBoard> {
               listener: (context, state) {
                 if (state is SessionDeleted) {
                   context.read<UserDashboardBloc>().add(OnSignoutClicked());
-                } else if (state is SessionCreated) {
-                  ScaffoldMessenger.of(context)
-                    ..hideCurrentSnackBar()
-                    ..showSnackBar(SnackBar(
-                        backgroundColor: Colors.greenAccent,
-                        elevation: 5,
-                        duration: const Duration(seconds: 3),
-                        content: Text(
-                          'session Create',
-                          textAlign: TextAlign.center,
-                          style: AppTextStyles().normal.copyWith(color: Colors.white),
-                        )));
-                }
+                } 
               },
               child: LayoutBuilder(builder: (context, constraints) {
                 return Scaffold(
