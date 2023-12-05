@@ -57,7 +57,7 @@ class _UserDashBoardState extends State<UserDashBoard> {
               listener: (context, state) {
                 if (state is SessionDeleted) {
                   context.read<UserDashboardBloc>().add(OnSignoutClicked());
-                } 
+                }
               },
               child: LayoutBuilder(builder: (context, constraints) {
                 return Scaffold(
