@@ -35,7 +35,7 @@ Future<GoRouter> createRouter({required bool isScriptsEnabled}) async {
       // if (state.fullPath == '/') {
       //   return '/';
       // }
-      if (status) {
+      if (status || (!auth.status!.emailVerified && user!.accountType != 'admin')) {
         return '/login';
       } else if (user!.accountType == 'admin') {
         return '/admin';

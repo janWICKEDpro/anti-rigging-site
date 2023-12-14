@@ -32,7 +32,34 @@ class SignUp extends StatelessWidget {
         listener: (context, state) {
           if (state.authRes == 'Success') {
             log('Success');
-            GoRouter.of(context).go('/');
+            //GoRouter.of(context).go('/login');
+
+            showDialog(
+                context: context,
+                builder: (context) {
+                  return AlertDialog(
+                    title: Text(
+                      "Email Verification",
+                      style: AppTextStyles().headers.copyWith(color: darkColor),
+                    ),
+                    content: Text(
+                      "A link has been sent to your email for verification.\n Please verify your account and Go to login",
+                      textAlign: TextAlign.center,
+                      style: AppTextStyles().normal,
+                    ),
+                    actions: [
+                      OutlinedButton(
+                          onPressed: () {
+                            Navigator.pop(context);
+                            context.go('/login');
+                          },
+                          child: Text(
+                            'Login',
+                            style: AppTextStyles().normal,
+                          ))
+                    ],
+                  );
+                });
           } else if (state.authRes != null) {
             ScaffoldMessenger.of(context)
               ..hideCurrentSnackBar()

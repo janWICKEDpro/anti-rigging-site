@@ -10,13 +10,17 @@ class AuthenticationService {
   Future<String> signup(AppUser user, String password) async {
     try {
       await _authInstance.createUserWithEmailAndPassword(email: user.email!, password: password);
+
+      if (_authInstance.currentUser == null) {
+        throw 'Error Occured';
+      }
+      await _authInstance.currentUser?.sendEmailVerification();
       //add user to db
       await _db.insertUser(user.toJson(), _authInstance.currentUser!.uid);
       return 'Success';
     } on FirebaseAuthException catch (e) {
       throw evaluateAuthCode(e.code);
     } catch (e) {
-      log('$e');
       throw 'Something went wrong while creating your account';
     }
   }
@@ -24,14 +28,19 @@ class AuthenticationService {
   Future<(AppUser?, String)> login(String email, String password) async {
     try {
       final result = await _authInstance.signInWithEmailAndPassword(email: email, password: password);
-      //user user id to get user from db
-      final user = await _db.getUser(result.user!.uid);
-      return (user, 'Success');
+      if (result.user!.email != 'admin@gmail.com' && result.user!.emailVerified) {
+        //user user id to get user from db
+        final user = await _db.getUser(result.user!.uid);
+        return (user, 'Success');
+      } else if (result.user!.email != 'admin@gmail.com') {
+        final user = await _db.getUser(result.user!.uid);
+        return (user, 'Success');
+      }
+      throw Exception('User not verified');
     } on FirebaseAuthException catch (e) {
       throw evaluateAuthCode(e.code);
     } catch (e) {
       log('$e');
-
       throw 'An Unexpected Error Occured';
     }
   }
