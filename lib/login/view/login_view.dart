@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:anti_rigging/login/bloc/login_bloc.dart';
 import 'package:anti_rigging/login/bloc/login_events.dart';
 import 'package:anti_rigging/login/bloc/login_state.dart';
@@ -32,7 +30,6 @@ class Login extends StatelessWidget {
           } else if (state.loginResult == 'Success' && state.user!.accountType == 'admin') {
             GoRouter.of(context).go('/admin');
           } else if (state.loginResult != null) {
-            
             ScaffoldMessenger.of(context)
               ..hideCurrentSnackBar()
               ..showSnackBar(SnackBar(
