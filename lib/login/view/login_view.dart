@@ -32,7 +32,7 @@ class Login extends StatelessWidget {
           } else if (state.loginResult == 'Success' && state.user!.accountType == 'admin') {
             GoRouter.of(context).go('/admin');
           } else if (state.loginResult != null) {
-            log('${state.loginResult} error');
+            
             ScaffoldMessenger.of(context)
               ..hideCurrentSnackBar()
               ..showSnackBar(SnackBar(
