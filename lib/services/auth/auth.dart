@@ -15,7 +15,7 @@ class AuthenticationService {
         throw 'Error Occured';
       }
       await _authInstance.currentUser?.sendEmailVerification();
-      
+
       await _db.insertUser(user.toJson(), _authInstance.currentUser!.uid);
       return 'Success';
     } on FirebaseAuthException catch (e) {
@@ -29,19 +29,18 @@ class AuthenticationService {
     try {
       final result = await _authInstance.signInWithEmailAndPassword(email: email, password: password);
       if (result.user!.email != 'admin@gmail.com' && result.user!.emailVerified) {
-        
         final user = await _db.getUser(result.user!.uid);
         return (user, 'Success');
-      } else if (result.user!.email != 'admin@gmail.com') {
+      } else if (result.user!.email == 'admin@gmail.com') {
         final user = await _db.getUser(result.user!.uid);
         return (user, 'Success');
       }
-      throw Exception('User not verified');
+      log('We are here');
+      throw Exception('Please Verify your email');
     } on FirebaseAuthException catch (e) {
-      throw evaluateAuthCode(e.code);
+      throw Exception(evaluateAuthCode(e.code));
     } catch (e) {
-      log('$e');
-      throw 'An Unexpected Error Occured';
+      rethrow;
     }
   }
 
