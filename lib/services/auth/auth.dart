@@ -15,7 +15,7 @@ class AuthenticationService {
         throw 'Error Occured';
       }
       await _authInstance.currentUser?.sendEmailVerification();
-      //add user to db
+      
       await _db.insertUser(user.toJson(), _authInstance.currentUser!.uid);
       return 'Success';
     } on FirebaseAuthException catch (e) {
@@ -29,7 +29,7 @@ class AuthenticationService {
     try {
       final result = await _authInstance.signInWithEmailAndPassword(email: email, password: password);
       if (result.user!.email != 'admin@gmail.com' && result.user!.emailVerified) {
-        //user user id to get user from db
+        
         final user = await _db.getUser(result.user!.uid);
         return (user, 'Success');
       } else if (result.user!.email != 'admin@gmail.com') {
