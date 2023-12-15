@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:anti_rigging/models/user.dart';
 import 'package:anti_rigging/services/db/db.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -35,7 +33,7 @@ class AuthenticationService {
         final user = await _db.getUser(result.user!.uid);
         return (user, 'Success');
       }
-      log('We are here');
+
       throw Exception('Please Verify your email');
     } on FirebaseAuthException catch (e) {
       throw Exception(evaluateAuthCode(e.code));
