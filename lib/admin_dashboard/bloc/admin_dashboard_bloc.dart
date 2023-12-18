@@ -114,7 +114,7 @@ class AdminDashboardBloc extends Bloc<AdminDashboardEvents, AdminDashBoardState>
   }
 
   _onElectionFetched(OnElectionFetchedEvent event, Emitter<AdminDashBoardState> emit) async {
-    emit(state.copyWith(fetchElections: Fetch.loading));
+    emit(state.copyWith(fetchElections: Fetch.loading, create: CreateELectionEnum.initial));
     try {
       userSession.add(CreateSession());
       final elec = await db.getActiveElection();
