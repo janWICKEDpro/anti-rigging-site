@@ -73,7 +73,7 @@ class _RoleState extends State<Role> {
                       key: roleFormKey,
                       child: ListView.builder(
                         shrinkWrap: true,
-                        itemCount: state.candidateRoles!.length,
+                        itemCount: state.candidateRoles?.length ?? 0,
                         itemBuilder: (context, index) {
                           return Column(
                             children: [
@@ -119,10 +119,10 @@ class _RoleState extends State<Role> {
                                 key: candidateFormKey,
                                 child: ListView.builder(
                                   shrinkWrap: true,
-                                  itemCount: state.candidateRoles![index].$2.length,
+                                  itemCount: state.candidateRoles?[index].$2.length ?? 0,
                                   itemBuilder: (context, subIndex) {
                                     return Padding(
-                                      padding: EdgeInsets.only(left: 16.0, right: 8.0),
+                                      padding: const EdgeInsets.only(left: 16.0, right: 8.0),
                                       child: Row(
                                         children: [
                                           Expanded(
