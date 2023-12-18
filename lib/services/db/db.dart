@@ -48,11 +48,14 @@ class DbService {
             .collection('CANDIDATES');
         for (var candidate in electionInfo[i].$2) {
           //store image and retrieve download url
-          final imageUrl = await _storage.storeImage(candidate.file!);
+          String? imageUrl;
+          if (candidate.file != null) {
+            imageUrl = await _storage.storeImage(candidate.file!);
+          }
 
           //use download url to create a candidate on firestore for the roles docRef
           final ref = docRef.doc();
-          await docRef.doc(ref.id).set(candidate.toJson(imageUrl, ref.id));
+          await docRef.doc(ref.id).set(candidate.toJson(imageUrl ?? '', ref.id));
         }
       }
     } catch (e) {
