@@ -55,8 +55,7 @@ class AdminDashboardBloc extends Bloc<AdminDashboardEvents, AdminDashBoardState>
       emit(state.copyWith(candidates: state.candidateRoles));
     });
     on<OnIndexIncremented>((event, emit) {
-      state.stackedIndex++;
-      emit(state.copyWith(index: state.stackedIndex));
+      emit(state.copyWith(index: ++state.stackedIndex));
     });
     on<OnCandidatePhotoChanged>(
       (event, emit) async {
@@ -103,9 +102,7 @@ class AdminDashboardBloc extends Bloc<AdminDashboardEvents, AdminDashBoardState>
 
     try {
       await db.endElection();
-
-      emit(state.copyWith(create: CreateELectionEnum.success, candidates: null));
-
+      emit(state.copyWith(create: CreateELectionEnum.success, candidates: []));
       add(OnElectionFetchedEvent());
     } catch (e) {
       log('$e');
@@ -121,12 +118,14 @@ class AdminDashboardBloc extends Bloc<AdminDashboardEvents, AdminDashBoardState>
       final election = await db.getActiveElectionInfo();
       if (election.isEmpty) {
         emit(state.copyWith(fetchElections: Fetch.success, noActive: true));
+        log('length of list is:${state.candidateRoles?.length}');
       } else {
         emit(state.copyWith(
             fetchElections: Fetch.success,
             noActive: false,
             candidates: election,
             meeting: [Meeting('Vote Period', elec!.startDate, elec.endDate!, primaryColor, true)]));
+        log('length of list is :${state.candidateRoles?.length}');
       }
     } catch (e) {
       log('$e');
@@ -138,7 +137,7 @@ class AdminDashboardBloc extends Bloc<AdminDashboardEvents, AdminDashBoardState>
     emit(state.copyWith(listFetch: FetchList.loading));
     try {
       final elections = await db.getElections();
-      log('$elections');
+
       emit(state.copyWith(listFetch: FetchList.success, list: elections));
     } catch (e) {
       log('$e');

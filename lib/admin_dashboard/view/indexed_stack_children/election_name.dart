@@ -15,7 +15,18 @@ class ElectionName extends StatefulWidget {
 }
 
 class _ElectionNameState extends State<ElectionName> {
-  final formKey = GlobalKey<FormState>();
+  GlobalKey<FormState>? formKey;
+  @override
+  void initState() {
+    formKey = GlobalKey<FormState>();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    formKey!.currentState!.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -94,7 +105,7 @@ class _ElectionNameState extends State<ElectionName> {
                     const Gap(5),
                     ElevatedButton(
                       onPressed: () {
-                        if (formKey.currentState!.validate()) {
+                        if (formKey!.currentState!.validate()) {
                           context.read<AdminDashboardBloc>().add(OnIndexIncremented());
                         }
                       },

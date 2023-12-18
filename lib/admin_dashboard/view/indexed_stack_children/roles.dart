@@ -17,8 +17,22 @@ class Role extends StatefulWidget {
 }
 
 class _RoleState extends State<Role> {
-  final roleFormKey = GlobalKey<FormState>();
-  final candidateFormKey = GlobalKey<FormState>();
+  GlobalKey<FormState>? roleFormKey;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    roleFormKey = GlobalKey<FormState>();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    roleFormKey!.currentState!.dispose();
+    // TODO: implement dispose
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
@@ -59,9 +73,6 @@ class _RoleState extends State<Role> {
                   children: [
                     ElevatedButton(
                       onPressed: () {
-                        // mainTextFieldValues.add('');
-                        // associatedTextFieldValues.add([]);
-                        // setState(() {});
                         BlocProvider.of<AdminDashboardBloc>(context).add(OnAddRoleButtonClicked());
                       },
                       child: Text(
@@ -115,111 +126,108 @@ class _RoleState extends State<Role> {
                                   ],
                                 ),
                               ),
-                              Form(
-                                key: candidateFormKey,
-                                child: ListView.builder(
-                                  shrinkWrap: true,
-                                  itemCount: state.candidateRoles?[index].$2.length ?? 0,
-                                  itemBuilder: (context, subIndex) {
-                                    return Padding(
-                                      padding: const EdgeInsets.only(left: 16.0, right: 8.0),
-                                      child: Row(
-                                        children: [
-                                          Expanded(
-                                            child: TextFormField(
-                                              validator: (value) {
-                                                if (value!.isEmpty) {
-                                                  return 'Please enter A name for candidate';
-                                                }
-                                                return null;
-                                              },
-                                              onChanged: (value) {
-                                                // setState(() {
-                                                //   associatedTextFieldValues[index][subIndex] = value;
-                                                // });
-                                                BlocProvider.of<AdminDashboardBloc>(context)
-                                                    .add(OnCandidateNameChanged(index, subIndex, candidateName: value));
-                                              },
-                                              decoration: InputDecoration(
-                                                labelText: 'Candidate Name ${subIndex + 1}',
-                                                contentPadding: EdgeInsets.zero,
-                                              ),
-                                            ),
-                                          ),
-                                          const Gap(10),
-                                          (state.candidateRoles![index].$2[subIndex].file == null)
-                                              ? Expanded(
-                                                  child: ElevatedButton(
-                                                      onPressed: () {
-                                                        context
-                                                            .read<AdminDashboardBloc>()
-                                                            .add(OnCandidatePhotoChanged(index, subIndex));
-                                                      },
-                                                      child: Text(
-                                                        'Pick Candidate Image',
-                                                        style: AppTextStyles().normal,
-                                                      )),
-                                                )
-                                              : Container(
-                                                  height: 100,
-                                                  width: 100,
-                                                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(15)),
-                                                  child: Image.memory(
-                                                    state.candidateRoles![index].$2[subIndex].file!.bytes!,
-                                                    scale: 4,
-                                                  )),
-                                          const Gap(10),
-                                          Expanded(
-                                            child: Container(
-                                              width: width * 0.1,
-                                              padding: const EdgeInsets.all(10.0),
-                                              decoration: BoxDecoration(
-                                                border: Border.all(
-                                                  color: Colors.grey,
-                                                  width: 1.0,
-                                                ),
-                                                borderRadius: BorderRadius.circular(8.0),
-                                              ),
-                                              child: Padding(
-                                                padding: const EdgeInsets.all(8.0),
-                                                child: TextFormField(
-                                                  validator: (value) {
-                                                    if (value!.isEmpty) {
-                                                      return 'Please enter A Description for candidate';
-                                                    }
-                                                    return null;
-                                                  },
-                                                  onChanged: (description) {
-                                                    context.read<AdminDashboardBloc>().add(
-                                                        OnCandidateDescriptionChanged(index, subIndex,
-                                                            candidateDescription: description));
-                                                  },
-                                                  maxLength: 150,
-                                                  maxLines: null, // Allows the text field to expand vertically
-                                                  keyboardType: TextInputType.multiline,
-                                                  decoration: const InputDecoration(
-                                                    hintText: 'Candidate Description',
-                                                    border: InputBorder.none,
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                          IconButton(
-                                            icon: const Icon(
-                                              Icons.remove_circle_outline,
-                                              color: Colors.redAccent,
-                                            ),
-                                            onPressed: () {
-                                              BlocProvider.of<AdminDashboardBloc>(context)
-                                                  .add(OnCandidateFieldsRemoved(index, subIndex));
+                              ListView.builder(
+                                shrinkWrap: true,
+                                itemCount: state.candidateRoles?[index].$2.length ?? 0,
+                                itemBuilder: (context, subIndex) {
+                                  return Padding(
+                                    padding: const EdgeInsets.only(left: 16.0, right: 8.0),
+                                    child: Row(
+                                      children: [
+                                        Expanded(
+                                          child: TextFormField(
+                                            validator: (value) {
+                                              if (value!.isEmpty) {
+                                                return 'Please enter A name for candidate';
+                                              }
+                                              return null;
                                             },
+                                            onChanged: (value) {
+                                              // setState(() {
+                                              //   associatedTextFieldValues[index][subIndex] = value;
+                                              // });
+                                              BlocProvider.of<AdminDashboardBloc>(context)
+                                                  .add(OnCandidateNameChanged(index, subIndex, candidateName: value));
+                                            },
+                                            decoration: InputDecoration(
+                                              labelText: 'Candidate Name ${subIndex + 1}',
+                                              contentPadding: EdgeInsets.zero,
+                                            ),
                                           ),
-                                        ],
-                                      ),
-                                    );
-                                  },
-                                ),
+                                        ),
+                                        const Gap(10),
+                                        (state.candidateRoles![index].$2[subIndex].file == null)
+                                            ? Expanded(
+                                                child: ElevatedButton(
+                                                    onPressed: () {
+                                                      context
+                                                          .read<AdminDashboardBloc>()
+                                                          .add(OnCandidatePhotoChanged(index, subIndex));
+                                                    },
+                                                    child: Text(
+                                                      'Pick Candidate Image',
+                                                      style: AppTextStyles().normal,
+                                                    )),
+                                              )
+                                            : Container(
+                                                height: 100,
+                                                width: 100,
+                                                decoration: BoxDecoration(borderRadius: BorderRadius.circular(15)),
+                                                child: Image.memory(
+                                                  state.candidateRoles![index].$2[subIndex].file!.bytes!,
+                                                  scale: 4,
+                                                )),
+                                        const Gap(10),
+                                        Expanded(
+                                          child: Container(
+                                            width: width * 0.1,
+                                            padding: const EdgeInsets.all(10.0),
+                                            decoration: BoxDecoration(
+                                              border: Border.all(
+                                                color: Colors.grey,
+                                                width: 1.0,
+                                              ),
+                                              borderRadius: BorderRadius.circular(8.0),
+                                            ),
+                                            child: Padding(
+                                              padding: const EdgeInsets.all(8.0),
+                                              child: TextFormField(
+                                                validator: (value) {
+                                                  if (value!.isEmpty) {
+                                                    return 'Please enter A Description for candidate';
+                                                  }
+                                                  return null;
+                                                },
+                                                onChanged: (description) {
+                                                  context.read<AdminDashboardBloc>().add(OnCandidateDescriptionChanged(
+                                                      index, subIndex,
+                                                      candidateDescription: description));
+                                                },
+                                                maxLength: 150,
+                                                maxLines: null, // Allows the text field to expand vertically
+                                                keyboardType: TextInputType.multiline,
+                                                decoration: const InputDecoration(
+                                                  hintText: 'Candidate Description',
+                                                  border: InputBorder.none,
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                        IconButton(
+                                          icon: const Icon(
+                                            Icons.remove_circle_outline,
+                                            color: Colors.redAccent,
+                                          ),
+                                          onPressed: () {
+                                            BlocProvider.of<AdminDashboardBloc>(context)
+                                                .add(OnCandidateFieldsRemoved(index, subIndex));
+                                          },
+                                        ),
+                                      ],
+                                    ),
+                                  );
+                                },
                               ),
                               const Gap(5),
                               ElevatedButton(
@@ -247,7 +255,7 @@ class _RoleState extends State<Role> {
                         if (state.candidateRoles!.isEmpty) {
                           context.read<AdminDashboardBloc>().add(OnLaunchElectionsClicked());
                         } else {
-                          if (roleFormKey.currentState!.validate() && candidateFormKey.currentState!.validate()) {
+                          if (roleFormKey!.currentState!.validate()) {
                             context.read<AdminDashboardBloc>().add(OnLaunchElectionsClicked());
                           }
                         }

@@ -28,7 +28,7 @@ class DbService {
 
   Future createElection(List<(String, List<Candidate>)> electionInfo, Election election) async {
     try {
-      if (electionInfo.isNotEmpty) {
+      if (electionInfo.isEmpty) {
         throw 'Empty ';
       }
       for (int i = 0; i < electionInfo.length; i++) {
