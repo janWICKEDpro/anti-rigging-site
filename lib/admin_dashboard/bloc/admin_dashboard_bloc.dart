@@ -26,19 +26,21 @@ class AdminDashboardBloc extends Bloc<AdminDashboardEvents, AdminDashBoardState>
               startDate: DateTime.now(),
               isActive: true,
               electionName: event.electionName,
-              endDate: DateTime.now().add(const Duration(days: 7)))));
+              endDate: DateTime.now().add(const Duration(days: 14)))));
     });
     on<OnAddRoleButtonClicked>((event, emitvalue) {
       final arr = [...state.candidateRoles!];
       arr.add(('1', []));
       log('$arr');
       // state.candidateRoles!.addAll([]);
-      emitvalue(state.copyWith(candidates: arr));
+      emitvalue(state.copyWith(candidates: arr, create: CreateELectionEnum.initial));
     });
     on<OnAddCandidateButtonClicked>((event, emit) {
       log('${state.candidateRoles![event.index].$2}');
       state.candidateRoles![event.index].$2.add(Candidate());
-      emit(state.copyWith(candidates: state.candidateRoles));
+      emit(state.copyWith(
+        candidates: state.candidateRoles,
+      ));
     });
     on<OnRoleNameChanged>((event, emit) {
       state.candidateRoles![event.index] = (event.roleName!, state.candidateRoles![event.index].$2);

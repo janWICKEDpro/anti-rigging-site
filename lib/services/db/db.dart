@@ -28,6 +28,8 @@ class DbService {
 
   Future createElection(List<(String, List<Candidate>)> electionInfo, Election election) async {
     try {
+      log('Trying to create');
+      assert(electionInfo.isNotEmpty);
       for (int i = 0; i < electionInfo.length; i++) {
         //create a role docRef
         await _dbInstance.collection('ELECTIONS').doc('${election.electionName}').set(election.toJson());
