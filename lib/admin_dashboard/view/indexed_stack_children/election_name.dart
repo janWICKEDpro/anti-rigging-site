@@ -7,8 +7,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 
-class ElectionName extends StatelessWidget {
+class ElectionName extends StatefulWidget {
   const ElectionName({super.key});
+
+  @override
+  State<ElectionName> createState() => _ElectionNameState();
+}
+
+class _ElectionNameState extends State<ElectionName> {
+  final formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -30,16 +37,12 @@ class ElectionName extends StatelessWidget {
                       height: 50,
                       decoration: const BoxDecoration(
                           color: primaryColor,
-                          borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(15),
-                              topRight: Radius.circular(15))),
+                          borderRadius: BorderRadius.only(topLeft: Radius.circular(15), topRight: Radius.circular(15))),
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Text(
                           'Election Name',
-                          style: AppTextStyles()
-                              .headers
-                              .copyWith(color: Colors.white),
+                          style: AppTextStyles().headers.copyWith(color: Colors.white),
                         ),
                       ),
                     ),
@@ -55,18 +58,24 @@ class ElectionName extends StatelessWidget {
                     height: 50,
                     width: width * 0.2,
                     decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(5),
-                        color: const Color.fromARGB(255, 214, 210, 210)),
-                    child: TextField(
-                      onChanged: (text) {
-                        context
-                            .read<AdminDashboardBloc>()
-                            .add(OnElectionNameChanged(electionName: text));
-                      },
-                      decoration: const InputDecoration(
-                          hintText: 'Election name',
-                          border:
-                              OutlineInputBorder(borderSide: BorderSide.none)),
+                        borderRadius: BorderRadius.circular(5), color: const Color.fromARGB(255, 214, 210, 210)),
+                    child: Form(
+                      key: formKey,
+                      child: TextFormField(
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return 'Please enter an election Title';
+                          } else if (value.length < 3) {
+                            return 'Election Name should be atleast 3 characters';
+                          }
+                          return null;
+                        },
+                        onChanged: (text) {
+                          context.read<AdminDashboardBloc>().add(OnElectionNameChanged(electionName: text));
+                        },
+                        decoration: const InputDecoration(
+                            hintText: 'Election name', border: OutlineInputBorder(borderSide: BorderSide.none)),
+                      ),
                     )),
               ),
               Expanded(
@@ -81,22 +90,18 @@ class ElectionName extends StatelessWidget {
                         onPressed: () {
                           Navigator.of(context).pop();
                         },
-                        child: Text('Cancel')),
+                        child: const Text('Cancel')),
                     const Gap(5),
                     ElevatedButton(
                       onPressed: () {
-                        context
-                            .read<AdminDashboardBloc>()
-                            .add(OnIndexIncremented());
+                        if (formKey.currentState!.validate()) {
+                          context.read<AdminDashboardBloc>().add(OnIndexIncremented());
+                        }
                       },
-                      style: ButtonStyle(
-                          backgroundColor:
-                              MaterialStateProperty.all(primaryColor)),
+                      style: ButtonStyle(backgroundColor: MaterialStateProperty.all(primaryColor)),
                       child: Text(
                         'Next',
-                        style: AppTextStyles()
-                            .normal
-                            .copyWith(color: Colors.white),
+                        style: AppTextStyles().normal.copyWith(color: Colors.white),
                       ),
                     )
                   ],
