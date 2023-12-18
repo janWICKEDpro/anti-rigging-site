@@ -104,7 +104,7 @@ class AdminDashboardBloc extends Bloc<AdminDashboardEvents, AdminDashBoardState>
     try {
       await db.endElection();
 
-      emit(state.copyWith(create: CreateELectionEnum.success));
+      emit(state.copyWith(create: CreateELectionEnum.success, candidates: null));
 
       add(OnElectionFetchedEvent());
     } catch (e) {
