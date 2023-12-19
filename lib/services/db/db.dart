@@ -47,7 +47,6 @@ class DbService {
             .doc(electionInfo[i].$1)
             .collection('CANDIDATES');
         for (var candidate in electionInfo[i].$2) {
-          //store image and retrieve download url
           String? imageUrl;
           if (candidate.file != null) {
             imageUrl = await _storage.storeImage(candidate.file!);
