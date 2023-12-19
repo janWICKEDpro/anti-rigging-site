@@ -53,7 +53,6 @@ class DbService {
             imageUrl = await _storage.storeImage(candidate.file!);
           }
 
-          //use download url to create a candidate on firestore for the roles docRef
           final ref = docRef.doc();
           await docRef.doc(ref.id).set(candidate.toJson(imageUrl ?? '', ref.id));
         }
