@@ -34,7 +34,6 @@ class _CandidateCardState extends State<CandidateCard> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 400,
       width: 250,
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(15),
