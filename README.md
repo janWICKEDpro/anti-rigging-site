@@ -4,8 +4,6 @@ An anti-riggin web applications to allow users vote with maximum security and fr
 
 ## Getting Started
 
--Link to the site at [anti-rigging-site](https://anti-rigging.web.app/)
-
-## How To Use
+-Link to the site at [anti-rigging-site](https://anti-rigging.web.app/
 
 
